@@ -3,13 +3,6 @@
 
 ## User Guide
 
-Open the command prompt with the current working directory set to the main folder of a SPARQL Anything project.
-
-Launch Python, 
-```
-$ python 
-```
-
 ###### INSTALLATION
 
 Navigate to the folder where Python is installed on the machine. 
@@ -20,7 +13,8 @@ Windows 10 example:
 ```
 C:\Users\aUser\AppData\Local\Programs\Python\Python310\Lib\site-packages
 ```
- 
+
+Open the command prompt with the current working directory set to the main folder of a SPARQL Anything project.
 
 ###### USAGE
 
