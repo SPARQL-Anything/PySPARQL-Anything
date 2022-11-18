@@ -29,17 +29,19 @@ $ python
 import spyrql_anything as spy
 ```
 
-4) (Optional) Set: 
-```
-path = 'localPathToJar'
-```
-
-5) Initialise SpyrqlAnything object:
+4) Initialise SpyrqlAnything object:
 ``` 
+path = 'localPathToJar'
 sp = spy.SpyrqlAnything(path)
 ```
 
-6) Run the query:
+5) Run the query:
 ```
-sp.run(['-q', 'myQuery.sparql', ... ])
+sp.run(**kwargs)
+```
+The keyword argument to be set are the same as the regular Sparql Anything CLI, minus the hyphen. 
+
+For example:
+```
+sp.run(q='queries/getFacade.sparql', f='TTL', o='C:/Users/Marco/Desktop/facade.ttl')
 ```
