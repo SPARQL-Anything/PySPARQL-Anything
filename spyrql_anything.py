@@ -3,7 +3,7 @@
 # with a call to the run() method.
 #
 # @author Marco Ratta
-# @version 17/11/2022
+# @version 18/11/2022 v1.1
 
 class SpyrqlAnything:
 
@@ -24,11 +24,38 @@ class SpyrqlAnything:
         return autoclass('com.github.sparqlanything.cli.SPARQLAnything')
 
     # This method replaces the command line execution.
-    # @param args The arguments required by the SPARQL Anything query as
-    #             defined in the SPARQL Anything specification. NOTE that
-    #             the flags and their values need to be passed as separate
-    #             strings.
+    # @param **kwargs The keyword arguments are the same as the regular
+    #                 flags for the Sparql Anything CLI, minus the hyphen.
+    #                 See the User Guide for an example.
     
-    def run(self, args):
-        self.reflection.main(args)
+    def run(self, **kwargs):
+        args = buildArgs(kwargs)
+        if args is None:
+            return
+        else:
+            self.reflection.main(args)
+
+# Helper for the run method. Constructs the appropriate String array
+# to pass to the main method from Python **kwargs.
+# @param aDict a Python dictionary.
+
+def buildArgs(aDict):
+    # initialises String[]:
+    arguments = [] 
+    # Sets -q and its value as the first two elements.
+    for key in aDict.keys():
+        if key == 'q':
+            arguments.append('-' + key)
+            arguments.append(aDict[key])
+    if len(arguments) == 0:
+        print('Invalid argument given. Flag "q" must be passed.')
+        return
+    else: # Deletes the 'q' entry from kwargs.
+        aDict.pop('q') 
+    # Constructs the rest of arguments.
+    for key in aDict.keys():
+        arguments.append('-' + key)
+        arguments.append(aDict[key])
+    # arguments to be passed to the main function. 
+    return arguments     
     
