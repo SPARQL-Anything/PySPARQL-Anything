@@ -50,4 +50,4 @@ For example:
 ```
 sp.run(q='queries/getFacade.sparql', f='TTL', o='C:/Users/Marco/Desktop/facade.ttl')
 ```
->>>>>>> f8935dccc1345cefb154435fff1e9f5268bb50f7
+
