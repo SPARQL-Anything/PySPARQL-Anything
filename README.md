@@ -3,11 +3,13 @@
 
 ## User Guide
 
-<<<<<<< HEAD
 Open the command prompt with the current working directory set to the main folder of a SPARQL Anything project.
 
-Launch Python, ```$ python ```.
-=======
+Launch Python, 
+```
+$ python 
+```
+
 ###### INSTALLATION
 
 Navigate to the folder where Python is installed on the machine. 
