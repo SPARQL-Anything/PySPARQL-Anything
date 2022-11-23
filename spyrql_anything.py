@@ -3,7 +3,11 @@
 # with a call to the run() method.
 #
 # @author Marco Ratta
-# @version 18/11/2022 v1.1
+# @version 23/11/2022 v1.2
+
+import json
+import jnius_config
+from jnius import autoclass
 
 class SpyrqlAnything:
 
@@ -18,9 +22,9 @@ class SpyrqlAnything:
     # @param aPath The path to the local .jar file for SPARQL Anything.
     
     def reflect(self, aPath):
-        import jnius_config
+        # JVM configuration:
         jnius_config.set_classpath(aPath)
-        from jnius import autoclass
+        # Launch JVM
         return autoclass('com.github.sparqlanything.cli.SPARQLAnything')
 
     # This method replaces the command line execution.
@@ -29,11 +33,20 @@ class SpyrqlAnything:
     #                 See the User Guide for an example.
     
     def run(self, **kwargs):
-        args = buildArgs(kwargs)
-        if args is None:
-            return
-        else:
-            self.reflection.main(args)
+        if ('f','dict') in kwargs.items():
+            kwargs['f'] = 'json'
+            kwargs['o'] = 'tmp.json'
+            args = buildArgs(kwargs)
+            self.reflection.main(args) # Outputs to tmp.json
+            with open('tmp.json') as f:
+                dictionary = json.load(f)
+            return dictionary
+        else:    
+            args = buildArgs(kwargs)
+            if args is None:
+                return
+            else:
+                self.reflection.main(args)
 
 # Helper for the run method. Constructs the appropriate String array
 # to pass to the main method from Python **kwargs.
@@ -41,17 +54,15 @@ class SpyrqlAnything:
 
 def buildArgs(aDict):
     # initialises String[]:
-    arguments = [] 
-    # Sets -q and its value as the first two elements.
-    for key in aDict.keys():
-        if key == 'q':
-            arguments.append('-' + key)
-            arguments.append(aDict[key])
-    if len(arguments) == 0:
+    arguments = []
+    # Sets -q and its value as the first two elements. Deletes 'q'. 
+    if 'q' in aDict:
+        arguments.append('-' + 'q')
+        arguments.append(aDict['q'])
+        aDict.pop('q')
+    else:
         print('Invalid argument given. Flag "q" must be passed.')
         return
-    else: # Deletes the 'q' entry from kwargs.
-        aDict.pop('q') 
     # Constructs the rest of arguments.
     for key in aDict.keys():
         arguments.append('-' + key)

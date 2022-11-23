@@ -1,11 +1,16 @@
 # SPyRQL Anything
-###### A Python CLI for SPARQL Anything.
+###### A Python CLI for SPARQL Anything
 
 ## User Guide
 
 ###### INSTALLATION
 
-Navigate to the folder where Python is installed on the machine. 
+1) Install PyJNIus:
+```
+https://pyjnius.readthedocs.io/en/stable/installation.html
+```
+
+2) Navigate to the folder where Python is installed on the machine. 
 
 Then, do -> Lib -> site-packages and drop the spyrql_anything.py file in that folder.
 
@@ -30,18 +35,22 @@ import spyrql_anything as spy
 
 4) Initialise a SpyrqlAnything object:
 ``` 
-path = 'localPathToJar'
-sp = spy.SpyrqlAnything(path)
+jar = 'localPathToJar'
+engine = spy.SpyrqlAnything(jar)
 ```
 
 5) Run the query:
 ```
-sp.run(**kwargs)
+engine.run(**kwargs)
 ```
 The keyword arguments to be set are the same as those of the regular Sparql Anything CLI, minus the hyphen. 
 
 For example:
 ```
-sp.run(q='queries/getFacade.sparql', f='TTL', o='C:/Users/Marco/Desktop/facade.ttl')
+engine.run(q='queries/getFacade.sparql', f='TTL', o='C:/Users/Marco/Desktop/facade.ttl')
 ```
 
+IN PROGRESS: the option f='dict' allows a SELECT query to be returned as a Python dictionary:
+```
+aDictionary = engine.run(q='myQuery.sparql',..., f='dict')
+```
