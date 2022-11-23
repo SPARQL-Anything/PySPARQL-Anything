@@ -7,7 +7,6 @@
 
 import json
 import jnius_config
-from jnius import autoclass
 
 class SpyrqlAnything:
 
@@ -25,6 +24,7 @@ class SpyrqlAnything:
         # JVM configuration:
         jnius_config.set_classpath(aPath)
         # Launch JVM
+        from jnius import autoclass
         return autoclass('com.github.sparqlanything.cli.SPARQLAnything')
 
     # This method replaces the command line execution.
