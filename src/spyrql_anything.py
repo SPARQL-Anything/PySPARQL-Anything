@@ -47,7 +47,12 @@ class SpyrqlAnything:
                 return
             else:
                 self.reflection.main(args)
-
+    
+    def select(self, **kwargs):
+        kwargs['f'] = 'json'
+        args = buildArgs(kwargs)
+        return json.loads(self.reflection.callMain(args))
+        
 # Helper for the run method. Constructs the appropriate String array
 # to pass to the main method from Python **kwargs.
 # @param aDict a Python dictionary.
