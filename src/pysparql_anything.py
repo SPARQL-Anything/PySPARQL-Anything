@@ -3,7 +3,7 @@
 # with a call to the run() method.
 #
 # @author Marco Ratta & Enrico Daga
-# @version 25/11/2022 v1.3
+# @version 25/11/2022 v1.4
 
 import json
 import jnius_config
@@ -56,6 +56,20 @@ class PySparqlAnything:
         kwargs['f'] = 'json'
         args = buildArgs(kwargs)
         return json.loads(self.reflection.callMain(args))
+
+    # The ask method enables one to run an ASK query and return the result as
+    # a Python boolean True or False.
+    # @param q The path to the query
+    # @param l The RDF file to be queried.
+
+    def ask(self, **kwargs):
+        kwargs['f'] = 'xml'
+        args = buildArgs(kwargs)
+        string = self.reflection.callMain(args)
+        if '<boolean>true</boolean>' in string:
+            return True
+        else:
+            return False
         
 # Helper for the run method. Constructs the appropriate String array
 # to pass to the main method from Python **kwargs.

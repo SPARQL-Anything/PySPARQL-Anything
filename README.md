@@ -30,13 +30,13 @@ $ python
    
 3) Import PySPARQL Anything: 
 ```
-from pysparql_anything import PySparqlAnything as spy
+import pysparql_anything as spy
 ```
 
 4) Initialise a PySpyrqlAnything object:
 ``` 
 jar = 'localPathToJar'
-engine = spy(jar)
+engine = spy.PySparqlAnything(jar)
 ```
 
 5) Run the query:
@@ -57,6 +57,11 @@ engine.run(**kwargs)
 The keyword arguments to be set are the same as those of the regular Sparql Anything CLI, minus the hyphen.
 
 ```
-engine.select(q='pathToSelectQuery')
+engine.select(q='aSelectQuery')
 ```
 Executes a SELECT query and returns the result as a Python dictionary. 
+
+```
+engine.ask(q='anAskQuery', l='aRDFGraph')
+```
+Executes an ASK query and returns a Python boolean True or False.
