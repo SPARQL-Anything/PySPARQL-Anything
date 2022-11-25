@@ -10,6 +10,7 @@
 
 import json
 import jnius_config
+from rdflib import Graph
 
 class PySparqlAnything:
 
