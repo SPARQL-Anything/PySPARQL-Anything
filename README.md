@@ -56,7 +56,7 @@ engine.run(q='queries/getFacade.sparql', f='TTL', o='C:/Users/Marco/Desktop/faca
 
 The keyword arguments to be set are the same as those of the regular Sparql Anything CLI, minus the hyphen.
 
-See https://github.com/SPARQL-Anything/sparql.anything#command-line-interface-cli
+See https://github.com/SPARQL-Anything/sparql.anything#command-line-interface-cli .
 
 ###### engine.ask(q='anAskQuery', l='aRDFGraph')
 
