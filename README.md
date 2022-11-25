@@ -58,20 +58,23 @@ engine.run(q='queries/getFacade.sparql', f='TTL', o='C:/Users/Marco/Desktop/faca
 
 ## API
 
-###### engine.run(**kwargs)
-
-The keyword arguments to be set are the same as those of the regular Sparql Anything CLI, minus the hyphen.
+All keyword arguments to be set are the same as those of the regular Sparql Anything CLI, minus the hyphen.
 
 See https://github.com/SPARQL-Anything/sparql.anything#command-line-interface-cli .
 
-###### engine.ask(q='anAskQuery', l='aRDFGraph')
+###### engine.run(**kwargs)
+
+Reflects the functionalities of the original SPARQL Anything CLI. This can be used to run a query the output of
+which is to be printed on the command line or saved to a file. (See example above)
+
+###### engine.ask(**kwargs)
 
 Executes an ASK query and returns a Python boolean True or False.
 
-###### engine.construct(q='aConstructQuery', l='aRDFGraph')
+###### engine.construct(**kwargs)
 
 Executes a CONSTRUCT query and returns a rdflib graph object.
 
-###### engine.select(q='aSelectQuery')
+###### engine.select(**kwargs)
 
 Executes a SELECT query and returns the result as a Python dictionary. 
