@@ -1,9 +1,12 @@
 # The class PySpyrqlAnything provides a Python CLI for the SPARQL Anything
-# technology. It replaces the regular command line instructions
-# with a call to the run() method.
+# technology.
+# It replaces the regular command line instructions with a call to the run()
+# method.
+# It also provides methods to handle ASK, CONSTRUCT and SELECT queries and
+# return their results as Python objects.
 #
 # @author Marco Ratta & Enrico Daga
-# @version 25/11/2022 v1.4
+# @version 25/11/2022 v1.5
 
 import json
 import jnius_config
@@ -46,16 +49,6 @@ class PySparqlAnything:
             return
         else:
             self.reflection.main(args)
-            
-    # The select method enables one to run a SELECT query and return the result
-    # as a Python dictionary.
-    # @param q The path to the query.
-    # @return a Python dictionary
-    
-    def select(self, **kwargs):
-        kwargs['f'] = 'json'
-        args = buildArgs(kwargs)
-        return json.loads(self.reflection.callMain(args))
 
     # The ask method enables one to run an ASK query and return the result as
     # a Python boolean True or False.
@@ -70,6 +63,27 @@ class PySparqlAnything:
             return True
         else:
             return False
+
+    # The construct method enables one to run a CONSTRUCT query and return the
+    # result as a rdflib graph object.
+    # @param q The path to the query
+    # @param l The RDF file to be queried.
+    
+    def construct(self, **kwargs):
+        args = buildArgs(kwargs)
+        string = self.reflection.callMain(args)
+        g = Graph().parse(data = string)
+        return g
+
+    # The select method enables one to run a SELECT query and return the result
+    # as a Python dictionary.
+    # @param q The path to the query.
+    # @return a Python dictionary
+    
+    def select(self, **kwargs):
+        kwargs['f'] = 'json'
+        args = buildArgs(kwargs)
+        return json.loads(self.reflection.callMain(args))
         
 # Helper for the run method. Constructs the appropriate String array
 # to pass to the main method from Python **kwargs.

@@ -51,17 +51,19 @@ engine.run(q='queries/getFacade.sparql', f='TTL', o='C:/Users/Marco/Desktop/faca
 ```
 
 ## API
-```
-engine.run(**kwargs)
-```
+
+###### engine.run(**kwargs)
+
 The keyword arguments to be set are the same as those of the regular Sparql Anything CLI, minus the hyphen.
 
-```
-engine.select(q='aSelectQuery')
-```
-Executes a SELECT query and returns the result as a Python dictionary. 
+###### engine.ask(q='anAskQuery', l='aRDFGraph')
 
-```
-engine.ask(q='anAskQuery', l='aRDFGraph')
-```
 Executes an ASK query and returns a Python boolean True or False.
+
+###### engine.construct(q='aConstructQuery', l='aRDFGraph')
+
+Executes a CONSTRUCT query and returns a rdflib graph object.
+
+###### engine.select(q='aSelectQuery')
+
+Executes a SELECT query and returns the result as a Python dictionary. 
