@@ -3,11 +3,17 @@
 
 ## User Guide
 
-###### INSTALLATION
+###### INSTALLATION (provisional)
 
-1) Install PyJNIus:
+1) Install PyJNIus & RDFLib
+
+For PyJNIus see
+
+https://pyjnius.readthedocs.io/en/stable/installation.html .
+
+For RDFLib:
 ```
-https://pyjnius.readthedocs.io/en/stable/installation.html
+$ pip install rdflib
 ```
 
 2) Navigate to the folder where Python is installed on the machine. 
