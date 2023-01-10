@@ -10,6 +10,7 @@ import pysparql_anything as spy
 from rdflib import Graph
 
 # Local path to SPARQL anything jar.
+# Replace with your own (temporary)
 jar = 'C:/Users/Marco/GitProjects/sparql.anything/sparql-anything-cli/target/sparql-anything-0.9.0-SNAPSHOT.jar'
 
 # Test case for functionalities.
