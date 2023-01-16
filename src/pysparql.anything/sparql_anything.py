@@ -1,41 +1,44 @@
-# The class PySpyrqlAnything provides a Python CLI for the SPARQL Anything
+# The class PySparqlAnything provides a Python CLI for the SPARQL Anything
 # technology. It replaces the regular command line instructions
 # with a call to the run() method.
 #
 # @author Marco Ratta & Enrico Daga
-# @version 10/01/2023 v1.6
+# @version 13/01/2023 v1.7
 
 from rdflib import Graph
+import os
 import json
 import jnius_config
 
-class PySparqlAnything:
+class SparqlAnything:
 
-    # Constructor for the class SpyrqlAnything.
-    # @param aPath The path to the local .jar file for SPARQL Anything.
+    # Constructor for the class SparqlAnything.
     
-    def __init__(self, aPath):
-        self.reflection = self.__reflect(aPath)
+    def __init__(self):
+        self.reflection = self.__reflect()
 
     # This method uses Pyjnius to create a reflection of the SPARQLAnything
     # class containing the software's access point (main).
-    # @param aPath The path to the local .jar file for SPARQL Anything.
     # @return a reflection of the class SPARQLAnything
     
-    def __reflect(self, aPath):
+    def __reflect(self):
+        _dir = os.path.realpath(os.path.dirname(__file__))
+        jar = os.path.join(_dir, 'sparql.anything.jar')
         try:
             # JVM configuration
-            jnius_config.set_classpath(aPath)
+            jnius_config.set_classpath(jar)
             # Launch JVM
             from jnius import autoclass, JavaException
             return autoclass('com.github.sparqlanything.cli.SPARQLAnything')
         except ValueError as e:
             print('Cannot construct two objects for the same VM. \n'
-                  + 'Please create a new VM for a new engine \n' )
+                  + 'Please create a new VM for a new CLI \n' )
             print(e)
         except JavaException as e:
             # Handles JVM exception for an incorrect path
-            print('JVM exception occured: check the path passed as input.\n'
+            print('JVM exception occured: \n'
+                  + 'Check the jar has been dowloaded succesfully:\n'
+                  + 'try config.checkJAR()'
                   + 'CLI must be restarted. \n')
             print(e)
 
