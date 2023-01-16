@@ -6,7 +6,7 @@
 # @version 10/01/2021 v1.0
 
 import unittest
-import pysparql_anything as spy
+import pysparql_anything as cli
 from rdflib import Graph
 
 # Local path to SPARQL anything jar.
@@ -41,5 +41,5 @@ class PySparqlTestCase(unittest.TestCase):
         self.assertEqual(engine.select(q='queries/select/ex055.rq', l='ex054.ttl'), d_2)
 
 if __name__ == '__main__':
-    engine = spy.PySparqlAnything(jar)
+    engine = cli.SparqlAnything()
     unittest.main()
