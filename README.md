@@ -5,24 +5,9 @@
 
 ###### INSTALLATION (provisional)
 
-1) Install PyJNIus & RDFLib
-
-For PyJNIus see
-
-https://pyjnius.readthedocs.io/en/stable/installation.html .
-
-For RDFLib:
+To install the beta to your machine type the following in your command prompt:
 ```
-$ pip install rdflib
-```
-
-2) Navigate to the folder where Python is installed on the machine. 
-
-Then, do -> Lib -> site-packages and drop the pyspyrql_anything.py file in that folder.
-
-Windows 10 example:
-```
-C:\Users\aUser\AppData\Local\Programs\Python\Python310\Lib\site-packages
+pip install -i https://test.pypi.org/simple/ pysparql-anything
 ```
 
 ###### USAGE
@@ -36,13 +21,14 @@ $ python
    
 3) Import PySPARQL Anything: 
 ```
-import pysparql_anything as spy
+import pysparql_anything as cli
 ```
+
+If the SPARQL Anything jar isn't installed in the API's folder it will download it there automatically.
 
 4) Initialise a PySpyrqlAnything object:
 ``` 
-jar = 'localPathToJar'
-engine = spy.PySparqlAnything(jar)
+engine = cli.SparqlAnything()
 ```
 
 5) Run the query:
