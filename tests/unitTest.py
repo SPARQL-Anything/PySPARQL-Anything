@@ -3,15 +3,11 @@
 # by Bob DuCharme have been used.
 #
 # @author Marco Ratta
-# @version 10/01/2021 v1.0
+# @version 16/01/2021 v1.1
 
 import unittest
 import pysparql_anything as cli
 from rdflib import Graph
-
-# Local path to SPARQL anything jar.
-# Replace with your own (temporary)
-jar = 'C:/Users/Marco/GitProjects/sparql.anything/sparql-anything-cli/target/sparql-anything-0.9.0-SNAPSHOT.jar'
 
 # Test case for functionalities.
 class PySparqlTestCase(unittest.TestCase):
