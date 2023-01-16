@@ -1,55 +1,75 @@
-# Configuration script for PySPARQL Anything.
-# Aids the installation process.
+# Configuration and utilities module for PySPARQL Anything.
+# Aids the installation and maintainment process of the API.
+# Interacts with the SPARQL Anything GitHub repository.
 #
 # @author Marco Ratta
-# @version v1.0 12/01/2023
+# @version v1.1 16/01/2023
 
+from github import Github
 import requests
-from bs4 import BeautifulSoup
 import os
 
 # Checks the jar has been succesfully downloaded in the installation folder.
+# @return A diagnostic Boolean
 
-def checkJAR():
-    destination = os.path.join(getPath(), 'sparql.anything.jar')
-    return os.path.exists(destination)
+def isJar():
+    files = os.listdir(getPath())
+    for file in files:
+        if 'sparql-anything-v' and '.jar' in file:
+            return True
+    return False
 
-# Scrapes the SPARQL Anything latest release page for a version number and
-# builds the download link to the jar of the latest release.
-# @return The URL to the jar for the latest SPARQL Anything release.
+# Retrieves the download url for latest SPARQL Anything release.
+# @return The URL to the jar for the latest SPARQL Anything release as a String.
 
-def getURL():
-    page = 'https://github.com/SPARQL-Anything/sparql.anything/releases/latest'
-    r = requests.get(page)
-    soup = BeautifulSoup(r.content, 'html.parser')
-    s = str(soup.title)
-    version = ''
-    for token in s.split():
-        if token.startswith('v'):
-            version = token[1:]
-    download = '/download/sparql-anything-{}.jar'.format(version)
-    return page + download
+def getUrl():
+    g = Github()
+    release = g.get_repo('SPARQL-Anything/sparql.anything').get_latest_release()
+    assets = release.get_assets()
+    jar = ''
+    for asset in assets:
+        if 'server' not in asset.name:
+            jar = asset
+    return jar.browser_download_url
 
-# Downloads the jar to the PySPARQL Anything installation folder.
+def getLatestReleaseTitle():
+    g = Github()
+    release = g.get_repo('SPARQL-Anything/sparql.anything').get_latest_release()
+    return release.title        
 
-def getJAR():
+# Downloads the latest SPARQL Anything jar to the PySPARQL Anything
+# installation folder.
+
+def getJar():
     print('Downloading the latest SPARQL Anything jar, please wait...')
-    r = requests.get(getURL())
-    destination = os.path.join(getPath(), 'sparql.anything.jar')
+    r = requests.get(getUrl())
+    version = getLatestReleaseTitle()
+    path2Jar = os.path.join(getPath(), 'sparql-anything-{}.jar'.format(version))
     print('Saving the SPARQL Anything jar, almost there!')
     try:
-        with open(destination, 'wb') as f:
+        with open(path2Jar, 'wb') as f:
            f.write(r.content)
     except:
         print('WARNING!!! SPARQL Anything unsuccesfully installed!!! \n'
               + 'Request Exception occurred.')
-    if checkJAR() == True:
+    if isJar() == True:
         print('SPARQL Anything succesfully installed')
 
 # Returns the path to the PySPARQL Anything installation folder.
 
 def getPath():
     path = os.path.realpath(os.path.dirname(__file__))
+    return path
+
+# Returns the path to the PySPARQL Anything jar currently in use in the
+# installation folder.
+
+def getPath2Jar():
+    files = os.listdir(getPath())
+    path =''
+    for file in files:
+        if 'sparql-anything-v' and '.jar' in file:
+            path = os.path.join(getPath(), file)
     return path
 
 

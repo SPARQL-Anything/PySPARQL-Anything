@@ -17,8 +17,13 @@ from pysparql_anything import config
 # Installation helper. Checks and installs the SPARQL Anything jar if not
 # already present.
 
-if config.checkJAR():
+if config.isJar():
     pass
 else:
-    config.getJAR()
-    
+    print('No SPARQL Anything jar has been found in the installation folder.')
+    config.getJar()
+
+# Checks for updates
+
+# Runs tests
+

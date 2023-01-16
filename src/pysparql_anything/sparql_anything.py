@@ -3,10 +3,10 @@
 # with a call to the run() method.
 #
 # @author Marco Ratta & Enrico Daga
-# @version 13/01/2023 v1.7
+# @version 16/01/2023 v1.8
 
 from rdflib import Graph
-import os
+from pysparql_anything.config import getPath2Jar
 import json
 import jnius_config
 
@@ -22,11 +22,9 @@ class SparqlAnything:
     # @return a reflection of the class SPARQLAnything
     
     def __reflect(self):
-        _dir = os.path.realpath(os.path.dirname(__file__))
-        jar = os.path.join(_dir, 'sparql.anything.jar')
         try:
             # JVM configuration
-            jnius_config.set_classpath(jar)
+            jnius_config.set_classpath(getPath2Jar())
             # Launch JVM
             from jnius import autoclass, JavaException
             return autoclass('com.github.sparqlanything.cli.SPARQLAnything')
@@ -38,7 +36,7 @@ class SparqlAnything:
             # Handles JVM exception for an incorrect path
             print('JVM exception occured: \n'
                   + 'Check the jar has been dowloaded succesfully:\n'
-                  + 'try config.checkJAR()'
+                  + 'try cli.config.isJar() for diagnostic value. \n'
                   + 'CLI must be restarted. \n')
             print(e)
 
@@ -95,7 +93,7 @@ class SparqlAnything:
 # @param aDict a Python dictionary.
 # @return an array of String
 
-def buildArgs(aDict):
+def buildArgs(aDict: dict):
     # initialises String[]:
     arguments = []
     # Sets -q and its value as the first two elements. Deletes 'q'. 
