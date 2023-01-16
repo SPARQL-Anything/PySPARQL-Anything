@@ -5,7 +5,7 @@
 
 ###### INSTALLATION (provisional)
 
-To install the beta to your machine type the following in your command prompt:
+To install the beta on your machine type the following in your command prompt:
 ```
 pip install -i https://test.pypi.org/simple/ pysparql-anything
 ```
@@ -24,7 +24,7 @@ $ python
 import pysparql_anything as cli
 ```
 
-If the SPARQL Anything jar isn't installed in the API's folder it will download it there automatically.
+If the SPARQL Anything jar isn't installed in the API's folder it will now be downloaded there automatically.
 
 4) Initialise a PySpyrqlAnything object:
 ``` 
