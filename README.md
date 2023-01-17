@@ -7,7 +7,7 @@
 
 To install the beta on your machine type the following in your command prompt:
 ```
-pip install -i https://test.pypi.org/simple/ pysparql-anything
+pip install -i https://test.pypi.org/simple/ pysparql-anything --extra-index-url https://pypi.org/simple PyGithub
 ```
 
 ###### USAGE
