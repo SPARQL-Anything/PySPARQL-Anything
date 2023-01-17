@@ -8,7 +8,7 @@
 # SPARQL Anything, the letter at the end to the independent PySPARQL Anything
 # releases.
 
-__version__ = "v0.8.1a"
+__version__ = '0.8.1c'
 
 # import statements and namespace configuration
 from pysparql_anything.sparql_anything import SparqlAnything
