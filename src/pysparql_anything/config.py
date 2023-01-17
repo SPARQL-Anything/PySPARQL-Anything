@@ -8,6 +8,7 @@
 from github import Github
 import requests
 import os
+from tqdm import tqdm
 
 # Checks the jar has been succesfully downloaded in the installation folder.
 # @return A diagnostic Boolean
@@ -32,6 +33,9 @@ def getUrl():
             jar = asset
     return jar.browser_download_url
 
+# Retrieves the latest release version of SPARQL Anything available.
+# @return A String containing the latest release version.
+
 def getLatestReleaseTitle():
     g = Github()
     release = g.get_repo('SPARQL-Anything/sparql.anything').get_latest_release()
@@ -40,22 +44,27 @@ def getLatestReleaseTitle():
 # Downloads the latest SPARQL Anything jar to the PySPARQL Anything
 # installation folder.
 
-def getJar():
+def downloadJar():
     print('Downloading the latest SPARQL Anything jar, please wait...')
-    r = requests.get(getUrl())
+    r = requests.get(getUrl(), stream = True) # Get request
+    length = int(r.headers.get('content-length', 0))
     version = getLatestReleaseTitle()
     path2Jar = os.path.join(getPath(), 'sparql-anything-{}.jar'.format(version))
-    print('Saving the SPARQL Anything jar, almost there!')
     try:
         with open(path2Jar, 'wb') as f:
-           f.write(r.content)
+            with tqdm(desc = 'Downloading SPARQL Anything {}'.format(version),
+                      total = length, unit = 'iB', unit_scale = True,
+                      unit_divisor = 1024) as pbar:
+                for data in r.iter_content(chunk_size = 1024):
+                    size = f.write(data)
+                    pbar.update(size)
+        print('The Download was succesful!')
     except:
         print('WARNING!!! SPARQL Anything unsuccesfully installed!!! \n'
-              + 'Request Exception occurred.')
-    if isJar() == True:
-        print('SPARQL Anything succesfully installed')
+              + 'Something has gone wrong!!.')
 
-# Returns the path to the PySPARQL Anything installation folder.
+# Function to return the path to the PySPARQL Anything installation folder.
+# @return The path String to the PySPARQL Anything installation folder.
 
 def getPath():
     path = os.path.realpath(os.path.dirname(__file__))
@@ -63,6 +72,7 @@ def getPath():
 
 # Returns the path to the PySPARQL Anything jar currently in use in the
 # installation folder.
+# @return The path String to the SPARQL Anything jar in use.
 
 def getPath2Jar():
     files = os.listdir(getPath())
@@ -72,6 +82,20 @@ def getPath2Jar():
             path = os.path.join(getPath(), file)
     return path
 
+# Function to check if a SPARQL Anything update is available to download.
+# @return A diagnostic Boolean.
+
+def check4update():
+    latest = getLatestReleaseTitle()
+    current = ''
+    files = os.listdir(getPath())
+    for file in files:
+        if 'sparql-anything-v' and '.jar' in file:
+            current = file[16:22]
+    if current.__eq__(latest): # Everything is up to date.
+        return False
+    else:
+        return True
 
     
 

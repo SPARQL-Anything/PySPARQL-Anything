@@ -3,7 +3,7 @@
 # with a call to the run() method.
 #
 # @author Marco Ratta & Enrico Daga
-# @version 16/01/2023 v1.8
+# @version 13/01/2023 v1.7
 
 from rdflib import Graph
 from pysparql_anything.config import getPath2Jar
