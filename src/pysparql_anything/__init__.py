@@ -33,7 +33,7 @@ if config.isJar()and config.check4update():
                   +'Cannot execute the update process!')
     else: # User input = 'No'.
         print('The system is ready for use!')   
-elif config.isJar() and  not config.check4update(): # Everything is up to date.
+elif config.isJar() and not config.check4update(): # Everything is up to date.
     pass
 else: # SPARQL Anything not installed.
     print('No SPARQL Anything jar has been found in the installation folder.')
