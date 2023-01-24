@@ -3,11 +3,12 @@ Configuration and utilities module for PySPARQL Anything.
 Aids the installation and maintainment process of the API.
 Interacts with the SPARQL Anything GitHub repository.
 @author Marco Ratta
-@version 23/01/2023
+@version 24/01/2023
 """
 
 import os
 from github import Github
+from github.GithubException import RateLimitExceededException
 import requests
 from tqdm import tqdm
 
@@ -33,8 +34,13 @@ def get_url():
     """
     ghub = Github()
     uri = 'SPARQL-Anything/sparql.anything'
-    release = ghub.get_repo(uri).get_latest_release()
-    assets = release.get_assets()
+    try:
+        release = ghub.get_repo(uri).get_latest_release()
+        assets = release.get_assets()
+    except RateLimitExceededException as exception:
+        print('Github rate limit exceeded! \n'
+              + 'Unable to process the request!')
+        print(exception)
     jar = ''
     for asset in assets:
         if 'server' not in asset.name:
@@ -49,7 +55,12 @@ def get_latest_release_title():
     """
     ghub = Github()
     uri = 'SPARQL-Anything/sparql.anything'
-    release = ghub.get_repo(uri).get_latest_release()
+    try:
+        release = ghub.get_repo(uri).get_latest_release()
+    except RateLimitExceededException as exception:
+        print('Github rate limit exceeded! \n'
+              + 'Unable to process the request!')
+        print(exception)
     return release.title
 
 
