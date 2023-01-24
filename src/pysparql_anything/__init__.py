@@ -2,7 +2,7 @@
 Manages the package's namespace, helps the installation and maintainment
 process of the API.
 @author Marco Ratta
-@version 17/01/2023
+@version 23/01/2023
 """
 
 # import statements and namespace configuration
@@ -23,24 +23,24 @@ Installation helper. Checks for updates, updates or installs the
 SPARQL Anything jar if it is not already present.
 """
 
-if config.isJar() and config.check4Update():
+if config.has_jar() and config.check_update():
     # An update is available. Prompts the user to confirm the download
     inp = input('An update is available!'
                 + ' Would you like to download it? (Yes/No)\n')
     if inp.casefold() == 'yes':
         from os import remove  # Removes the old jar.
-        remove(config.getPath2Jar())
-        if not config.isJar():  # Removal succesful.
+        remove(config.get_path2jar())
+        if not config.has_jar():  # Removal succesful.
             print('SPARQL Anything succesfully removed')
-            config.downloadJar()
+            config.download_jar()
             print('The system is now ready for use!')
         else:
             print('SPARQL Anything unsuccesfully removed! \n'
                   + 'Cannot execute the update process!')
     else:  # User input = 'No'.
         print('The system is ready for use!')
-elif config.isJar() and not config.check4Update():  # Everything is up to date.
+elif config.has_jar() and not config.check_update():  # Everything is up to date.
     pass
 else:  # SPARQL Anything not installed.
     print('No SPARQL Anything jar has been found in the installation folder.')
-    config.downloadJar()
+    config.download_jar()
