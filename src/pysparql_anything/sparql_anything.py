@@ -1,12 +1,9 @@
 """
 @author Marco Ratta & Enrico Daga
-@version 21/01/2023
+@version 24/01/2023
 """
 
-import json
-from rdflib import Graph
-from pysparql_anything.engine import Engine
-from pysparql_anything.parameters import Parameters
+import pysparql_anything.command as cmd
 
 
 class SparqlAnything:
@@ -14,11 +11,11 @@ class SparqlAnything:
     The class PySparqlAnything provides a Python CLI for the SPARQL Anything
     technology. It replaces the regular command line instructions
     with a call to the run() method.
+    It acts as both the client and invoker of the Command class.
     """
 
     def __init__(self):
         """ Constructor for the class SparqlAnything."""
-        self.engine = Engine()  # Connects to SPARQL Anything
 
     def run(self, **kwargs):
         """
@@ -27,9 +24,8 @@ class SparqlAnything:
             flags for the Sparql Anything CLI, minus the hyphen.
         See the User Guide for an example.
         """
-        args = Parameters().makeArgs(kwargs)
-        if args is not None:
-            self.engine.main(args)
+        command = cmd.RunCommand(kwargs)
+        command.execute()
 
     def select(self, **kwargs):
         """
@@ -38,9 +34,8 @@ class SparqlAnything:
         @param q The path to the query.
         @return a Python dictionary
         """
-        kwargs['f'] = 'json'
-        args = Parameters().makeArgs(kwargs)
-        return json.loads(self.engine.callMain(args))
+        command = cmd.SelectCommand(kwargs)
+        return command.execute()
 
     def ask(self, **kwargs):
         """
@@ -49,10 +44,8 @@ class SparqlAnything:
         @param q The path to the query
         @param l The RDF file to be queried.
         """
-        kwargs['f'] = 'xml'
-        args = Parameters().makeArgs(kwargs)
-        string = self.engine.callMain(args)
-        return bool('<boolean>true</boolean>' in string)
+        command = cmd.AskCommand(kwargs)
+        return command.execute()
 
     def construct(self, **kwargs):
         """
@@ -61,7 +54,5 @@ class SparqlAnything:
         @param q The path to the query
         @param l The RDF file to be queried.
         """
-        args = Parameters().makeArgs(kwargs)
-        string = self.engine.callMain(args)
-        graph = Graph().parse(data=string)
-        return graph
+        command = cmd.ConstructCommand(kwargs)
+        return command.execute()
