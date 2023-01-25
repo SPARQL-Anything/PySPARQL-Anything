@@ -2,12 +2,13 @@
 Manages the package's namespace, helps the installation and maintainment
 process of the API.
 @author Marco Ratta
-@version 23/01/2023
+@version 24/01/2023
 """
 
 # import statements and namespace configuration
 
-from pysparql_anything.sparql_anything import SparqlAnything
+import requests
+from github.GithubException import RateLimitExceededException
 from pysparql_anything import config
 
 """
@@ -23,24 +24,48 @@ Installation helper. Checks for updates, updates or installs the
 SPARQL Anything jar if it is not already present.
 """
 
-if config.has_jar() and config.check_update():
-    # An update is available. Prompts the user to confirm the download
-    inp = input('An update is available!'
-                + ' Would you like to download it? (Yes/No)\n')
-    if inp.casefold() == 'yes':
-        from os import remove  # Removes the old jar.
-        remove(config.get_path2jar())
-        if not config.has_jar():  # Removal succesful.
-            print('SPARQL Anything succesfully removed')
-            config.download_jar()
-            print('The system is now ready for use!')
-        else:
-            print('SPARQL Anything unsuccesfully removed! \n'
-                  + 'Cannot execute the update process!')
-    else:  # User input = 'No'.
-        print('The system is ready for use!')
-elif config.has_jar() and not config.check_update():  # Everything is up to date.
-    pass
-else:  # SPARQL Anything not installed.
-    print('No SPARQL Anything jar has been found in the installation folder.')
-    config.download_jar()
+try:
+    if not config.has_jar():  # SPARQL Anything not installed.
+        print('No SPARQL Anything jar has been found'
+              + ' in the installation folder.')
+        config.download_jar()
+except requests.ConnectionError as err:
+    print(f' A {type(err)} exception has been raised.')
+    print('Installation unsuccesful!!!')
+    raise
+except requests.Timeout as exc:
+    print(f' A {type(exc)} exception has been raised.')
+    print('Installation unsuccesful!!!')
+    raise
+except RateLimitExceededException as exc:
+    print(f' A {type(exc)} exception has been raised.')
+    print('Installation unsuccesful!!!')
+    raise
+try:
+    if config.has_jar() and config.check_update():
+        # An update is available. Prompts the user to confirm the download
+        inp = input('An update is available!'
+                    + ' Would you like to download it? (Yes/No)\n')
+        if inp.casefold() == 'yes':
+            from os import remove  # Removes the old jar.
+            remove(config.get_path2jar())
+            if not config.has_jar():  # Removal succesful.
+                print('SPARQL Anything succesfully removed')
+                config.download_jar()
+            else:
+                print('SPARQL Anything unsuccesfully removed! \n'
+                      + 'Cannot execute the update process!')
+        else:  # User input = 'No'.
+            print('The system is ready for use!')
+except RateLimitExceededException as exc:
+    print(f' A {type(exc)} exception has been raised. \n'
+          + 'Unable to complete the update.')
+except requests.ConnectionError as err:
+    print(f' A {type(err)} exception has been raised. \n'
+          + 'Unable to complete the update.')
+except requests.Timeout as exc:
+    print(f' A {type(exc)} exception has been raised. \n'
+          + 'Unable to complete the update.')
+
+# Launches the CLI
+from pysparql_anything.sparql_anything import SparqlAnything

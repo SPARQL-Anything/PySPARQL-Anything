@@ -31,48 +31,51 @@ def get_url():
     Retrieves the download url for latest SPARQL Anything release.
     @return The URL to the jar for the latest SPARQL Anything release
     as a String.
+    @raises RateLimitExceededException
     """
     ghub = Github()
     uri = 'SPARQL-Anything/sparql.anything'
     try:
         release = ghub.get_repo(uri).get_latest_release()
         assets = release.get_assets()
-    except RateLimitExceededException as exception:
-        print('Github rate limit exceeded! \n'
-              + 'Unable to process the request!')
-        print(exception)
-    jar = ''
-    for asset in assets:
-        if 'server' not in asset.name:
-            jar = asset
-    return jar.browser_download_url
+        jar = ''
+        for asset in assets:
+            if 'server' not in asset.name:
+                jar = asset
+        return jar.browser_download_url
+    except RateLimitExceededException as exc:
+        print('WARNING !!! get_url()raised a '
+              + f'{type(exc)} exception and passed it on.')
+        raise
 
 
 def get_latest_release_title():
     """
     Retrieves the latest release version of SPARQL Anything available.
     @return A String containing the latest release version.
+    @raises RateLimitExceededException
     """
     ghub = Github()
     uri = 'SPARQL-Anything/sparql.anything'
     try:
         release = ghub.get_repo(uri).get_latest_release()
-    except RateLimitExceededException as exception:
-        print('Github rate limit exceeded! \n'
-              + 'Unable to process the request!')
-        print(exception)
-    return release.title
+        return release.title
+    except RateLimitExceededException as exc:
+        print('WARNING !!! get_latest_release_title()raised a '
+              + f'{type(exc)} exception and passed it on.')
+        raise
 
 
 def download_jar():
     """
     Downloads the latest SPARQL Anything jar to the PySPARQL Anything
     installation folder.
+    @raises ConnectionError and Timeout
     """
     print('Downloading the latest SPARQL Anything jar, please wait...')
-    version = get_latest_release_title()
-    path2jar = os.path.join(get_path(), f'sparql-anything-{version}.jar')
     try:
+        version = get_latest_release_title()
+        path2jar = os.path.join(get_path(), f'sparql-anything-{version}.jar')
         request = requests.get(get_url(), stream=True, timeout=10.0)
         length = int(request.headers.get('content-length', 0))
         with open(path2jar, 'wb') as jar:
@@ -84,14 +87,19 @@ def download_jar():
                     pbar.update(size)
         print('The Download was succesful!')
         print('The system is now ready for use!')
-    except requests.ConnectionError as error:
-        print('WARNING!!! SPARQL Anything unsuccesfully installed!!! \n'
-              + 'Something has gone wrong!!.')
-        print(error)
-    except requests.Timeout as exception:
-        print('WARNING!!! SPARQL Anything unsuccesfully installed!!! \n'
-              + 'Something has gone wrong!!.')
-        print(exception)
+    except requests.ConnectionError as err:
+        print('WARNING!!! download_jar() caught '
+              + f'a {type(err)} exception and passed it on.')
+        raise
+    except requests.Timeout as exc:
+        print('WARNING!!! download_jar() caught '
+              + f'a {type(exc)} exception and passed it on.')
+        raise
+    except RateLimitExceededException as exc:
+        print('WARNING !!! download_jar()raised a '
+              + f'{type(exc)} exception and passed it on.')
+        raise
+
 
 def get_path():
     """
@@ -120,11 +128,17 @@ def check_update():
     """
     Function to check if a SPARQL Anything update is available to download.
     @return A diagnostic Boolean.
+    @raises RateLimitExceededException
     """
-    latest = get_latest_release_title()
-    current = ''
-    files = os.listdir(get_path())
-    for file in files:
-        if '.jar' in file:
-            current = file[16:22]
-    return not current == latest
+    try:
+        latest = get_latest_release_title()
+        current = ''
+        files = os.listdir(get_path())
+        for file in files:
+            if '.jar' in file:
+                current = file[16:22]
+        return not current == latest
+    except RateLimitExceededException as exc:
+        print('WARNING !!! check_update()raised a '
+              + f'{type(exc)} exception and passed it on.')
+        raise

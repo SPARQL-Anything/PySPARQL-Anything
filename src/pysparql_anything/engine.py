@@ -30,17 +30,19 @@ class Engine:
             # Launch JVM
             from jnius import autoclass, JavaException
             return autoclass('com.github.sparqlanything.cli.SPARQLAnything')
-        except ValueError as error:
+        except ValueError:
             print('Cannot construct two objects for the same VM. \n'
-                  + 'Please create a new VM for a new CLI \n')
-            raise error
-        except JavaException as exception:
+                  + 'Please exit and restart the Python environment and '
+                  + 'create a new VM for the  CLI.')
+            raise
+        except JavaException:
             # Handles JVM exception for an incorrect path
             print('JVM exception occured: \n'
                   + 'Check the jar has been dowloaded succesfully:\n'
-                  + 'try cli.config.isJar() for diagnostic value. \n'
-                  + 'CLI must be restarted. \n')
-            raise exception
+                  + 'try cli.config.has_jar() for a diagnostic value. \n'
+                  + 'Python environment must be exited and restarted \n'
+                  + 'for a new JVM to be launched.')
+            raise
 
     def main(self, args):
         """ Wrapper for the SPARQL Anything main method. """
