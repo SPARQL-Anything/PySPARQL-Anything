@@ -30,19 +30,19 @@ try:
               + ' in the installation folder.')
         config.download_jar()
 except requests.ConnectionError as err:
-    print(f' A {type(err)} exception has been raised.')
-    print('Installation unsuccesful!!!')
+    print(f' A {type(err)} exception has been raised. \n'
+          + 'Installation unsuccesful!!!')
     raise
 except requests.Timeout as exc:
-    print(f' A {type(exc)} exception has been raised.')
-    print('Installation unsuccesful!!!')
+    print(f' A {type(exc)} exception has been raised. \n'
+          + 'Installation unsuccesful!!!')
     raise
 except RateLimitExceededException as exc:
-    print(f' A {type(exc)} exception has been raised.')
-    print('Installation unsuccesful!!!')
+    print(f' A {type(exc)} exception has been raised. \n'
+          + 'Installation unsuccesful!!!')
     raise
 try:
-    if config.has_jar() and config.check_update():
+    if config.check_update():
         # An update is available. Prompts the user to confirm the download
         inp = input('An update is available!'
                     + ' Would you like to download it? (Yes/No)\n')
@@ -67,5 +67,5 @@ except requests.Timeout as exc:
     print(f' A {type(exc)} exception has been raised. \n'
           + 'Unable to complete the update.')
 
-# Launches the CLI
+# Launches the JVM and namespace.
 from pysparql_anything.sparql_anything import SparqlAnything

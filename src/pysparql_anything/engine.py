@@ -33,7 +33,8 @@ class Engine:
 
     def __init__(self):
         """ Constructor for the class Engine. """
-        self.reflection = autoclass('com.github.sparqlanything.cli.SPARQLAnything')
+        location = 'com.github.sparqlanything.cli.SPARQLAnything'
+        self.reflection = autoclass(location)
 
     def main(self, args):
         """ Wrapper for the SPARQL Anything main method. """
