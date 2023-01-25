@@ -38,7 +38,7 @@ class Engine:
         except JavaException:
             # Handles JVM exception for an incorrect path
             print('JVM exception occured: \n'
-                  + 'Check the jar has been dowloaded succesfully:\n'
+                  + 'Check that the jar has been dowloaded successfully:\n'
                   + 'try cli.config.has_jar() for a diagnostic value. \n'
                   + 'Python environment must be exited and restarted \n'
                   + 'for a new JVM to be launched.')
