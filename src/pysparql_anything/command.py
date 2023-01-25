@@ -1,12 +1,11 @@
 """
 @author Marco Ratta
-@ version 24/01/2023
+@ version 25/01/2023
 """
 
 import json
 from abc import ABC, abstractmethod
 from rdflib import Graph
-from pysparql_anything.engine import Engine
 
 
 class Command(ABC):
@@ -15,8 +14,6 @@ class Command(ABC):
     the execution of the command requests.
     Acts as the command class of a Command pattern.
     """
-
-    receiver = Engine() # Composition with SPARQL Anything.
 
     def __init__(self, kwargs: dict):
         """ Constructor for the class Command.
@@ -56,7 +53,7 @@ class Command(ABC):
                 args.append(value)
             state.pop('values')
         for field in state:  # Loops though the remaining flags.
-            if state.get(field) != '':
+            if (state.get(field) != '') and (field != 'receiver'):
                 args.append('-' + field[0:1])
                 args.append(state.get(field))
         return args
@@ -103,29 +100,31 @@ class Command(ABC):
 class AskCommand(Command):
     """ Implements the Command class for an ask request """
 
-    def __init__(self, kwargs):
+    def __init__(self, kwargs, receiver):
         """ Constructor for the AskCommand concrete class."""
         super().__init__(kwargs)
         self.format = 'xml'
+        self.receiver = receiver
 
     def execute(self):
         """ instructions for an ask request """
         args = super()._combine()
-        string = Command.receiver.call_main(args)
+        string = self.receiver.call_main(args)
         return bool('<boolean>true</boolean>' in string)
 
 
 class ConstructCommand(Command):
     """ Implements the Command class for a construct request """
 
-    def __init__(self, kwargs):
+    def __init__(self, kwargs, receiver):
         """ Constructor for the ConstructCommand concrete class."""
         super().__init__(kwargs)
+        self.receiver = receiver
 
     def execute(self):
         """ instructions for a construct request """
         args = super()._combine()
-        string = Command.receiver.call_main(args)
+        string = self.receiver.call_main(args)
         graph = Graph().parse(data=string)
         return graph
 
@@ -133,26 +132,28 @@ class ConstructCommand(Command):
 class SelectCommand(Command):
     """ Implements the Command class for a select request """
 
-    def __init__(self, kwargs):
+    def __init__(self, kwargs, receiver):
         """ Constructor for the SelectCommand concrete class."""
         super().__init__(kwargs)
         self.format = 'json'
+        self.receiver = receiver
 
     def execute(self):
         """ instructions for a select request """
         args = super()._combine()
-        string = Command.receiver.call_main(args)
+        string = self.receiver.call_main(args)
         return json.loads(string)
 
 
 class RunCommand(Command):
     """ Implements the Command class for a run request """
 
-    def __init__(self, kwargs):
+    def __init__(self, kwargs, receiver):
         """ Constructor for the RunCommand concrete class."""
         super().__init__(kwargs)
+        self.receiver = receiver
 
     def execute(self):
         """ instructions for a run request """
         args = super()._combine()
-        Command.receiver.main(args)
+        self.receiver.main(args)

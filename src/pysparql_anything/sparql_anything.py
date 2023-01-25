@@ -1,9 +1,10 @@
 """
 @author Marco Ratta & Enrico Daga
-@version 24/01/2023
+@version 25/01/2023
 """
 
 import pysparql_anything.command as cmd
+from pysparql_anything.engine import Engine
 
 
 class SparqlAnything:
@@ -16,6 +17,7 @@ class SparqlAnything:
 
     def __init__(self):
         """ Constructor for the class SparqlAnything."""
+        self.receiver = Engine()
 
     def run(self, **kwargs):
         """
@@ -24,7 +26,7 @@ class SparqlAnything:
             flags for the Sparql Anything CLI, minus the hyphen.
         See the User Guide for an example.
         """
-        command = cmd.RunCommand(kwargs)
+        command = cmd.RunCommand(kwargs, self.receiver)
         command.execute()
 
     def select(self, **kwargs):
@@ -34,7 +36,7 @@ class SparqlAnything:
         @param q The path to the query.
         @return a Python dictionary
         """
-        command = cmd.SelectCommand(kwargs)
+        command = cmd.SelectCommand(kwargs, self.receiver)
         return command.execute()
 
     def ask(self, **kwargs):
@@ -44,7 +46,7 @@ class SparqlAnything:
         @param q The path to the query
         @param l The RDF file to be queried.
         """
-        command = cmd.AskCommand(kwargs)
+        command = cmd.AskCommand(kwargs, self.receiver)
         return command.execute()
 
     def construct(self, **kwargs):
@@ -54,5 +56,5 @@ class SparqlAnything:
         @param q The path to the query
         @param l The RDF file to be queried.
         """
-        command = cmd.ConstructCommand(kwargs)
+        command = cmd.ConstructCommand(kwargs, self.receiver)
         return command.execute()

@@ -31,15 +31,15 @@ try:
         config.download_jar()
 except requests.ConnectionError as err:
     print(f' A {type(err)} exception has been raised.')
-    print('Installation unsuccessful!!!')
+    print('Installation unsuccesful!!!')
     raise
 except requests.Timeout as exc:
     print(f' A {type(exc)} exception has been raised.')
-    print('Installation unsuccessful!!!')
+    print('Installation unsuccesful!!!')
     raise
 except RateLimitExceededException as exc:
     print(f' A {type(exc)} exception has been raised.')
-    print('Installation unsuccessful!!!')
+    print('Installation unsuccesful!!!')
     raise
 try:
     if config.has_jar() and config.check_update():
@@ -50,10 +50,10 @@ try:
             from os import remove  # Removes the old jar.
             remove(config.get_path2jar())
             if not config.has_jar():  # Removal succesful.
-                print('SPARQL Anything successfully removed')
+                print('SPARQL Anything succesfully removed')
                 config.download_jar()
             else:
-                print('SPARQL Anything unsuccessfully removed! \n'
+                print('SPARQL Anything unsuccesfully removed! \n'
                       + 'Cannot execute the update process!')
         else:  # User input = 'No'.
             print('The system is ready for use!')
