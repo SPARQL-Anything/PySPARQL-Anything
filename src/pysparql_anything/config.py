@@ -85,7 +85,7 @@ def download_jar():
                 for data in request.iter_content(chunk_size=1024):
                     size = jar.write(data)
                     pbar.update(size)
-        print('The Download was succesful!')
+        print('The Download was successful!')
         print('The system is now ready for use!')
     except requests.ConnectionError as err:
         print('WARNING!!! download_jar() caught '
