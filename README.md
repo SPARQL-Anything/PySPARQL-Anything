@@ -7,7 +7,7 @@
 
 To install PySPARQL Anything on your machine type the following in your command prompt:
 ```
-$ pip install -i https://test.pypi.org/simple/ pysparql-anything --extra-index-url https://pypi.org/simple PyGithub
+pip install -i https://test.pypi.org/simple/ pysparql-anything --extra-index-url https://pypi.org/simple PyGithub
 ```
 
 To remove PySPARQL Anything from your machine, do the following.
@@ -59,7 +59,7 @@ All of the keyword arguments except for ```v``` want to be assigned a string lit
 
 To execute the following query from the SPARQL Anything MusicXML showcase,
 ```
-$ java -jar sparql-anything-0.8.0-SNAPSHOT.jar -q queries/populateOntology.sparql -v filePath="./musicXMLFiles/AltDeu10/AltDeu10-017.musicxml" -v fileName="AltDeu10-017" -f TTL
+java -jar sparql-anything-0.8.0-SNAPSHOT.jar -q queries/populateOntology.sparql -v filePath="./musicXMLFiles/AltDeu10/AltDeu10-017.musicxml" -v fileName="AltDeu10-017" -f TTL
 ```
 
 with PySPARQL Anything, do
@@ -84,19 +84,19 @@ All keyword arguments to be set are the same as those of the regular Sparql Anyt
 See https://github.com/SPARQL-Anything/sparql.anything#command-line-interface-cli  and above for some particular
 examples.
 
-###### run(**kwargs)
+``` run(**kwargs) -> None ```
 
 Reflects the functionalities of the original SPARQL Anything CLI. This can be used to run a query the output of
 which is to be printed on the command line or saved to a file. (See example above)
 
-###### ask(**kwargs)
+``` ask(**kwargs) -> bool ```
 
 Executes an ASK query and returns a Python boolean True or False.
 
-###### construct(**kwargs)
+``` construct(**kwargs) -> rdflib.Graph ```
 
 Executes a CONSTRUCT query and returns a rdflib graph object.
 
-###### select(**kwargs)
+``` select(**kwargs) -> dict ```
 
 Executes a SELECT query and returns the result as a Python dictionary. 
