@@ -42,25 +42,50 @@ For example:
 engine.run(q='queries/getFacade.sparql', f='TTL', o='C:/Users/Marco/Desktop/facade.ttl')
 ```
 
+All of the keyword arguments except for ```v``` want to be assigned a string literal. 
+
+```v``` requires to be assigned a Python dictionary, as in the following example.
+
+To execute the following query from the SPARQL Anything MusicXML showcase,
+```
+java -jar sparql-anything-0.8.0-SNAPSHOT.jar -q queries/populateOntology.sparql -v filePath="./musicXMLFiles/AltDeu10/AltDeu10-017.musicxml" -v fileName="AltDeu10-017" -f TTL
+```
+
+in PySPARQL Anything, do
+```
+engine.run(
+    q='queries/populateOntology.sparql',
+    f='ttl',
+    v={
+        'filePath' : './musicXMLFiles/AltDeu10/AltDeu10-017.musicxml',
+        'fileName' : 'AltDeu10-017'
+    }
+)
+```
+
 ## API
+
+All of PySPARQL Anything functionalities can be accessed via the following four methods in the class 
+```pysparql_anything.sparql_anything.SparqlAnything```.
 
 All keyword arguments to be set are the same as those of the regular Sparql Anything CLI, minus the hyphen.
 
-See https://github.com/SPARQL-Anything/sparql.anything#command-line-interface-cli .
+See https://github.com/SPARQL-Anything/sparql.anything#command-line-interface-cli  and above for some particular
+examples.
 
-###### engine.run(**kwargs)
+###### run(**kwargs)
 
 Reflects the functionalities of the original SPARQL Anything CLI. This can be used to run a query the output of
 which is to be printed on the command line or saved to a file. (See example above)
 
-###### engine.ask(**kwargs)
+###### ask(**kwargs)
 
 Executes an ASK query and returns a Python boolean True or False.
 
-###### engine.construct(**kwargs)
+###### construct(**kwargs)
 
 Executes a CONSTRUCT query and returns a rdflib graph object.
 
-###### engine.select(**kwargs)
+###### select(**kwargs)
 
 Executes a SELECT query and returns the result as a Python dictionary. 
