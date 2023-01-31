@@ -26,7 +26,7 @@ import pysparql_anything as cli
 
 If the SPARQL Anything jar isn't installed in the API's folder it will now be downloaded there automatically.
 
-4) Initialise a PySpyrqlAnything object:
+4) Initialise a ```pysparql_anything.sparql_anything.SparqlAnything``` object:
 ``` 
 engine = cli.SparqlAnything()
 ```
@@ -51,7 +51,7 @@ To execute the following query from the SPARQL Anything MusicXML showcase,
 java -jar sparql-anything-0.8.0-SNAPSHOT.jar -q queries/populateOntology.sparql -v filePath="./musicXMLFiles/AltDeu10/AltDeu10-017.musicxml" -v fileName="AltDeu10-017" -f TTL
 ```
 
-in PySPARQL Anything, do
+with PySPARQL Anything, do
 ```
 engine.run(
     q='queries/populateOntology.sparql',
@@ -65,7 +65,7 @@ engine.run(
 
 ## API
 
-All of PySPARQL Anything functionalities can be accessed via the following four methods in the class 
+All of PySPARQL Anything functionalities can be accessed via the following four methods of the class 
 ```pysparql_anything.sparql_anything.SparqlAnything```.
 
 All keyword arguments to be set are the same as those of the regular Sparql Anything CLI, minus the hyphen.
