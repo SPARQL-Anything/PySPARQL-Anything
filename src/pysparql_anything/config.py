@@ -122,3 +122,16 @@ def get_path2jar():
         if '.jar' in file:
             path = os.path.join(get_path(), file)
     return path
+
+
+def remove_jar():
+    """ Removes the SPARQL Anything jar from the installation folder
+    @raises FileNotFoundError
+    """
+    try:
+        os.remove(get_path2jar())
+        print("SPARQL Anything sucessfully removed")
+    except FileNotFoundError as err:
+        print('WARNING !!! download_jar()raised a '
+              + f'{type(err)} exception and re-raised it.')
+        raise
