@@ -7,7 +7,7 @@
 
 To install PySPARQL Anything on your machine type the following in your command prompt:
 ```
-pip install -i https://test.pypi.org/simple/ pysparql-anything --extra-index-url https://pypi.org/simple PyGithub
+pip install pysparql-anything 
 ```
 
 To remove PySPARQL Anything from your machine, do the following.
