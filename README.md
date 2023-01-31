@@ -3,12 +3,22 @@
 
 ## User Guide
 
-###### INSTALLATION (provisional)
+###### INSTALLATION 
 
-To install the beta on your machine type the following in your command prompt:
+To install PySPARQL Anything on your machine type the following in your command prompt:
 ```
 pip install -i https://test.pypi.org/simple/ pysparql-anything --extra-index-url https://pypi.org/simple PyGithub
 ```
+
+To remove PySPARQL Anything from your machine, do the following.
+
+In your command prompt execute
+```
+$ python
+>>> import pysparql_anything as cli
+>>> cli.config.remove_jar()
+>>> exit()
+$ pip uninstall pysparql-anything
 
 ###### USAGE
 
