@@ -1,16 +1,14 @@
 """
 @author Marco Ratta
-@version 25/01/2023
+@version 31/01/2023
 """
 
 import jnius_config
 from pysparql_anything.config import get_path2jar
-
-# Launches JVM
-
+# JVM configuration and launch.
 try:
-    jnius_config.set_classpath(get_path2jar())  # JVM configuration
-    from jnius import autoclass, JavaException  # Launch JVM
+    jnius_config.set_classpath(get_path2jar())
+    from jnius import autoclass, JavaException
 except ValueError:
     print('Cannot construct two JVMs. \n'
           + 'Please exit and restart the Python environment and '

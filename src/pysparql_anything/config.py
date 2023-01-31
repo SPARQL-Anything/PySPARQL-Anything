@@ -3,7 +3,7 @@ Configuration and utilities module for PySPARQL Anything.
 Aids the installation and maintainment process of the API.
 Interacts with the SPARQL Anything GitHub repository.
 @author Marco Ratta
-@version 24/01/2023
+@version 31/01/2023
 """
 
 import os
@@ -122,23 +122,3 @@ def get_path2jar():
         if '.jar' in file:
             path = os.path.join(get_path(), file)
     return path
-
-
-def check_update():
-    """
-    Function to check if a SPARQL Anything update is available to download.
-    @return A diagnostic Boolean.
-    @raises RateLimitExceededException
-    """
-    try:
-        latest = get_latest_release_title()
-        current = ''
-        files = os.listdir(get_path())
-        for file in files:
-            if '.jar' in file:
-                current = file[16:22]
-        return not current == latest
-    except RateLimitExceededException as exc:
-        print('WARNING !!! check_update()raised a '
-              + f'{type(exc)} exception and passed it on.')
-        raise
