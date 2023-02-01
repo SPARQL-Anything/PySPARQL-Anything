@@ -50,6 +50,7 @@ If the SPARQL Anything jar isn't installed in the API's folder it will now be do
 ###### QUERY PARAMETERS
 
 The keyword arguments to be set are the same as those of the regular Sparql Anything CLI, minus ```i```.
+
 As the use of the latter flag has been deprecated, it has not been implemented.
 
 For example:
@@ -78,15 +79,14 @@ with PySPARQL Anything, do
     )
 ```
 
+For further information see 
+
+https://github.com/SPARQL-Anything/sparql.anything#command-line-interface-cli .
+
 ## API
 
 All of PySPARQL Anything functionalities can be accessed via the following four methods of the class 
 ```pysparql_anything.sparql_anything.SparqlAnything```.
-
-All keyword arguments to be set are the same as those of the regular Sparql Anything CLI, minus the hyphen.
-
-See https://github.com/SPARQL-Anything/sparql.anything#command-line-interface-cli  and above for some particular
-examples.
 
 ``` run(**kwargs) -> None ```
 
