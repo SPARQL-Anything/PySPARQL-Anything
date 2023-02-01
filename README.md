@@ -46,7 +46,11 @@ If the SPARQL Anything jar isn't installed in the API's folder it will now be do
 ```
 >>> engine.run(**kwargs)
 ```
-The keyword arguments to be set are the same as those of the regular Sparql Anything CLI, minus the hyphen. 
+
+###### QUERY PARAMETERS
+
+The keyword arguments to be set are the same as those of the regular Sparql Anything CLI, minus ```i```.
+As the use of the latter flag has been deprecated, it has not been implemented.
 
 For example:
 ```
