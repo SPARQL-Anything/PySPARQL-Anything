@@ -3,8 +3,8 @@
 PREFIX dm: <http://learningsparql.com/ns/demo#> 
 
 ASK WHERE
-{
-  ?s dm:location ?city .
-  FILTER (!(isURI(?city)))
+{ 
+        ?s dm:location ?city .
+        FILTER (!(isURI(?city)))
 }
 
