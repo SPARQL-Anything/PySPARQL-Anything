@@ -15,7 +15,7 @@ RdflibGraph = TypeVar('RdflibGraph', bound=Graph)
 
 
 class Command(Protocol):
-    """Protocol to define the interface of a command request"""
+    """ Protocol to define the interface of a command request"""
 
     def execute(self) -> Any:
         """ Execute method to be overridden by the implementing calsses"""

@@ -17,14 +17,12 @@ class SparqlAnything:
     """
 
     def __init__(self):
-        """ Constructor for the class SparqlAnything."""
+        """ initialiser for the class SparqlAnything."""
         self.receiver = Engine()
         self.invoker = Invoker()
 
     def run(self, **kwargs):
-        """
-        The run method replaces the regular command line execution.
-        """
+        """ The run method replaces the regular command line execution. """
         command = cmd.RunCommand(kwargs, self.receiver)
         self.invoker.set_command(command)
         return self.invoker.run_query()
@@ -38,8 +36,8 @@ class SparqlAnything:
         return self.invoker.run_query()
 
     def ask(self, **kwargs):
-        """ The ask method enables one to run an ASK query and return the result as
-        a Python boolean True or False.
+        """ The ask method enables one to run an ASK query and return the
+        result as a Python boolean True or False.
         """
         command = cmd.AskCommand(kwargs, self.receiver)
         self.invoker.set_command(command)

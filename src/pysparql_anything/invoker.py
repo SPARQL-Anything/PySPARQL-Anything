@@ -17,11 +17,9 @@ class Invoker:
         self.command: Command
 
     def set_command(self, command: Command) -> None:
-        """Setter for the command field"""
+        """ Setter for the command field """
         self.command = command
 
     def run_query(self) -> Any:
-        """Invokes the execution of the passed
-        command object.
-        """
+        """ Invokes the execution of the passed command object. """
         return self.command.execute()
