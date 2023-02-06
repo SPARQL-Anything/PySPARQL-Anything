@@ -1,9 +1,8 @@
 """
-Configuration and utilities module for PySPARQL Anything.
-Aids the installation and maintainment process of the API.
-Interacts with the SPARQL Anything GitHub repository.
+Module containing functions aiding the installation and maintainment
+process of PySPARQL Anything.
 @author Marco Ratta
-@version 31/01/2023
+@version 05/02/2023
 """
 
 import os
@@ -13,11 +12,9 @@ import requests
 from tqdm import tqdm
 
 
-def has_jar():
-    """
-    Checks the jar has been succesfully downloaded in
+def has_jar() -> bool:
+    """ Checks the jar has been succesfully downloaded in
     the installation folder.
-    @return A diagnostic Boolean
     """
     files = os.listdir(get_path())
     for file in files:
@@ -26,11 +23,8 @@ def has_jar():
     return False
 
 
-def get_url():
-    """
-    Retrieves the download url for latest SPARQL Anything release.
-    @return The URL to the jar for the latest SPARQL Anything release
-    as a String.
+def get_url() -> str:
+    """ Retrieves the download url for latest SPARQL Anything release.
     @raises RateLimitExceededException
     """
     ghub = Github()
@@ -49,10 +43,8 @@ def get_url():
         raise
 
 
-def get_latest_release_title():
-    """
-    Retrieves the latest release version of SPARQL Anything available.
-    @return A String containing the latest release version.
+def get_latest_release_title() -> str:
+    """ Retrieves the latest release version of SPARQL Anything available.
     @raises RateLimitExceededException
     """
     ghub = Github()
@@ -66,9 +58,8 @@ def get_latest_release_title():
         raise
 
 
-def download_jar():
-    """
-    Downloads the latest SPARQL Anything jar to the PySPARQL Anything
+def download_jar() -> None:
+    """ Downloads the latest SPARQL Anything jar to the PySPARQL Anything
     installation folder.
     @raises ConnectionError and Timeout
     """
@@ -101,20 +92,17 @@ def download_jar():
         raise
 
 
-def get_path():
+def get_path() -> str:
     """
     Function to return the path to the PySPARQL Anything installation folder.
-    @return The path String to the PySPARQL Anything installation folder.
     """
     path = os.path.realpath(os.path.dirname(__file__))
     return path
 
 
-def get_path2jar():
-    """
-    Returns the path to the PySPARQL Anything jar currently in use in the
+def get_path2jar() -> str:
+    """ Returns the path to the PySPARQL Anything jar currently in use in the
     installation folder.
-    @return The path String to the SPARQL Anything jar in use.
     """
     files = os.listdir(get_path())
     path = ''
@@ -124,7 +112,7 @@ def get_path2jar():
     return path
 
 
-def remove_jar():
+def remove_jar() -> None:
     """ Removes the SPARQL Anything jar from the installation folder
     @raises FileNotFoundError
     """

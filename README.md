@@ -97,7 +97,7 @@ which is to be printed on the command line or saved to a file. (See example abov
 
 Executes an ASK query and returns a Python boolean True or False.
 
-``` construct(**kwargs) -> rdflib.Graph ```
+``` construct(**kwargs) -> rdflib.graph.Graph ```
 
 Executes a CONSTRUCT query and returns a rdflib graph object.
 

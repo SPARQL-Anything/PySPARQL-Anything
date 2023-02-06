@@ -1,6 +1,6 @@
 """
 @author Marco Ratta
-@version 31/01/2023
+@version 04/02/2023
 """
 
 import jnius_config
@@ -24,20 +24,19 @@ except JavaException:  # Handles JVM exception for an incorrect path
 
 
 class Engine:
-    """
-    The class engine wraps the Java SPARQL Anything Main class.
+    """ The class engine wraps the Java SPARQL Anything Main class.
     Acts as the receiver of the Command pattern.
     """
 
     def __init__(self):
-        """ Constructor for the class Engine. """
+        """ Initialiser for the class Engine. """
         location = 'com.github.sparqlanything.cli.SPARQLAnything'
         self.reflection = autoclass(location)
 
-    def main(self, args):
-        """ Wrapper for the SPARQL Anything main method. """
+    def main(self, args: list[str]) -> None:
+        """ Adapter for the SPARQL Anything main method. """
         self.reflection.main(args)
 
-    def call_main(self, args):
-        """ Wrapper for the SPARQL Anything callMain method. """
+    def call_main(self, args: list[str]) -> str:
+        """ Adapter for the SPARQL Anything callMain method. """
         return self.reflection.callMain(args)

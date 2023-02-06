@@ -1,34 +1,35 @@
 """
 @author Marco Ratta
-@ version 02/02/2023
+@ version 05/02/2023
 """
 
 import json
-from abc import ABC, abstractmethod
+from typing import Protocol, TypeVar, Any
 from rdflib import Graph
 from pysparql_anything.parameter_handler import ParameterHandler
+from pysparql_anything.engine import Engine
+
+# Type aliases
+Engine = TypeVar('Engine', bound=Engine)
+RdflibGraph = TypeVar('RdflibGraph', bound=Graph)
 
 
-class Command(ABC):
-    """
-    Abstract class to handle the execution of the command requests.
-    Acts as the command interface of the Command pattern.
-    """
+class Command(Protocol):
+    """Protocol to define the interface of a command request"""
 
-    @abstractmethod
-    def execute(self):
-        """ Execute method to be overridden by the subclasses """
+    def execute(self) -> Any:
+        """ Execute method to be overridden by the implementing calsses"""
 
 
-class AskCommand(Command):
-    """ Implements the Command class for an ask request """
+class AskCommand:
+    """ Implements the Command protocol for an ask request """
 
-    def __init__(self, kwargs, receiver):
+    def __init__(self, kwargs: dict, receiver: Engine):
         """ Constructor for the AskCommand concrete class."""
         self.handler = ParameterHandler(kwargs)
         self.receiver = receiver
 
-    def execute(self):
+    def execute(self) -> bool:
         """ instructions for an ask request """
         self.handler.set_format('xml')
         args = self.handler.combine()
@@ -36,15 +37,15 @@ class AskCommand(Command):
         return bool('<boolean>true</boolean>' in string)
 
 
-class ConstructCommand(Command):
+class ConstructCommand:
     """ Implements the Command class for a construct request """
 
-    def __init__(self, kwargs, receiver):
+    def __init__(self, kwargs: dict, receiver: Engine):
         """ Constructor for the ConstructCommand concrete class."""
         self.handler = ParameterHandler(kwargs)
         self.receiver = receiver
 
-    def execute(self):
+    def execute(self) -> RdflibGraph:
         """ instructions for a construct request """
         args = self.handler.combine()
         string = self.receiver.call_main(args)
@@ -52,15 +53,15 @@ class ConstructCommand(Command):
         return graph
 
 
-class SelectCommand(Command):
+class SelectCommand:
     """ Implements the Command class for a select request """
 
-    def __init__(self, kwargs, receiver):
+    def __init__(self, kwargs: dict, receiver: Engine):
         """ Constructor for the SelectCommand concrete class."""
         self.handler = ParameterHandler(kwargs)
         self.receiver = receiver
 
-    def execute(self):
+    def execute(self) -> dict:
         """ instructions for a select request """
         self.handler.set_format('json')
         args = self.handler.combine()
@@ -68,15 +69,15 @@ class SelectCommand(Command):
         return json.loads(string)
 
 
-class RunCommand(Command):
+class RunCommand:
     """ Implements the Command class for a run request """
 
-    def __init__(self, kwargs, receiver):
+    def __init__(self, kwargs: dict, receiver: Engine):
         """ Constructor for the RunCommand concrete class."""
         self.handler = ParameterHandler(kwargs)
         self.receiver = receiver
 
-    def execute(self):
+    def execute(self) -> None:
         """ instructions for a run request """
         args = self.handler.combine()
         self.receiver.main(args)

@@ -1,17 +1,16 @@
 """
 @author Marco Ratta
-@version 02/02/2023
+@version 04/02/2023
 """
 
 
 class ParameterHandler:
-    """
-    Class to handle the processing of the query paramters passed
+    """ Class to handle the processing of the query paramters passed
     to the CLI/API methods.
     """
 
     def __init__(self, kwargs: dict):
-        """ Constructor for the ParameterHandler class.
+        """ Initialiser for the ParameterHandler class.
         Stores the passed parameters and processes them to the form
         required by the SPARQL Anything Main class.
         """
@@ -24,11 +23,9 @@ class ParameterHandler:
         self.pattern = self.__pattern(kwargs)
         self.values = self.__values(kwargs)
 
-    def combine(self):
-        """
-        Constructs the appropriate String array to pass to
+    def combine(self) -> list[str]:
+        """ Constructs the appropriate String array to pass to
         the main method from the attributes of this parameter object.
-        @return an array of type String
         """
         args = []
         state = vars(self)
@@ -50,35 +47,35 @@ class ParameterHandler:
                 args.append(state.get(field))
         return args
 
-    def __query(self, kwargs):
+    def __query(self, kwargs: dict) -> str:
         """ Processes the query parameter. """
         return kwargs.get('q', '')
 
-    def __output(self, kwargs: dict):
+    def __output(self, kwargs: dict) -> str:
         """ Processes the output parameter. """
         return kwargs.get('o', '')
 
-    def __explain(self, kwargs: dict):
+    def __explain(self, kwargs: dict) -> str:
         """ Processes the explain parameter. """
         return kwargs.get('e', '')
 
-    def __load(self, kwargs: dict):
+    def __load(self, kwargs: dict) -> str:
         """ Processes the load parameter. """
         return kwargs.get('l', '')
 
-    def __format(self, kwargs: dict):
+    def __format(self, kwargs: dict) -> str:
         """ Processes the format parameter. """
         return kwargs.get('f', '')
 
-    def __strategy(self, kwargs: dict):
+    def __strategy(self, kwargs: dict) -> str:
         """ Processes the strategy parameter. """
         return kwargs.get('s', '')
 
-    def __pattern(self, kwargs: dict):
+    def __pattern(self, kwargs: dict) -> str:
         """ Processes the pattern parameter. """
         return kwargs.get('p', '')
 
-    def __values(self, kwargs: dict):
+    def __values(self, kwargs: dict) -> list[str] | str:
         """ Processes the values parameter. """
         values = kwargs.get('v', '')
         if values != '':
@@ -88,6 +85,6 @@ class ParameterHandler:
             return params
         return values
 
-    def set_format(self, a_format: str):
+    def set_format(self, a_format: str) -> None:
         """ Setter method for the self.format field."""
         self.format = a_format
