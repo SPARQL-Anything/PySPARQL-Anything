@@ -1,16 +1,18 @@
-# Unit testing script for the PySPARQL Anything module.
-# For the construction of this script, files from the book 'Learning SPARQL'
-# by Bob DuCharme have been used.
-#
-# @author Marco Ratta
-# @version 16/01/2021 v1.1
+"""
+Unit testing script for the PySPARQL Anything API.
+For the construction of this script, files from the book 'Learning SPARQL'
+by Bob DuCharme have been used.
+
+@author Marco Ratta
+@version 16/01/2021 
+"""
 
 import unittest
 import pysparql_anything as cli
 from rdflib import Graph
 
-# Test case for functionalities.
-class PySparqlTestCase(unittest.TestCase):
+
+class PySparqlAPITestCase(unittest.TestCase):
 
     def test_ask(self):
         self.assertTrue(engine.ask(q='queries/ask/ex199.rq', l='ex198.ttl'))
@@ -38,4 +40,4 @@ class PySparqlTestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     engine = cli.SparqlAnything()
-    unittest.main()
+    unittest.main(verbosity=2)

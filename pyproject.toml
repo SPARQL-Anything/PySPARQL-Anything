@@ -1,0 +1,82 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pysparql_anything"
+description = 'A Python based CLI for SPARQL Anything'
+readme = "README.md"
+requires-python = ">=3.7"
+license = "Apache-2.0"
+keywords = [
+    "SPARQL",
+    "RDF",
+    "rdflib",
+    "sematic web",
+    "knowledge graphs",
+    "linked data"
+]
+authors = [
+  { name = "Marco Ratta", email = "" },
+  { name = "Enrico Daga", email = "" }
+]
+maintainers = [
+  { name = "Marco Ratta", email = "" },
+  { name = "Enrico Daga", email = "" }
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+    "rdflib",
+    "pyjnius",
+    "requests",
+    "PyGithub >= 1.57",
+    "tqdm"
+]
+dynamic = ["version"]
+
+[project.urls]
+Documentation = "https://github.com/SPARQL-Anything/PySPARQL-Anything/blob/main/README.md"
+Issues = "https://github.com/SPARQL-Anything/PySPARQL-Anything/issues"
+Source = "https://github.com/SPARQL-Anything/PySPARQL-Anything"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.version]
+path = "src/pysparql_anything/__about__.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "pytest",
+  "pytest-cov",
+]
+[tool.hatch.envs.default.scripts]
+cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=pysparql_anything --cov=tests {args}"
+no-cov = "cov --no-cov {args}"
+
+[[tool.hatch.envs.test.matrix]]
+python = ["37", "38", "39", "310", "311"]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+omit = [
+  "src/pysparq_lanything/__about__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
