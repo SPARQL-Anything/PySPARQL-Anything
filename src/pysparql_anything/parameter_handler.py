@@ -1,6 +1,6 @@
 """
 @author Marco Ratta
-@version 04/02/2023
+@version 09/02/2023
 """
 
 
@@ -28,23 +28,23 @@ class ParameterHandler:
         the main method from the attributes of this parameter object.
         """
         args = []
-        state = vars(self)
-        if state.get('query') != '':
+        #  Dictionary representation of the state of the object.
+        state = dict(filter(pop_empty, vars(self).items())) 
+        if state.get('query') != None:
             args.append('-' + 'q')
             args.append(state.get('query'))
             state.pop('query')
         else:
             print('Invalid argument given. Flag "q" must be passed.')
             return args
-        if state.get('values') != '':  # Then it is a list.
+        if state.get('values') != None:  # Then it is a list.
             for value in state.get('values'):
                 args.append('-' + 'v')
                 args.append(value)
             state.pop('values')
         for field in state:  # Loops though the remaining flags.
-            if (state.get(field) != '') and (field != 'receiver'):
-                args.append('-' + field[0:1])
-                args.append(state.get(field))
+            args.append('-' + field[0:1])
+            args.append(state.get(field))
         return args
 
     def __query(self, kwargs: dict) -> str:
@@ -88,3 +88,6 @@ class ParameterHandler:
     def set_format(self, a_format: str) -> None:
         """ Setter method for the self.format field."""
         self.format = a_format
+
+#  Lambdas
+pop_empty = lambda x: x[1] != '' #  Predicate.

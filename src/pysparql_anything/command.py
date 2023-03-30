@@ -4,33 +4,29 @@
 """
 
 import json
-from typing import Protocol, TypeVar, Any
+from typing import Protocol
 from rdflib import Graph
 from pysparql_anything.parameter_handler import ParameterHandler
 from pysparql_anything.engine import Engine
 
-# Type aliases
-Engine = TypeVar('Engine', bound=Engine)
-RdflibGraph = TypeVar('RdflibGraph', bound=Graph)
-
 
 class Command(Protocol):
-    """ Protocol to define the interface of a command request"""
+    """ Protocol to define the interface of a command request. """
 
-    def execute(self) -> Any:
-        """ Execute method to be overridden by the implementing calsses"""
+    def execute(self):
+        """ Execute method to be overridden by the implementing classes. """
 
 
 class AskCommand:
-    """ Implements the Command protocol for an ask request """
+    """ Implements the Command protocol for an ASK request. """
 
     def __init__(self, kwargs: dict, receiver: Engine):
-        """ Constructor for the AskCommand concrete class."""
+        """ Initialiser for the AskCommand concrete class. """
         self.handler = ParameterHandler(kwargs)
         self.receiver = receiver
 
     def execute(self) -> bool:
-        """ instructions for an ask request """
+        """ Instructions for an ASK request. """
         self.handler.set_format('xml')
         args = self.handler.combine()
         string = self.receiver.call_main(args)
@@ -38,15 +34,15 @@ class AskCommand:
 
 
 class ConstructCommand:
-    """ Implements the Command class for a construct request """
+    """ Implements the Command protocol for a CONSTRUCT request. """
 
     def __init__(self, kwargs: dict, receiver: Engine):
-        """ Constructor for the ConstructCommand concrete class."""
+        """ Initialiser for the ConstructCommand concrete class. """
         self.handler = ParameterHandler(kwargs)
         self.receiver = receiver
 
-    def execute(self) -> RdflibGraph:
-        """ instructions for a construct request """
+    def execute(self) -> Graph:
+        """ Instructions for a CONSTRUCT request. """
         args = self.handler.combine()
         string = self.receiver.call_main(args)
         graph = Graph().parse(data=string)
@@ -54,15 +50,15 @@ class ConstructCommand:
 
 
 class SelectCommand:
-    """ Implements the Command class for a select request """
+    """ Implements the Command protocol for a SELECT request. """
 
     def __init__(self, kwargs: dict, receiver: Engine):
-        """ Constructor for the SelectCommand concrete class."""
+        """ Initialiser for the SelectCommand concrete class."""
         self.handler = ParameterHandler(kwargs)
         self.receiver = receiver
 
     def execute(self) -> dict:
-        """ instructions for a select request """
+        """ Instructions for a SELECT request. """
         self.handler.set_format('json')
         args = self.handler.combine()
         string = self.receiver.call_main(args)
@@ -70,14 +66,14 @@ class SelectCommand:
 
 
 class RunCommand:
-    """ Implements the Command class for a run request """
+    """ Implements the Command protocol for a RUN request. """
 
     def __init__(self, kwargs: dict, receiver: Engine):
-        """ Constructor for the RunCommand concrete class."""
+        """ Initialiser for the RunCommand concrete class. """
         self.handler = ParameterHandler(kwargs)
         self.receiver = receiver
 
     def execute(self) -> None:
-        """ instructions for a run request """
+        """ Instructions for a RUN request. """
         args = self.handler.combine()
         self.receiver.main(args)

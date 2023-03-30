@@ -3,6 +3,8 @@
 @version 05/02/2023
 """
 
+from typing import Any
+from rdflib import Graph
 import pysparql_anything.command as cmd
 from pysparql_anything.engine import Engine
 from  pysparql_anything.invoker import Invoker
@@ -17,17 +19,17 @@ class SparqlAnything:
     """
 
     def __init__(self):
-        """ initialiser for the class SparqlAnything."""
+        """ Initialiser for the class SparqlAnything."""
         self.receiver = Engine()
         self.invoker = Invoker()
 
-    def run(self, **kwargs):
+    def run(self, **kwargs: Any) -> None:
         """ The run method replaces the regular command line execution. """
         command = cmd.RunCommand(kwargs, self.receiver)
         self.invoker.set_command(command)
         return self.invoker.run_query()
 
-    def select(self, **kwargs):
+    def select(self, **kwargs: Any) -> dict:
         """ The select method enables one to run a SELECT query and return
         the result as a Python dictionary.
         """
@@ -35,7 +37,7 @@ class SparqlAnything:
         self.invoker.set_command(command)
         return self.invoker.run_query()
 
-    def ask(self, **kwargs):
+    def ask(self, **kwargs: Any) -> bool:
         """ The ask method enables one to run an ASK query and return the
         result as a Python boolean True or False.
         """
@@ -43,7 +45,7 @@ class SparqlAnything:
         self.invoker.set_command(command)
         return self.invoker.run_query()
 
-    def construct(self, **kwargs):
+    def construct(self, **kwargs: Any) -> Graph:
         """ The construct method enables one to run a CONSTRUCT query and
         return the result as a rdflib graph object.
         """
