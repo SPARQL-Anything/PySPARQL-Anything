@@ -1,5 +1,5 @@
 # PySPARQL Anything
-###### A Python CLI for SPARQL Anything
+###### The SPARQL Anything Python Library
 
 ## User Guide
 
