@@ -1,5 +1,6 @@
 """
 Manages the package's namespace, helps the installation process of the API.
+
 @author Marco Ratta
 @version 31/01/2023
 """

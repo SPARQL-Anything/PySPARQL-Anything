@@ -4,7 +4,7 @@ For the construction of this script, files from the book 'Learning SPARQL'
 by Bob DuCharme have been used.
 
 @author Marco Ratta
-@version 16/01/2021 
+@version 16/01/2023
 """
 
 import unittest
