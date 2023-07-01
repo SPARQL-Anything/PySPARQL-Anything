@@ -7,7 +7,7 @@ import json
 from typing import Protocol
 from rdflib import Graph
 from pysparql_anything.parameter_handler import ParameterHandler
-from pysparql_anything.engine import Engine
+from pysparql_anything.sparql_anything_reflection import SparqlAnythingReflection
 
 
 class Command(Protocol):
@@ -20,7 +20,7 @@ class Command(Protocol):
 class AskCommand:
     """ Implements the Command protocol for an ASK request. """
 
-    def __init__(self, kwargs: dict, receiver: Engine):
+    def __init__(self, kwargs: dict, receiver: SparqlAnythingReflection):
         """ Initialiser for the AskCommand concrete class. """
         self.handler = ParameterHandler(kwargs)
         self.receiver = receiver
@@ -36,7 +36,7 @@ class AskCommand:
 class ConstructCommand:
     """ Implements the Command protocol for a CONSTRUCT request. """
 
-    def __init__(self, kwargs: dict, receiver: Engine):
+    def __init__(self, kwargs: dict, receiver: SparqlAnythingReflection):
         """ Initialiser for the ConstructCommand concrete class. """
         self.handler = ParameterHandler(kwargs)
         self.receiver = receiver
@@ -52,7 +52,7 @@ class ConstructCommand:
 class SelectCommand:
     """ Implements the Command protocol for a SELECT request. """
 
-    def __init__(self, kwargs: dict, receiver: Engine):
+    def __init__(self, kwargs: dict, receiver: SparqlAnythingReflection):
         """ Initialiser for the SelectCommand concrete class."""
         self.handler = ParameterHandler(kwargs)
         self.receiver = receiver
@@ -68,7 +68,7 @@ class SelectCommand:
 class RunCommand:
     """ Implements the Command protocol for a RUN request. """
 
-    def __init__(self, kwargs: dict, receiver: Engine):
+    def __init__(self, kwargs: dict, receiver: SparqlAnythingReflection):
         """ Initialiser for the RunCommand concrete class. """
         self.handler = ParameterHandler(kwargs)
         self.receiver = receiver
