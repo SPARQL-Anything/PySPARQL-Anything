@@ -38,8 +38,7 @@ class SparqlAnything:
         flags for the Sparql Anything CLI, minus the hyphen.
         See the User Guide for an example.
         """
-        command = cmd.RunCommand(kwargs, self.receiver)
-        command.execute()
+        cmd.execute_run(kwargs, self.receiver)
 
     def select(self, **kwargs) -> dict:
         """
@@ -52,8 +51,7 @@ class SparqlAnything:
         flags for the Sparql Anything CLI, minus the hyphen.
         See the User Guide for an example.
         """
-        command = cmd.SelectCommand(kwargs, self.receiver)
-        return command.execute()
+        return cmd.execute_select(kwargs, self.receiver)
 
     def ask(self, **kwargs) -> bool:
         """
@@ -66,8 +64,7 @@ class SparqlAnything:
         flags for the Sparql Anything CLI, minus the hyphen.
         See the User Guide for an example.
         """
-        command = cmd.AskCommand(kwargs, self.receiver)
-        return command.execute()
+        return cmd.execute_ask(kwargs, self.receiver)
 
     def construct(self, **kwargs) -> Graph:
         """
@@ -80,5 +77,4 @@ class SparqlAnything:
         flags for the Sparql Anything CLI, minus the hyphen.
         See the User Guide for an example.
         """
-        command = cmd.ConstructCommand(kwargs, self.receiver)
-        return command.execute()
+        return cmd.execute_construct(kwargs, self.receiver)

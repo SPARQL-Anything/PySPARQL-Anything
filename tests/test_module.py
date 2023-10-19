@@ -8,7 +8,7 @@ by Bob DuCharme have been used.
 """
 
 import unittest
-import pysparql_anything as cli
+import pysparql_anything as pysa
 from rdflib import Graph
 
 
@@ -29,15 +29,37 @@ class PySparqlAPITestCase(unittest.TestCase):
         self.assertEqual(len(x_2 - g_2), 0)
 
     def test_select(self):
-        d_1 = {'head': {'vars': ['seriesName']},
-               'results': {'bindings': [{'seriesName': {'type': 'literal', 'value': 'Cougar Town'}}, {'seriesName': {'type': 'literal', 'value': 'Friends'}}]}
+        d_1 = {
+            'head': {'vars': ['seriesName']},
+            'results': {
+                'bindings': [{
+                        'seriesName': {
+                            'type': 'literal',
+                            'value': 'Cougar Town'
+                        }
+                    },
+                    {'seriesName': {'type': 'literal', 'value': 'Friends'}}
+                ]
+            }
         }
-        d_2 = {'head': {'vars': ['first', 'last', 'workTel']},
-               'results': {'bindings': [{'first': {'type': 'literal', 'value': 'Craig'}, 'last': {'type': 'literal', 'value': 'Ellis'}, 'workTel': {'type': 'literal', 'value': '(245) 315-5486'}}]}
+        d_2 = {
+            'head': {'vars': ['first', 'last', 'workTel']},
+            'results': {
+                'bindings': [{
+                    'first': {'type': 'literal', 'value': 'Craig'},
+                    'last': {'type': 'literal', 'value': 'Ellis'},
+                    'workTel': {'type': 'literal', 'value': '(245) 315-5486'}
+                }]
+            }
         }
-        self.assertEqual(engine.select(q='queries/select/testSelect.sparql'), d_1)
-        self.assertEqual(engine.select(q='queries/select/ex055.rq', l='ex054.ttl'), d_2)
+        self.assertEqual(
+            engine.select(q='queries/select/testSelect.sparql'), d_1
+        )
+        self.assertEqual(
+            engine.select(q='queries/select/ex055.rq', l='ex054.ttl'), d_2
+        )
+
 
 if __name__ == '__main__':
-    engine = cli.SparqlAnything()
+    engine = pysa.SparqlAnything()
     unittest.main(verbosity=2)

@@ -7,13 +7,14 @@ Manages the package's namespace, helps the installation process of the API.
 
 import requests
 from github.GithubException import RateLimitExceededException
-from pysparql_anything import config
+from pysparql_anything import utilities
+
 # Checks if SPARQL Anything is not installed. Installs it if so.
 try:
-    if not config.has_jar():  # SPARQL Anything not installed.
+    if not utilities.has_jar():  # SPARQL Anything not installed.
         print('No SPARQL Anything jar has been found'
               + ' in the installation folder.')
-        config.download_jar()
+        utilities.download_jar()
 except requests.ConnectionError as err:
     print(f' A {type(err)} exception has been raised. \n'
           + 'Installation unsuccessful!!!')

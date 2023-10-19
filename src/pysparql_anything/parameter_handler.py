@@ -1,93 +1,55 @@
-"""
+'''
+This module contains a set of functions whose objective is to change the form 
+of theparameters passed to the SparqlAnything methods into the form required by
+the Java methods reflected, i.e. main(String[]) and callMain(String[]).
+
 @author Marco Ratta
-@version 09/02/2023
-"""
+@version 15/07/2023
+'''
 
 
-class ParameterHandler:
-    """ Class to handle the processing of the query paramters passed
-    to the CLI/API methods.
-    """
-
-    def __init__(self, kwargs: dict):
-        """ Initialiser for the ParameterHandler class.
-        Stores the passed parameters and processes them to the form
-        required by the SPARQL Anything Main class.
-        """
-        self.query = self.__query(kwargs)
-        self.output = self.__output(kwargs)
-        self.explain = self.__explain(kwargs)
-        self.load = self.__load(kwargs)
-        self.format = self.__format(kwargs)
-        self.strategy = self.__strategy(kwargs)
-        self.pattern = self.__pattern(kwargs)
-        self.values = self.__values(kwargs)
-
-    def combine(self) -> list[str]:
-        """ Constructs the appropriate String array to pass to
-        the main method from the attributes of this parameter object.
-        """
-        args = []
-        #  Dictionary representation of the state of the object.
-        state = dict(filter(pop_empty, vars(self).items())) 
-        if state.get('query') != None:
-            args.append('-' + 'q')
-            args.append(state.get('query'))
-            state.pop('query')
-        else:
-            print('Invalid argument given. Flag "q" must be passed.')
-            return args
-        if state.get('values') != None:  # Then it is a list.
-            for value in state.get('values'):
-                args.append('-' + 'v')
-                args.append(value)
-            state.pop('values')
-        for field in state:  # Loops though the remaining flags.
-            args.append('-' + field[0:1])
-            args.append(state.get(field))
+def transform_parameters(kwargs: dict) -> list[str]:
+    # Takes the dict and returns the sorted parameters
+    args = []
+    parameters = sort_kwargs(kwargs)
+    if parameters.get('query') is not None:
+        args.append('-' + 'q')
+        args.append(parameters.get('query'))
+        parameters.pop('query')
+    else:
+        print('Invalid argument given. Flag "q" must be passed.')
         return args
+    if parameters.get('values') is not None:  # Then it is a list.
+        for value in parameters.get('values'):
+            args.append('-' + 'v')
+            args.append(value)
+        parameters.pop('values')
+    for flag in parameters:  # Loops though the remaining flags.
+        args.append('-' + flag[0:1])
+        args.append(parameters.get(flag))
+    return args
 
-    def __query(self, kwargs: dict) -> str:
-        """ Processes the query parameter. """
-        return kwargs.get('q', '')
 
-    def __output(self, kwargs: dict) -> str:
-        """ Processes the output parameter. """
-        return kwargs.get('o', '')
+def sort_kwargs(kwargs: dict) -> dict:
+    # takes the dict and sorts it.
+    new = dict()
+    new['query'] = kwargs.get('q', '')
+    new['output'] = kwargs.get('o', '')
+    new['explain'] = kwargs.get('e', '')
+    new['load'] = kwargs.get('l', '')
+    new['format'] = kwargs.get('f', '')
+    new['strategy'] = kwargs.get('s', '')
+    new['pattern'] = kwargs.get('p', '')
+    new['values'] = values(kwargs)
+    return dict(filter(lambda x: x[1] != '', new.items()))
 
-    def __explain(self, kwargs: dict) -> str:
-        """ Processes the explain parameter. """
-        return kwargs.get('e', '')
 
-    def __load(self, kwargs: dict) -> str:
-        """ Processes the load parameter. """
-        return kwargs.get('l', '')
-
-    def __format(self, kwargs: dict) -> str:
-        """ Processes the format parameter. """
-        return kwargs.get('f', '')
-
-    def __strategy(self, kwargs: dict) -> str:
-        """ Processes the strategy parameter. """
-        return kwargs.get('s', '')
-
-    def __pattern(self, kwargs: dict) -> str:
-        """ Processes the pattern parameter. """
-        return kwargs.get('p', '')
-
-    def __values(self, kwargs: dict) -> list[str] | str:
-        """ Processes the values parameter. """
-        values = kwargs.get('v', '')
-        if values != '':
-            params = []
-            for key, value in values.items():
-                params.append(key + '=' + value)
-            return params
-        return values
-
-    def set_format(self, a_format: str) -> None:
-        """ Setter method for the self.format field."""
-        self.format = a_format
-
-#  Lambdas
-pop_empty = lambda x: x[1] != '' #  Predicate.
+def values(kwargs: dict) -> list[str] | str:
+    """ Processes the values parameter. """
+    values = kwargs.get('v', '')
+    if values != '':
+        params = []
+        for key, value in values.items():
+            params.append(key + '=' + value)
+        return params
+    return values

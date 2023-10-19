@@ -4,4 +4,4 @@ SPARQL Anything, the last number to the independent PySPARQL Anything
 releases.
 """
 
-__version__ = '0.8.1.1'
+__version__ = '0.8.2.1'

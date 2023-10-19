@@ -7,7 +7,7 @@ reflection of the SPARQLAnything class into Python.
 """
 
 import jnius_config
-from pysparql_anything.config import get_path2jar
+from pysparql_anything.utilities import get_path2jar
 
 
 class SparqlAnythingReflection:
