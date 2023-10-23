@@ -1,15 +1,21 @@
 '''
-This module contains a set of functions whose objective is to change the form 
-of theparameters passed to the SparqlAnything methods into the form required by
-the Java methods reflected, i.e. main(String[]) and callMain(String[]).
+This module contains the functions that change the form of the arguments
+given to the SparqlAnything methods into the form required by
+the reflected Java methods, i.e. main(String[]) and callMain(String[]).
 
 @author Marco Ratta
-@version 15/07/2023
+@version 23/10/2023
 '''
 
 
 def transform_parameters(kwargs: dict) -> list[str]:
-    # Takes the dict and returns the sorted parameters
+    '''
+    This method is the interface of this module. It transforms the request's
+    arguments, passed as a dictionary, into the list[str] required by the Java
+    methods.\n
+    Arguments:\n
+    kwargs - a dictionary containing the request's arguments.
+    '''
     args = []
     parameters = sort_kwargs(kwargs)
     if parameters.get('query') is not None:
@@ -31,7 +37,12 @@ def transform_parameters(kwargs: dict) -> list[str]:
 
 
 def sort_kwargs(kwargs: dict) -> dict:
-    # takes the dict and sorts it.
+    '''
+    Processes the passed dictionary and filters out the optional arguments that
+    have not been specified by the user or client.\n
+    Arguments:\n
+    kwargs - a dictionary containing the request's arguments.
+    '''
     new = dict()
     new['query'] = kwargs.get('q', '')
     new['output'] = kwargs.get('o', '')
@@ -45,7 +56,11 @@ def sort_kwargs(kwargs: dict) -> dict:
 
 
 def values(kwargs: dict) -> list[str] | str:
-    """ Processes the values parameter. """
+    '''
+    Processes the values ('v') argument.\n
+    Arguments:\n
+    kwargs - a dictionary containing the request's arguments.
+    '''
     values = kwargs.get('v', '')
     if values != '':
         params = []
