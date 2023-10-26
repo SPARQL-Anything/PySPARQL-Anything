@@ -1,5 +1,5 @@
 """
-Module containing the SparqlAnything class. This class provides access to 
+Module containing the SparqlAnything class. This class provides access to
 the functionalities of the SPARQL Anything technology to Python users and
 clients.
 
@@ -9,7 +9,7 @@ clients.
 
 from rdflib import Graph
 import pysparql_anything.command as cmd
-from pysparql_anything.sparql_anything_reflection import SparqlAnythingReflection
+from pysparql_anything.sparql_anything_reflection import SPARQLAnythingReflection
 
 
 class SparqlAnything:
@@ -20,13 +20,13 @@ class SparqlAnything:
     method and provides extra Python specific features.
     """
 
-    def __init__(self, *jvm_options: str):
+    def __init__(self, *jvm_options: str) -> None:
         """
         Initialiser for the class SparqlAnything.\n
         Arguments:\n
         *jvm_options - the options to be passed to the JVM before launch.
         """
-        self.receiver = SparqlAnythingReflection(jvm_options)
+        self.receiver = SPARQLAnythingReflection(jvm_options)
 
     def run(self, **kwargs) -> None:
         """

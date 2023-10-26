@@ -9,14 +9,15 @@ each of the commands of the PySPARQL Anything interface.
 import json
 from rdflib import Graph
 from pysparql_anything.parameter_handler import transform_parameters
-from pysparql_anything.sparql_anything_reflection import SparqlAnythingReflection
+from pysparql_anything.sparql_anything_reflection import SPARQLAnythingReflection
 
 
-def execute_ask(kwargs: dict, receiver: SparqlAnythingReflection) -> bool:
+def execute_ask(kwargs: dict, receiver: SPARQLAnythingReflection) -> bool:
     '''
     Contains the instructions for the ASK command and executes them.\n
     Arguments: \n
-    kwargs - a dictionary containing the SPARQL Anything ASK request parameters.\n
+    kwargs - a dictionary containing the SPARQL Anything ASK request
+        parameters.\n
     receiver - a SPARQL Anything reflection object.
     '''
     kwargs['f'] = 'xml'
@@ -25,11 +26,12 @@ def execute_ask(kwargs: dict, receiver: SparqlAnythingReflection) -> bool:
     return bool('<boolean>true</boolean>' in string)
 
 
-def execute_construct(kwargs: dict, receiver: SparqlAnythingReflection) -> Graph:
+def execute_construct(kwargs: dict, receiver: SPARQLAnythingReflection) -> Graph:
     '''
     Contains the instructions for the CONSTRUCT command and executes them.\n
     Arguments: \n
-    kwargs - a dictionary containing the SPARQL Anything CONSTRUCT request parameters.\n
+    kwargs - a dictionary containing the SPARQL Anything CONSTRUCT request
+        parameters.\n
     receiver - a SPARQL Anything reflection object.
     '''
     args = transform_parameters(kwargs)
@@ -38,11 +40,12 @@ def execute_construct(kwargs: dict, receiver: SparqlAnythingReflection) -> Graph
     return graph
 
 
-def execute_select(kwargs: dict, receiver: SparqlAnythingReflection) -> dict:
+def execute_select(kwargs: dict, receiver: SPARQLAnythingReflection) -> dict:
     '''
     Contains the instructions for the SELECT command and executes them.\n
     Arguments: \n
-    kwargs - a dictionary containing the SPARQL Anything SELECT request parameters.\n
+    kwargs - a dictionary containing the SPARQL Anything SELECT request
+        parameters.\n
     receiver - a SPARQL Anything reflection object.
     '''
     kwargs['f'] = 'json'
@@ -51,11 +54,12 @@ def execute_select(kwargs: dict, receiver: SparqlAnythingReflection) -> dict:
     return json.loads(string)
 
 
-def execute_run(kwargs: dict, receiver: SparqlAnythingReflection) -> None:
+def execute_run(kwargs: dict, receiver: SPARQLAnythingReflection) -> None:
     '''
     Contains the instructions for the RUN command and executes it.\n
     Arguments: \n
-    kwargs - a dictionary containing the SPARQL Anything RUN request parameters.\n
+    kwargs - a dictionary containing the SPARQL Anything RUN request
+        parameters.\n
     receiver - a SPARQL Anything reflection object.
     '''
     args = transform_parameters(kwargs)
