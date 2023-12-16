@@ -4,9 +4,10 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pysparql_anything"
-description = 'A Python based CLI for SPARQL Anything'
+description = 'The SPARQL Anything Python library.'
+dynamic = ["version"]
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">= 3.9"
 license = "Apache-2.0"
 keywords = [
     "SPARQL",
@@ -21,14 +22,13 @@ authors = [
   { name = "Enrico Daga", email = "" }
 ]
 maintainers = [
-  { name = "Marco Ratta", email = "" },
-  { name = "Enrico Daga", email = "" }
+  { name = "Marco Ratta", email = "marco.ratta@open.ac.uk" },
+  { name = "Enrico Daga", email = "enrico.daga@open.ac.uk" }
 ]
 classifiers = [
-  "Development Status :: 4 - Beta",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
+  "Development Status :: 5 - Production/Stable",
+  "Operating System :: OS Independent",
+  "License :: OSI Approved :: Apache-2.0",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -36,13 +36,12 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-    "rdflib",
-    "pyjnius",
-    "requests",
-    "PyGithub >= 1.57",
-    "tqdm"
+    "rdflib == 6.3.1",
+    "pyjnius == 1.6.0",
+    "requests == 2.28.2",
+    "PyGithub == 1.58.1",
+    "tqdm == 4.65.0"
 ]
-dynamic = ["version"]
 
 [project.urls]
 Documentation = "https://github.com/SPARQL-Anything/PySPARQL-Anything/blob/main/README.md"
@@ -70,9 +69,6 @@ python = ["37", "38", "39", "310", "311"]
 [tool.coverage.run]
 branch = true
 parallel = true
-omit = [
-  "src/pysparq_lanything/__about__.py",
-]
 
 [tool.coverage.report]
 exclude_lines = [

@@ -2,7 +2,7 @@
 Manages the package's namespace, helps the installation process of the API.
 
 @author Marco Ratta
-@version 31/01/2023
+@version 16/12/2023
 """
 
 import requests
@@ -15,7 +15,7 @@ from pysparql_anything.__about__ import __SparqlAnything__, __uri__, __version__
 try:
     if not utilities.has_jar():  # SPARQL Anything not installed.
         print(f'Welcome to PySPARQL Anything {__version__}, the SPARQL '
-              + 'Anything Python module.')
+              + 'Anything Python library.')
         print('No SPARQL Anything jar has been found'
               + ' in the installation folder.')
         utilities.download_sparql_anything(
