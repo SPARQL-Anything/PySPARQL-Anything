@@ -89,7 +89,7 @@ def download_sparql_anything(ghub: Github, uri: str, version: str) -> None:
               + f'a {type(exc)} exception and passed it on.')
         raise
     except RateLimitExceededException as exc:
-        print('WARNING !!! download_sparql_anything()raised a '
+        print('WARNING !!! download_sparql_anything() raised a '
               + f'{type(exc)} exception and passed it on.')
         raise
 
@@ -125,6 +125,6 @@ def remove_sparql_anything():
         os.remove(get_path2jar())
         print("SPARQL Anything sucessfully removed")
     except FileNotFoundError as err:
-        print('WARNING !!! download_jar()raised a '
+        print('WARNING !!! remove_sparql_anything() raised a '
               + f'{type(err)} exception and re-raised it.')
         raise
