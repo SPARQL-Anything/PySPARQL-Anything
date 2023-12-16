@@ -3,7 +3,7 @@ Configuration and utilities module for PySPARQL Anything.
 Aids the installation and maintainment process of the API.
 Interacts with the SPARQL Anything GitHub repository.
 @author Marco Ratta
-@version 31/01/2023
+@version 16/12/2023
 """
 
 import os
@@ -19,24 +19,28 @@ def has_jar():
     the installation folder.
     @return A diagnostic Boolean
     """
-    files = os.listdir(get_path())
+    files = os.listdir(get_module_path())
     for file in files:
         if '.jar' in file:
             return True
     return False
 
 
-def get_url():
+def get_release_uri(ghub: Github, uri: str, version: str) -> str:
     """
-    Retrieves the download url for latest SPARQL Anything release.
-    @return The URL to the jar for the latest SPARQL Anything release
-    as a String.
-    @raises RateLimitExceededException
+    Retrieves the download url for latest SPARQL Anything release.\n
+    Args:\n
+    ghub - A pyGithub Main object. \n
+    uri - the Sparql Anything repo uri. \n
+    version - the Sparql Anything version to be downloaded. \n
+    Returns:\n
+    The URL to the jar for the latest SPARQL Anything release
+    as a String.\n
+    Raises:\n
+    RateLimitExceededException: github.GithubException
     """
-    ghub = Github()
-    uri = 'SPARQL-Anything/sparql.anything'
     try:
-        release = ghub.get_repo(uri).get_latest_release()
+        release = ghub.get_repo(uri).get_release(version)
         assets = release.get_assets()
         jar = ''
         for asset in assets:
@@ -44,43 +48,32 @@ def get_url():
                 jar = asset
         return jar.browser_download_url
     except RateLimitExceededException as exc:
-        print('WARNING !!! get_url()raised a '
+        print('WARNING !!! get_release_url() raised a '
               + f'{type(exc)} exception and passed it on.')
         raise
 
 
-def get_latest_release_title():
+def download_sparql_anything(ghub: Github, uri: str, version: str) -> None:
     """
-    Retrieves the latest release version of SPARQL Anything available.
-    @return A String containing the latest release version.
-    @raises RateLimitExceededException
+    Downloads the passed version of the SPARQL Anything jar to the PySPARQL
+    Anything installation folder.\n
+    Args:\n
+    ghub - A pyGithub Main object. \n
+    uri - the Sparql Anything repo uri. \n
+    version - the Sparql Anything version to be downloaded. \n
+    Raises: \n
+    ConnectionError and Timeout.
     """
-    ghub = Github()
-    uri = 'SPARQL-Anything/sparql.anything'
     try:
-        release = ghub.get_repo(uri).get_latest_release()
-        return release.title
-    except RateLimitExceededException as exc:
-        print('WARNING !!! get_latest_release_title()raised a '
-              + f'{type(exc)} exception and passed it on.')
-        raise
-
-
-def download_jar():
-    """
-    Downloads the latest SPARQL Anything jar to the PySPARQL Anything
-    installation folder.
-    @raises ConnectionError and Timeout
-    """
-    print('Downloading the latest SPARQL Anything jar, please wait...')
-    try:
-        version = get_latest_release_title()
-        path2jar = os.path.join(get_path(), f'sparql-anything-{version}.jar')
-        request = requests.get(get_url(), stream=True, timeout=10.0)
+        print(f'Downloading SPARQL Anything {version}')
+        path2jar = os.path.join(
+            get_module_path(), f'sparql-anything-{version}.jar'
+        )
+        dl_link = get_release_uri(ghub, uri, version)
+        request = requests.get(dl_link, stream=True, timeout=10.0)
         length = int(request.headers.get('content-length', 0))
         with open(path2jar, 'wb') as jar:
-            with tqdm(desc=f'Downloading SPARQL Anything {version}',
-                      total=length, unit='iB', unit_scale=True,
+            with tqdm(colour='green', total=length, unit='iB', unit_scale=True,
                       unit_divisor=1024) as pbar:
                 for data in request.iter_content(chunk_size=1024):
                     size = jar.write(data)
@@ -88,20 +81,20 @@ def download_jar():
         print('The Download was successful!')
         print('The system is now ready for use!')
     except requests.ConnectionError as err:
-        print('WARNING!!! download_jar() caught '
+        print('WARNING!!! download_sparql_anything() caught '
               + f'a {type(err)} exception and passed it on.')
         raise
     except requests.Timeout as exc:
-        print('WARNING!!! download_jar() caught '
+        print('WARNING!!! download_sparql_anything() caught '
               + f'a {type(exc)} exception and passed it on.')
         raise
     except RateLimitExceededException as exc:
-        print('WARNING !!! download_jar()raised a '
+        print('WARNING !!! download_sparql_anything()raised a '
               + f'{type(exc)} exception and passed it on.')
         raise
 
 
-def get_path():
+def get_module_path():
     """
     Function to return the path to the PySPARQL Anything installation folder.
     @return The path String to the PySPARQL Anything installation folder.
@@ -116,15 +109,15 @@ def get_path2jar():
     installation folder.
     @return The path String to the SPARQL Anything jar in use.
     """
-    files = os.listdir(get_path())
+    files = os.listdir(get_module_path())
     path = ''
     for file in files:
         if '.jar' in file:
-            path = os.path.join(get_path(), file)
+            path = os.path.join(get_module_path(), file)
     return path
 
 
-def remove_jar():
+def remove_sparql_anything():
     """ Removes the SPARQL Anything jar from the installation folder
     @raises FileNotFoundError
     """
