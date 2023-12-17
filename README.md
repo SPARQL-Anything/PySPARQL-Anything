@@ -8,9 +8,9 @@
    3. [Keyword Arguments](#kwargs)
 3. [API](#api)
 
-## USER GUIDE <a name="user_guide"></a>
+## 1. USER GUIDE <a name="user_guide"></a>
 
-###### INSTALLATION <a name="installation"></a>
+### 1.1. INSTALLATION <a name="installation"></a>
 
 To install PySPARQL Anything on your machine type the following in your command prompt:
 ```powershell
@@ -28,7 +28,7 @@ $ python
 $ pip uninstall pysparql-anything
 ```
 
-###### BASIC USAGE <a name="basic_usage"></a>
+### 1.2. BASIC USAGE <a name="basic_usage"></a>
 
 1) Open the command prompt with the current working directory set to the main folder of a SPARQL Anything project.
 
@@ -54,7 +54,7 @@ If the SPARQL Anything jar isn't installed in the API's folder it will now be do
 >>> engine.run(**kwargs)
 ```
 
-###### KEYWORD ARGUMENTS <a name="kwargs"></a>
+### 1.3. KEYWORD ARGUMENTS <a name="kwargs"></a>
 
 The keyword arguments to be passed to any of the PySPARQL Anything methods are the same as those of the regular SPARQL Anything CLI [1]
 
@@ -111,7 +111,7 @@ The currently supported arguments are as follows.
 
 [1] See https://github.com/SPARQL-Anything/sparql.anything#command-line-interface-cli for more information.
 
-## API <a name="api"></a>
+## 2. API <a name="api"></a>
 
 All of PySPARQL Anything functionalities can be accessed via the following four methods of the class 
 ``` pysparql_anything.sparql_anything.SparqlAnything ```.
@@ -130,7 +130,7 @@ NOTE: the ```*jvm_options``` are final. Once they are set they cannot be changed
 This limitation is unfortunately due to the nature of the interaction between the JVM and the Python environment.
 Please see [#6](https://github.com/SPARQL-Anything/PySPARQL-Anything/issues/6) for more information on this issue.
 
-###### METHODS
+### 2.1. METHODS
 ``` python
 SparqlAnything.run(**kwargs) -> None
 ```
