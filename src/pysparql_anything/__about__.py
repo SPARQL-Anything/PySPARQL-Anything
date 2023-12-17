@@ -5,8 +5,8 @@ releases.
 """
 
 # PySPARQL Anything version variable
-__version__ = '0.8.1.2'
+__version__ = '0.8.2.1'
 
 # SPARQL Anything metadata
-__SparqlAnything__ = 'v0.8.1'
+__SparqlAnything__ = 'v0.8.2'
 __uri__ = 'SPARQL-Anything/sparql.anything'
