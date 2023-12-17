@@ -1,9 +1,16 @@
 # PySPARQL Anything
 ###### The SPARQL Anything Python Library
 
-## USER GUIDE
+## Table of Contents
+1. [User Guide](#user_guide)
+   1. [Installation](#installation)
+   2. [Basic Usage](#basic_usage)
+   3. [Keyword Arguments](#kwargs)
+3. [API](#api)
 
-###### INSTALLATION 
+## USER GUIDE <a name="user_guide"></a>
+
+###### INSTALLATION <a name="installation"></a>
 
 To install PySPARQL Anything on your machine type the following in your command prompt:
 ```powershell
@@ -21,7 +28,7 @@ $ python
 $ pip uninstall pysparql-anything
 ```
 
-###### BASIC USAGE
+###### BASIC USAGE <a name="basic_usage"></a>
 
 1) Open the command prompt with the current working directory set to the main folder of a SPARQL Anything project.
 
@@ -47,7 +54,7 @@ If the SPARQL Anything jar isn't installed in the API's folder it will now be do
 >>> engine.run(**kwargs)
 ```
 
-###### KEYWORD ARGUMENTS
+###### KEYWORD ARGUMENTS <a name="kwargs"></a>
 
 The keyword arguments to be passed to any of the PySPARQL Anything methods are the same as those of the regular SPARQL Anything CLI [1]
 
@@ -104,7 +111,7 @@ The currently supported arguments are as follows.
 
 [1] See https://github.com/SPARQL-Anything/sparql.anything#command-line-interface-cli for more information.
 
-## API
+## API <a name="api"></a>
 
 All of PySPARQL Anything functionalities can be accessed via the following four methods of the class 
 ``` pysparql_anything.sparql_anything.SparqlAnything ```.
