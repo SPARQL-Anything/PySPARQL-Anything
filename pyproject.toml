@@ -18,12 +18,8 @@ keywords = [
     "linked data"
 ]
 authors = [
-  { name = "Marco Ratta", email = "" },
-  { name = "Enrico Daga", email = "" }
-]
-maintainers = [
-  { name = "Marco Ratta", email = "marco.ratta@open.ac.uk" },
-  { name = "Enrico Daga", email = "enrico.daga@open.ac.uk" }
+  {name = "Marco Ratta", email = "marco.ratta@open.ac.uk"},
+  {name = "Enrico Daga", email = "enrico.daga@open.ac.uk"}
 ]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
