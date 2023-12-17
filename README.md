@@ -8,8 +8,10 @@
    3. [Keyword Arguments](#kwargs)
 2. [API](#api)
    1. [Methods](#methods)
-4. [Development Guide](#dev_guide)
+3. [Development and Maintanance](#dev_guide)
    1. [Building PySPARQL Anything](#build)
+   2. [SPARQL Anything Updates](#sa_updates)
+      
 ## 1. USER GUIDE <a name="user_guide"></a>
 
 ### 1.1. INSTALLATION <a name="installation"></a>
@@ -158,7 +160,7 @@ SparqlAnything.select(**kwargs) -> dict
 
 Executes a SELECT query and returns the result as a Python dictionary. 
 
-## 3. DEVELOPMENT GUIDE <a name="dev_guide"></a>
+## 3. DEVELOPMENT AND MAINTAINANCE <a name="dev_guide"></a>
 
 ### 3.1. Building PySPARQL Anything <a name="build"></a>
 
@@ -191,3 +193,20 @@ To upload the distributions one does
 twine upload dist/*
 ```
 and enter the relevant PyPI credentials for this project. 
+
+### 3.2. SPARQL Anything Updates <a name="sa_updates"></a>
+
+Each version of PySPARQL Anything is tied to a released version of SPARQL Anything. Therefore, when a new version of the latter is released a new release of PySPARQL Anything should follow. 
+
+Assuming that there are no changes in the entry point of SPARQL Anyhing, this process simply involves updating the ```__about__.py``` module of the source code. To do this, simply update the ```__version__``` and ```__SparqlAnything__``` variables with the new values following the given structure.
+
+As an example, to update from ```v0.8.1``` to ```v0.8.2``` of SPARQL Anything, we would have
+```python
+# PySPARQL Anything version variable
+__version__ = '0.8.1.2'  # --> '0.8.2.1'  # PySPARQL version for the build process.
+
+# SPARQL Anything metadata
+__SparqlAnything__ = 'v0.8.1'  # --> 'v0.8.2'  # Downloads v0.8.2 of SPARQL Anything.
+__uri__ = 'SPARQL-Anything/sparql.anything'  # Software's GitHub URI.
+```
+After this build the new distribution files and upload them to PyPI.
