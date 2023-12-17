@@ -198,7 +198,7 @@ and enter the relevant PyPI credentials for this project.
 
 Each version of PySPARQL Anything is tied to a released version of SPARQL Anything. Therefore, when a new version of the latter is released a new release of PySPARQL Anything should follow. 
 
-Assuming that there are no changes in the entry point of SPARQL Anyhing, this process simply involves updating the ```__about__.py``` module of the source code. To do this, simply update the ```__version__``` and ```__SparqlAnything__``` variables with the new values following the given structure.
+Assuming that there are no changes in the entry point of SPARQL Anyhing, this process simply involves updating the ```__about__.py``` module of the source code. To do this, set the ```__version__``` and ```__SparqlAnything__``` variables to the new values following the given structure.
 
 As an example, to update from ```v0.8.1``` to ```v0.8.2``` of SPARQL Anything, we would have
 ```python
