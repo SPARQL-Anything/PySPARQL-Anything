@@ -6,8 +6,12 @@
    1. [Installation](#installation)
    2. [Basic Usage](#basic_usage)
    3. [Keyword Arguments](#kwargs)
-3. [API](#api)
-
+2. [API](#api)
+   1. [Methods](#methods)
+3. [Development and Maintanance](#dev_guide)
+   1. [Building PySPARQL Anything](#build)
+   2. [SPARQL Anything Updates](#sa_updates)
+      
 ## 1. USER GUIDE <a name="user_guide"></a>
 
 ### 1.1. INSTALLATION <a name="installation"></a>
@@ -130,7 +134,7 @@ NOTE: the ```*jvm_options``` are final. Once they are set they cannot be changed
 This limitation is unfortunately due to the nature of the interaction between the JVM and the Python environment.
 Please see [#6](https://github.com/SPARQL-Anything/PySPARQL-Anything/issues/6) for more information on this issue.
 
-### 2.1. METHODS
+### 2.1. METHODS <a name="methods"></a>
 ``` python
 SparqlAnything.run(**kwargs) -> None
 ```
@@ -155,3 +159,54 @@ SparqlAnything.select(**kwargs) -> dict
 ```
 
 Executes a SELECT query and returns the result as a Python dictionary. 
+
+## 3. DEVELOPMENT AND MAINTAINANCE <a name="dev_guide"></a>
+
+### 3.1. Building PySPARQL Anything <a name="build"></a>
+
+To build the source distribution and binary distribution we proceed as follows. 
+
+First, the tools we require are ```build``` as the build frontend, ```hatch``` as the build backend and ```twine``` to upload the distribution files to PyPI.
+
+All of these can be installed via ```pip install x``` if required.
+
+Once the tools are ready, the build metadata can be configured in the ```pyproject.toml``` file. 
+
+NOTE: it is not needed to amend anything in this file for versioning the software, as this is set dynamically (see below for how to perform this).
+
+After the build metadata has been defined, one can proceed to build the distribution archives.
+
+To do this, open the command prompt on the directory containing the ```pyproject.toml``` file and run
+```powershell
+py -m build
+```
+This command should output a lot of text and once completed should generate a ```dist``` directory containing two files:
+```
+dist/
+├── pysparql_anything-0.8.1.2-py3-none-any.whl
+└── pysparql_anything-0.8.1.2.tar.gz
+```
+for example. Here the ```tar.gz``` file is a source distribution whereas the ```.whl``` file is a binary distribution.
+
+To upload the distributions one does 
+```powershell
+twine upload dist/*
+```
+and enter the relevant PyPI credentials for this project. 
+
+### 3.2. SPARQL Anything Updates <a name="sa_updates"></a>
+
+Each version of PySPARQL Anything is tied to a released version of SPARQL Anything. Therefore, when a new version of the latter is released a new release of PySPARQL Anything should follow. 
+
+Assuming that there are no changes in the entry point of SPARQL Anyhing, this process simply involves updating the ```__about__.py``` module of the source code. To do this, set the ```__version__``` and ```__SparqlAnything__``` variables to the new values following the given structure.
+
+As an example, to update from ```v0.8.1``` to ```v0.8.2``` of SPARQL Anything, we would have
+```python
+# PySPARQL Anything version variable
+__version__ = '0.8.1.2'  # --> '0.8.2.1'  # PySPARQL version for the build process.
+
+# SPARQL Anything metadata
+__SparqlAnything__ = 'v0.8.1'  # --> 'v0.8.2'  # Downloads v0.8.2 of SPARQL Anything.
+__uri__ = 'SPARQL-Anything/sparql.anything'  # Software's GitHub URI.
+```
+After this build the new distribution files and upload them to PyPI.
