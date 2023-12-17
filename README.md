@@ -60,7 +60,7 @@ If the SPARQL Anything jar isn't installed in the API's folder it will now be do
 
 ### 1.3. KEYWORD ARGUMENTS <a name="kwargs"></a>
 
-The keyword arguments to be passed to any of the PySPARQL Anything methods are the same as those of the regular SPARQL Anything CLI [1]
+The keyword arguments to be passed to any of the PySPARQL Anything methods are the same as those of the regular SPARQL Anything CLI (See [here](https://github.com/SPARQL-Anything/sparql.anything#command-line-interface-cli) for more info).
 
 For example:
 ```python
@@ -112,8 +112,6 @@ The currently supported arguments are as follows.
                      var_name=var_value. The argument can be passed multiple times and
                      the query repeated for each set of values.
 ```
-
-[1] See https://github.com/SPARQL-Anything/sparql.anything#command-line-interface-cli for more information.
 
 ## 2. API <a name="api"></a>
 
