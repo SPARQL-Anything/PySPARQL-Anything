@@ -16,7 +16,7 @@ try:
     if not utilities.has_jar():  # SPARQL Anything not installed.
         print(f'Welcome to PySPARQL Anything {__version__}, the SPARQL '
               + 'Anything Python library.')
-        print('No SPARQL Anything jar has been found'
+        print('No SPARQL Anything executable jar has been found'
               + ' in the installation folder.')
         utilities.download_sparql_anything(
             Github(), __uri__, __SparqlAnything__

@@ -5,11 +5,12 @@ void main(String[] args) and public static String callMain(String args) methods
 to Python users.
 
 @author Marco Ratta
-@version 23/10/2023
+@version 18/12/2023
 """
 
 import jnius_config
 from pysparql_anything.utilities import get_path2jar
+from pysparql_anything.__about__ import __jarMainPath__
 
 
 class SPARQLAnythingReflection:
@@ -22,7 +23,9 @@ class SPARQLAnythingReflection:
     and assigning it to the 'reflection' field of its instance.
     """
 
-    def __init__(self, jvm_options: tuple[str]) -> None:
+    def __init__(
+            self, jvm_options: tuple[str], jar_main_path: str=__jarMainPath__
+            ) -> None:
         """
         Initialiser for the class SPARQLAnythingReflection.\n
         Arguments:\n
@@ -34,10 +37,9 @@ class SPARQLAnythingReflection:
                 for option in jvm_options:
                     jnius_config.add_options(option)
             jnius_config.set_classpath(get_path2jar())
-            # Starts the JVM and reflects the SPARQLAnything class.
+            # Starts the JVM and reflects the SPARQLAnything class:
             from jnius import autoclass
-            location = 'com.github.sparqlanything.cli.SPARQLAnything'
-            self.reflection = autoclass(location)
+            self.reflection = autoclass(jar_main_path)
         except ValueError as err:
             print('ValueError:', err)
             raise

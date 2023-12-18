@@ -65,7 +65,7 @@ def download_sparql_anything(ghub: Github, uri: str, version: str) -> None:
     ConnectionError and Timeout.
     """
     try:
-        print(f'Downloading SPARQL Anything {version}')
+        print(f'Proceeding to download the SPARQL Anything {version} jar:')
         path2jar = os.path.join(
             get_module_path(), f'sparql-anything-{version}.jar'
         )
