@@ -164,9 +164,9 @@ Executes a SELECT query and returns the result as a Python dictionary.
 
 To build the source distribution and binary distribution we proceed as follows. 
 
-First, the tools we require are ```build``` as the build frontend, ```hatch``` as the build backend and ```twine``` to upload the distribution files to PyPI.
+First, the tools we require are ```hatch``` as the build frontend (which comes with ```hatchling``` as its backend tool) and ```twine``` to upload the distribution files to PyPI.
 
-All of these can be installed via ```pip install x``` if required.
+All of these can be installed via ```pip install hatch``` or ```pip install twine``` if required.
 
 Once the tools are ready, the build metadata can be configured in the ```pyproject.toml``` file. 
 
@@ -176,9 +176,9 @@ After the build metadata has been defined, one can proceed to build the distribu
 
 To do this, open the command prompt on the directory containing the ```pyproject.toml``` file and run
 ```powershell
-py -m build
+hatch build ./dist
 ```
-This command should output a lot of text and once completed should generate a ```dist``` directory containing two files:
+This command should output some text and once completed should generate a ```dist``` directory containing two files:
 ```
 dist/
 ├── pysparql_anything-0.8.1.2-py3-none-any.whl
@@ -192,19 +192,26 @@ twine upload dist/*
 ```
 and enter the relevant PyPI credentials for this project. 
 
+NOTE: this process is not exclusive, and other frontend tools like ```build``` together with ```hatchling``` may be similarly used to generate the distributions. The only limit currently is on sticking with ```hatchling``` as the build backend.
+
 ### 3.2. SPARQL Anything Updates <a name="sa_updates"></a>
 
 Each version of PySPARQL Anything is tied to a released version of SPARQL Anything. Therefore, when a new version of the latter is released a new release of PySPARQL Anything should follow. 
 
-Assuming that there are no changes in the entry point of SPARQL Anyhing, this process simply involves updating the ```__about__.py``` module of the source code. To do this, set the ```__version__``` and ```__SparqlAnything__``` variables to the new values following the given structure.
+This process simply involves updating the ```__about__.py``` module of the source code. To do this, set the ```__version__```, ```__SparqlAnything__```  and ```__jarMainPath__``` variables to the new values following the given structure.
 
-As an example, to update from ```v0.8.1``` to ```v0.8.2``` of SPARQL Anything, we would have
+As an example, to update from ```0.9.0``` to say ```0.9.1``` of SPARQL Anything, we would have
 ```python
-# PySPARQL Anything version variable
-__version__ = '0.8.1.2'  # --> '0.8.2.1'  # PySPARQL version for the build process.
+# PySPARQL ANYTHING METADATA
+# PySPARQL version for the build process:
+__version__ = '0.9.0.1' # --> '0.9.1.1'
 
-# SPARQL Anything metadata
-__SparqlAnything__ = 'v0.8.1'  # --> 'v0.8.2'  # Downloads v0.8.2 of SPARQL Anything.
-__uri__ = 'SPARQL-Anything/sparql.anything'  # Software's GitHub URI.
+# SPARQL ANYTHING METADATA
+# Version of SPARQL Anything to download:
+__SparqlAnything__ = '0.9.0'  # --> '0.9.1'
+# Path to the SPARQL Anything main class within the executable jar:
+__jarMainPath__ = 'io.github.sparqlanything.cli.SPARQLAnything'  # Check is this path is still valid for 0.9.1
+# SPARQL Anything GitHub URI:
+__uri__ = 'SPARQL-Anything/sparql.anything'
 ```
 After this build the new distribution files and upload them to PyPI.
