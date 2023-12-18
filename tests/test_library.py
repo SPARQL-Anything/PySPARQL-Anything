@@ -8,7 +8,7 @@ by Bob DuCharme have been used.
 """
 
 import unittest
-import pysparql_anything as pysa
+import pysparql_anything as sa
 from rdflib import Graph
 
 
@@ -35,10 +35,10 @@ class PySparqlAPITestCase(unittest.TestCase):
                 'bindings': [{
                         'seriesName': {
                             'type': 'literal',
-                            'value': 'Cougar Town'
+                            'value': 'Friends'
                         }
                     },
-                    {'seriesName': {'type': 'literal', 'value': 'Friends'}}
+                    {'seriesName': {'type': 'literal', 'value': 'Cougar Town'}}
                 ]
             }
         }
@@ -61,5 +61,5 @@ class PySparqlAPITestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    engine = pysa.SparqlAnything()
+    engine = sa.SparqlAnything()
     unittest.main(verbosity=2)
