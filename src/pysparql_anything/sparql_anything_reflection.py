@@ -24,12 +24,12 @@ class SPARQLAnythingReflection:
     """
 
     def __init__(
-            self, jvm_options: tuple[str], jar_main_path: str=__jarMainPath__
+            self, jvm_options: tuple[str], jar_main_path: str = __jarMainPath__
             ) -> None:
         """
         Initialiser for the class SPARQLAnythingReflection.\n
         Arguments:\n
-        *jvm_options - the options to be passed to the JVM before launch.
+        jvm_options - the options to be passed to the JVM before launch.
         """
         try:
             # Sets the JVM classpath to the Sparql Anything installation:
