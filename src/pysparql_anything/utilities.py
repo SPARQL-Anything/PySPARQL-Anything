@@ -32,8 +32,8 @@ def get_release_uri(ghub: Github, uri: str, version: str) -> str:
     """
     Retrieves the download url for latest SPARQL Anything release.\n
     Args:\n
-        ghub: A pyGithub Main object.
-        uri: The Sparql Anything repo uri.
+        ghub: A pyGithub Main object.\n
+        uri: The Sparql Anything repo uri.\n
         version: The Sparql Anything version to be downloaded.\n
     Returns:\n
         The URL to the jar for the latest SPARQL Anything release
@@ -60,8 +60,8 @@ def download_sparql_anything(ghub: Github, uri: str, version: str) -> None:
     Downloads the passed version of the SPARQL Anything jar to the PySPARQL
     Anything installation folder.\n
     Args:\n
-        ghub: A pyGithub Main object.
-        uri: The Sparql Anything repo uri.
+        ghub: A pyGithub Main object.\n
+        uri: The Sparql Anything repo uri.\n
         version: The Sparql Anything version to be downloaded. \n
     Raises: \n
         requests.ConnectionError, \n

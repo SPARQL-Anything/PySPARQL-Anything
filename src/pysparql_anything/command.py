@@ -37,9 +37,9 @@ def execute_construct(
     Contains the instructions for the CONSTRUCT command and executes them.\n
     Args: \n
         kwargs: A dictionary containing the SPARQL Anything CONSTRUCT request
-            parameters.
+            parameters.\n
         graph_type: The type of graph to be returned. Either "rdflib.Graph" or
-            "nx.MultiDiGraph".
+            "nx.MultiDiGraph".\n
         receiver: A SPARQLAnythingReflection object.\n
     Returns:
         A rdflib.Graph or nx.MultiDiGraph object.

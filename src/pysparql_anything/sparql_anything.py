@@ -76,7 +76,7 @@ class SparqlAnything:
         Args:\n
         graph_type: A string specifying which type of graph object is to be
             returned. Default is "rdflib.Graph". Alternative is
-            "nx.MultiDiGraph".
+            "nx.MultiDiGraph".\n
        **kwargs: The keyword arguments for the ASK request. These are the
             same as those of the regular flags for the Sparql Anything CLI,
             minus the hyphen.\n
