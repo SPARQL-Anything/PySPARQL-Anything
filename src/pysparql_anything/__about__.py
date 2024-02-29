@@ -6,7 +6,7 @@ releases.
 
 # PySPARQL ANYTHING METADATA
 # PySPARQL version for the build process:
-__version__ = '0.9.0.1'
+__version__ = '0.9.0.2'
 
 # SPARQL ANYTHING METADATA
 # Version of SPARQL Anything to download:

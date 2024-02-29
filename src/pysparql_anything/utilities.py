@@ -3,7 +3,7 @@ Configuration and utilities module for PySPARQL Anything.
 Aids the installation and maintainment process of the API.
 Interacts with the SPARQL Anything GitHub repository.
 @author Marco Ratta
-@version 16/12/2023
+@version 29/02/2024
 """
 
 import os
@@ -16,8 +16,9 @@ from tqdm import tqdm
 def has_jar():
     """
     Checks the jar has been succesfully downloaded in
-    the installation folder.
-    @return A diagnostic Boolean
+    the installation folder.\n
+    Returns:\n
+        A diagnostic Boolean.
     """
     files = os.listdir(get_module_path())
     for file in files:
@@ -30,14 +31,14 @@ def get_release_uri(ghub: Github, uri: str, version: str) -> str:
     """
     Retrieves the download url for latest SPARQL Anything release.\n
     Args:\n
-    ghub - A pyGithub Main object. \n
-    uri - the Sparql Anything repo uri. \n
-    version - the Sparql Anything version to be downloaded. \n
+        ghub: A pyGithub Main object.
+        uri: The Sparql Anything repo uri.
+        version: The Sparql Anything version to be downloaded.\n
     Returns:\n
-    The URL to the jar for the latest SPARQL Anything release
-    as a String.\n
+        The URL to the jar for the latest SPARQL Anything release
+        as a String.\n
     Raises:\n
-    RateLimitExceededException: github.GithubException
+        RateLimitExceededException: github.GithubException
     """
     try:
         release = ghub.get_repo(uri).get_release(version)
@@ -58,11 +59,11 @@ def download_sparql_anything(ghub: Github, uri: str, version: str) -> None:
     Downloads the passed version of the SPARQL Anything jar to the PySPARQL
     Anything installation folder.\n
     Args:\n
-    ghub - A pyGithub Main object. \n
-    uri - the Sparql Anything repo uri. \n
-    version - the Sparql Anything version to be downloaded. \n
+        ghub: A pyGithub Main object.
+        uri: The Sparql Anything repo uri.
+        version: The Sparql Anything version to be downloaded. \n
     Raises: \n
-    ConnectionError and Timeout.
+        ConnectionError and Timeout.
     """
     try:
         print(f'Proceeding to download the SPARQL Anything {version} jar:')
@@ -96,8 +97,9 @@ def download_sparql_anything(ghub: Github, uri: str, version: str) -> None:
 
 def get_module_path():
     """
-    Function to return the path to the PySPARQL Anything installation folder.
-    @return The path String to the PySPARQL Anything installation folder.
+    Function to return the path to the PySPARQL Anything installation folder.\n
+    Returns:\n
+        The path String to the PySPARQL Anything installation folder.
     """
     path = os.path.realpath(os.path.dirname(__file__))
     return path
@@ -106,8 +108,9 @@ def get_module_path():
 def get_path2jar():
     """
     Returns the path to the PySPARQL Anything jar currently in use in the
-    installation folder.
-    @return The path String to the SPARQL Anything jar in use.
+    installation folder.\n
+    Returns:\n
+        The path String to the SPARQL Anything jar in use.
     """
     files = os.listdir(get_module_path())
     path = ''
@@ -118,8 +121,10 @@ def get_path2jar():
 
 
 def remove_sparql_anything():
-    """ Removes the SPARQL Anything jar from the installation folder
-    @raises FileNotFoundError
+    """
+    Removes the SPARQL Anything jar from the installation folder.\n
+    Raises:\n
+        FileNotFoundError.
     """
     try:
         os.remove(get_path2jar())
