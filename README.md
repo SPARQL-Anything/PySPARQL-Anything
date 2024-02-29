@@ -103,7 +103,8 @@ The currently supported arguments are as follows.
           CSV, TEXT, TTL, NT, NQ. [Default:TEXT or TTL]
 
  v: dict[str, str] - OPTIONAL - Values passed as input parameter to a query template.
-                     When by substituting variable names with the values provided.
+                     When present, the query is pre-processed by substituting variable
+                     names with the values provided.
                      The argument can be used in two ways:
                      (1) Providing a single SPARQL ResultSet file. In this case,
                      the query is executed for each set of bindings in the input result set.
