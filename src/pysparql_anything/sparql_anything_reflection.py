@@ -4,8 +4,8 @@ reflection of the SPARQLAnything class into Python and makes its public static
 void main(String[] args) and public static String callMain(String args) methods
 to Python users.
 
-@author Marco Ratta
-@version 18/12/2023
+Author: Marco Ratta
+Date: 18/12/2023
 """
 
 import jnius_config
@@ -20,17 +20,16 @@ class SPARQLAnythingReflection:
     It therefore makes available its public static void main(String[] args)
     and public static String callMain(String args) methods to Python users.\n
     This it does by reflecting the SPARQLAnything class in SPARQLAnything.java
-    and assigning it to the 'reflection' field of its instance.
+    and assigning it to the 'reflection' field of its instance.\n
+    Args:\n
+        *jvm_options: The options to be passed to the JVM before launch.\n
+        jar_main_path: the class path to the SPARQL Anything main class
+            in the executable jar.\n
+            This is set as default and should not be altered here.
     """
-
     def __init__(
-            self, jvm_options: tuple[str], jar_main_path: str=__jarMainPath__
+            self, jvm_options: tuple[str], jar_main_path: str = __jarMainPath__
             ) -> None:
-        """
-        Initialiser for the class SPARQLAnythingReflection.\n
-        Arguments:\n
-        *jvm_options - the options to be passed to the JVM before launch.
-        """
         try:
             # Sets the JVM classpath to the Sparql Anything installation:
             if jvm_options != tuple():
@@ -51,9 +50,9 @@ class SPARQLAnythingReflection:
         """
         Wrapper for the public static void main(String[] args) method of
         SPARQLAnything.\n
-        Arguments:\n
-        args - args is a Python list[str] that mirrors the String[] args that
-            is required by main(String[] args).
+        Args:\n
+            args: A Python list[str] that mirrors the String[] args that
+                is required by main(String[] args).
         """
         self.reflection.main(args)
 
@@ -61,8 +60,10 @@ class SPARQLAnythingReflection:
         """
         Wrapper for the public static String callMain(String args) method of
         SPARQLAnything.\n
-        Arguments:\n
-        args - args is a Python list[str] that mirrors the String[] args that
-            is required by callMain(String[] args).
+        Args:\n
+            args: A Python list[str] that mirrors the String[] args that
+                is required by callMain(String[] args).\n
+        Returns:\n
+            A string containing the query output.
         """
         return self.reflection.callMain(args)

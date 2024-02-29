@@ -2,6 +2,9 @@
 Version variable for build purposes. 'x.y.z' refers to the current release of
 SPARQL Anything, the last number to the independent PySPARQL Anything
 releases.
+
+Author: Marco Ratta
+Date: 29/02/2024
 """
 
 # PySPARQL ANYTHING METADATA

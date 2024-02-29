@@ -8,6 +8,7 @@ Date: 29/02/2024
 """
 import argparse
 
+
 # Helper functions for the API methods
 def transform_args(kwargs: dict) -> list[str]:
     """

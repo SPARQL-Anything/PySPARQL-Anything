@@ -2,8 +2,9 @@
 Configuration and utilities module for PySPARQL Anything.
 Aids the installation and maintainment process of the API.
 Interacts with the SPARQL Anything GitHub repository.
-@author Marco Ratta
-@version 29/02/2024
+
+Author: Marco Ratta
+Date: 29/02/2024
 """
 
 import os
@@ -63,7 +64,9 @@ def download_sparql_anything(ghub: Github, uri: str, version: str) -> None:
         uri: The Sparql Anything repo uri.
         version: The Sparql Anything version to be downloaded. \n
     Raises: \n
-        ConnectionError and Timeout.
+        requests.ConnectionError, \n
+        requests.Timeout,\n
+        github.GithubException.RateLimitExceededException.
     """
     try:
         print(f'Proceeding to download the SPARQL Anything {version} jar:')

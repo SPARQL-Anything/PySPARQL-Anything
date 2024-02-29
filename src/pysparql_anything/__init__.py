@@ -1,8 +1,8 @@
 """
 Manages the package's namespace, helps the installation process of the API.
 
-@author Marco Ratta
-@version 16/12/2023
+Author: Marco Ratta
+Date: 16/12/2023
 """
 
 import requests

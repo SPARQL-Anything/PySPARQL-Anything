@@ -1,12 +1,13 @@
 """
-This module contains the SparqlAnything class. This class provides access to
-the functionalities of the SPARQL Anything tool to Python users and clients.
+This module contains the SparqlAnything class. This class provides a Python
+based API access to the functionalities of the SPARQL Anything tool.
 
-@author Marco Ratta
-@version 29/02/2024
+Author: Marco Ratta
+Date: 29/02/2024
 """
 
 import rdflib
+import networkx as nx
 import pysparql_anything.command as cmd
 from pysparql_anything.sparql_anything_reflection import SPARQLAnythingReflection
 
@@ -14,17 +15,12 @@ from pysparql_anything.sparql_anything_reflection import SPARQLAnythingReflectio
 class SparqlAnything:
     """
     The class SparqlAnything provides a Python interface to the functionalities
-    offered by the SPARQL Anything technology.\n
-    It replaces the regular SPARQL Anything CLI with a call to the run()
-    method and provides extra Python specific features.
+    offered by the SPARQL Anything tool.\n
+    Args:\n
+        *jvm_options - the optional arguments to be passed to the JVM
+            before launch.
     """
-
     def __init__(self, *jvm_options: str) -> None:
-        """
-        Initialiser for the class SparqlAnything.\n
-        Arguments:\n
-        *jvm_options - the options to be passed to the JVM before launch.
-        """
         self.receiver = SPARQLAnythingReflection(jvm_options)
 
     def run(self, **kwargs) -> None:
@@ -36,7 +32,7 @@ class SparqlAnything:
             **kwargs: The keyword arguments for the RUN request. These are the
                 same as those of the regular flags for the Sparql Anything CLI,
                 minus the hyphen.\n
-                See the User Guide for an example.
+                See the User Guide for an example.\n
         Returns:\n
             None.
         """
@@ -70,16 +66,29 @@ class SparqlAnything:
         """
         return cmd.execute_ask(kwargs, self.receiver)
 
-    def construct(self, **kwargs) -> rdflib.Graph:
+    def construct(
+            self, graph_type: str = "rdflib.Graph", **kwargs
+            ) -> rdflib.Graph | nx.MultiDiGraph:
         """
         The construct method enables one to run a CONSTRUCT query and
-        return the result as a rdflib graph object.\n
+        return the result as either a rdflib or networkx MultiDiGraph
+        graph object.\n
         Args:\n
+        graph_type: A string specifying which type of graph object is to be
+            returned. Default is "rdflib.Graph". Alternative is
+            "nx.MultiDiGraph".
        **kwargs: The keyword arguments for the ASK request. These are the
             same as those of the regular flags for the Sparql Anything CLI,
             minus the hyphen.\n
-            See the User Guide for an example.
+            See the User Guide for an example.\n
         Returns:\n
-            A rdflib Graph.
+            A rdflib.Graph or nx.MultiDiGraph object.\n
+        Raises:
+            ValueError if graph_type is not one of the two specified above.
         """
-        return cmd.execute_construct(kwargs, self.receiver)
+        graph_types = ["rdflib.Graph", "nx.MultiDiGraph"]
+        if graph_type not in graph_types:
+            raise ValueError(
+                "Invalid graph type. Expected one of: %s" % graph_types
+            )
+        return cmd.execute_construct(kwargs, self.receiver, graph_type)
