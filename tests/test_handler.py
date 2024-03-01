@@ -1,18 +1,18 @@
 """
 Script to unit test the ParameterHandler class of PySPARQL Anything.
-@author Marco Ratta
-@version 09/02/2023
+Author: Marco Ratta
+Date: 01/03/2024
 """
 
 import unittest
-from pysparql_anything.parameter_handler import transform_parameters
+from pysparql_anything.args_handlers import transform_args
 
 #  Test data:
 data = {
-    'q': 'my_query',
-    'o': 'my_output',
-    'f': 'my_format',
-    'v': {
+    'query': 'my_query',
+    'output': 'my_output',
+    'format': 'my_format',
+    'values': {
         '?_v1': 'a_value1',
         '?_v2': 'a_value2'
     }
@@ -20,14 +20,14 @@ data = {
 
 output = [
     '-q', 'my_query', '-v', '?_v1=a_value1', '-v', '?_v2=a_value2',
-    '-o', 'my_output', '-f', 'my_format'
+    '--output', 'my_output', '--format', 'my_format'
 ]
 
 
 class PySparqlHandlerTestCase(unittest.TestCase):
 
     def test_handler(self):
-        test = transform_parameters(data)
+        test = transform_args(data)
         print(test)
         self.assertEqual(test, output)
 

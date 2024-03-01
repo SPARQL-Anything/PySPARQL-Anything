@@ -40,7 +40,7 @@ def transform_args(kwargs: dict) -> list[str]:
         kwargs.pop("values")
     # Transforms the remaining keyword args:
     for flag in kwargs:  # flag: str | None.
-        args += ['--' + flag[0:1], kwargs.get(flag)]
+        args += ['--' + flag, kwargs.get(flag)]
     return args
 
 
