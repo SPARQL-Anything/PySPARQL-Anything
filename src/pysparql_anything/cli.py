@@ -22,7 +22,7 @@ def setup_parser(a_parser: ArgumentParser) -> ArgumentParser:
     """
     a_parser.add_argument(
         "-j", "--java", nargs="*",
-        help="The JVM initialisation options"
+        help="The JVM initialisation options."
     )
     a_parser.add_argument(
         "-q", "--query",

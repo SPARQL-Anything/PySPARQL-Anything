@@ -3,17 +3,38 @@ This module contains the functions that encapsulate the execution of
 each of the commands of the PySPARQL Anything interface.
 
 Author: Marco Ratta
-Version: 29/02/2024
+Date: 01/03/2024
 """
 
 import json
 from rdflib import Graph
 import networkx as nx
+import pandas as pd
 from rdflib.extras.external_graph_libs import rdflib_to_networkx_multidigraph
 from pysparql_anything.args_handlers import transform_args
 from pysparql_anything.sparql_anything_reflection import SPARQLAnythingReflection
 
 
+# Helpers for the command functions.
+def to_pandas_df(select_dict: dict) -> pd.DataFrame:
+    """
+    Helper method to convert the sa.SparqlAnything.select method's dictonary
+    result of a SELECT query into a corresponding pandas DataFrame object.\n
+    Args:\n
+        select_dict: The dictionary containing the SELECT query results.\n
+    Returns:\n
+        A pandas DataFrame of the bindings.
+    """
+    data = []
+    columns = select_dict["head"]["vars"]
+    bindings = select_dict["results"]["bindings"]
+    for binding in bindings:
+        row = [v["value"] for v in binding.values()]
+        data.append(row)
+    return pd.DataFrame(data, columns=columns)
+
+
+# Command functions.
 def execute_ask(kwargs: dict, receiver: SPARQLAnythingReflection) -> bool:
     """
     Contains the instructions for the ASK command and executes them.\n
@@ -52,7 +73,9 @@ def execute_construct(
     return graph
 
 
-def execute_select(kwargs: dict, receiver: SPARQLAnythingReflection) -> dict:
+def execute_select(
+        kwargs: dict, receiver: SPARQLAnythingReflection, output_type: str
+        ) -> dict:
     """
     Contains the instructions for the SELECT command and executes them.\n
     Args: \n
@@ -65,7 +88,10 @@ def execute_select(kwargs: dict, receiver: SPARQLAnythingReflection) -> dict:
     kwargs["format"] = "json"
     args = transform_args(kwargs)
     string = receiver.call_main(args)
-    return json.loads(string)
+    results_dict = json.loads(string)
+    if output_type == "dict":
+        return results_dict
+    return to_pandas_df(results_dict)
 
 
 def execute_run(kwargs: dict, receiver: SPARQLAnythingReflection) -> None:

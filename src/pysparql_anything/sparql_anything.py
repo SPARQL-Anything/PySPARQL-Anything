@@ -38,19 +38,25 @@ class SparqlAnything:
         """
         cmd.execute_run(kwargs, self.receiver)
 
-    def select(self, **kwargs) -> dict:
+    def select(self, output_type: str = "pd.DataFrame", **kwargs) -> dict:
         """
         The select method enables one to run a SELECT query and return
-        the result as a Python dictionary.\n
+        the result as either a Pandas DataFrame or a Python dictionary.\n
         Args:\n
-        **kwargs: The keyword arguments for the SELECT request. These are the
-            same as those of the regular flags for the Sparql Anything CLI,
-            minus the hyphen.\n
-            See the User Guide for an example.\n
+            output_type: "pd.DataFrame" or "dict" for the chosen output.\n
+            **kwargs: The keyword arguments for the SELECT request. These are the
+                same as those of the regular flags for the Sparql Anything CLI,
+                minus the hyphen.\n
+                See the User Guide for an example.\n
         Returns: \n
             A Python dict containing the results of the SELECT query.
         """
-        return cmd.execute_select(kwargs, self.receiver)
+        output_types = ["pd.DataFrame", "dict"]
+        if output_type not in output_types:
+            raise ValueError(
+                "Invalid output type. Expected one of: %s" % output_types
+            )
+        return cmd.execute_select(kwargs, self.receiver, output_type)
 
     def ask(self, **kwargs) -> bool:
         """
@@ -74,13 +80,13 @@ class SparqlAnything:
         return the result as either a rdflib or networkx MultiDiGraph
         graph object.\n
         Args:\n
-        graph_type: A string specifying which type of graph object is to be
-            returned. Default is "rdflib.Graph". Alternative is
-            "nx.MultiDiGraph".\n
-       **kwargs: The keyword arguments for the ASK request. These are the
-            same as those of the regular flags for the Sparql Anything CLI,
-            minus the hyphen.\n
-            See the User Guide for an example.\n
+            graph_type: A string specifying which type of graph object is to be
+                returned. Default is "rdflib.Graph". Alternative is
+                "nx.MultiDiGraph".\n
+            **kwargs: The keyword arguments for the ASK request. These are the
+                same as those of the regular flags for the Sparql Anything CLI,
+                minus the hyphen.\n
+                See the User Guide for an example.\n
         Returns:\n
             A rdflib.Graph or nx.MultiDiGraph object.\n
         Raises:
