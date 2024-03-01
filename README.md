@@ -64,12 +64,12 @@ The keyword arguments to be passed to any of the PySPARQL Anything methods are t
 
 For example:
 ```python
->>> engine.run(q='queries/getFacade.sparql', f='TTL', o='C:/Users/Marco/Desktop/facade.ttl')
+>>> engine.run(query="queries/getFacade.sparql", format="TTL", output="C:/Users/Marco/Desktop/facade.ttl")
 ```
 
-All of the keyword arguments except for ```v``` must be assigned a string literal. 
+All of the keyword arguments except for ```values``` must be assigned a string literal. 
 
-```v``` requires to be assigned a Python dictionary, as in the following example.
+```values``` requires to be assigned a Python dictionary, as in the following example.
 
 To execute the following query from the SPARQL Anything MusicXML showcase,
 ```powershell
@@ -79,11 +79,11 @@ java -jar sparql-anything-0.8.0-SNAPSHOT.jar -q queries/populateOntology.sparql 
 with PySPARQL Anything, do
 ```python
 >>> engine.run(
-    	q='queries/populateOntology.sparql',
-    	f='ttl',
-    	v={
-            'filePath' : './musicXMLFiles/AltDeu10/AltDeu10-017.musicxml',
-            'fileName' : 'AltDeu10-017'
+    	query="queries/populateOntology.sparql",
+    	format="ttl",
+    	values={
+            "filePath" : "./musicXMLFiles/AltDeu10/AltDeu10-017.musicxml",
+            "fileName" : "AltDeu10-017"
     	}
     )
 ```
@@ -91,18 +91,18 @@ with PySPARQL Anything, do
 The currently supported arguments are as follows.
 
 ```
- q: str - The path to the file storing the query to execute or the query itself.
+ query: str - The path to the file storing the query to execute or the query itself.
 
- o: str - OPTIONAL - The path to the output file. [Default: STDOUT]
+ output: str - OPTIONAL - The path to the output file. [Default: STDOUT]
 
- l: str - OPTIONAL - The path to one RDF file or a folder including a set of
+ load: str - OPTIONAL - The path to one RDF file or a folder including a set of
           files to be loaded. When present, the data is loaded in memory and
           the query executed against it.
 
- f: str - OPTIONAL -  Format of the output file. Supported values: JSON, XML,
+ format: str - OPTIONAL -  Format of the output file. Supported values: JSON, XML,
           CSV, TEXT, TTL, NT, NQ. [Default:TEXT or TTL]
 
- v: dict[str, str] - OPTIONAL - Values passed as input parameter to a query template.
+ values: dict[str, str] - OPTIONAL - Values passed as input parameter to a query template.
                      When present, the query is pre-processed by substituting variable
                      names with the values provided.
                      The argument can be used in two ways:
@@ -127,7 +127,7 @@ where ```*jvm_options``` are the optional string arguments representing the user
 
 As an example, one may have
 ```python
-engine = sa.SparqlAnything('-Xrs', '-Xmx6g')
+engine = sa.SparqlAnything("-Xrs", "-Xmx6g")
 ```
 NOTE: the ```*jvm_options``` are final. Once they are set they cannot be changed without starting a new process.
 This limitation is unfortunately due to the nature of the interaction between the JVM and the Python environment.
