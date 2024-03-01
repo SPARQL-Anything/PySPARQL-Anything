@@ -75,13 +75,15 @@ def execute_construct(
 
 def execute_select(
         kwargs: dict, receiver: SPARQLAnythingReflection, output_type: str
-        ) -> dict:
+        ) -> pd.DataFrame | dict:
     """
     Contains the instructions for the SELECT command and executes them.\n
     Args: \n
         kwargs: a dictionary containing the SPARQL Anything SELECT request
             parameters.\n
         receiver: a SPARQL Anything reflection object.\n
+        output_type: A string specifying if a DataFrame or dict object is
+            wanted as output.
     Returns: \n
         A Python dict containing the results of the SELECT query.
     """

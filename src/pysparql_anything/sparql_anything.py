@@ -8,6 +8,7 @@ Date: 01/03/2024
 
 import rdflib
 import networkx as nx
+import pandas as pd
 import pysparql_anything.command as cmd
 from pysparql_anything.sparql_anything_reflection import SPARQLAnythingReflection
 
@@ -38,15 +39,17 @@ class SparqlAnything:
         """
         cmd.execute_run(kwargs, self.receiver)
 
-    def select(self, output_type: str = "pd.DataFrame", **kwargs) -> dict:
+    def select(
+            self, output_type: str = "pd.DataFrame", **kwargs
+            ) -> pd.DataFrame | dict:
         """
         The select method enables one to run a SELECT query and return
         the result as either a Pandas DataFrame or a Python dictionary.\n
         Args:\n
             output_type: "pd.DataFrame" or "dict" for the chosen output.\n
-            **kwargs: The keyword arguments for the SELECT request. These are the
-                same as those of the regular flags for the Sparql Anything CLI,
-                minus the hyphen.\n
+            **kwargs: The keyword arguments for the SELECT request. These are
+                the same as those of the regular flags for the Sparql Anything
+                CLI, minus the hyphen.\n
                 See the User Guide for an example.\n
         Returns: \n
             A Python dict containing the results of the SELECT query.
