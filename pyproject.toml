@@ -44,6 +44,9 @@ Documentation = "https://github.com/SPARQL-Anything/PySPARQL-Anything/blob/main/
 Issues = "https://github.com/SPARQL-Anything/PySPARQL-Anything/issues"
 Source = "https://github.com/SPARQL-Anything/PySPARQL-Anything"
 
+[project.scripts]
+sparql-anything = "pysparql_anything.cli:main"
+
 [tool.hatch.metadata]
 allow-direct-references = true
 
