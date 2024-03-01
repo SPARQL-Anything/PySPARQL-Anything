@@ -18,27 +18,29 @@ def transform_args(kwargs: dict) -> list[str]:
         kwargs - a dictionary containing the request's arguments.\n
     Returns:\n
         A list of str containing the query's arguments in the style accepted
-        by a Java main method.
+        by a Java main method.\n
+    Raises:\n
+        ValueError if no query argument has been passed.
     """
     args = []
-    # Transforms the 'q' keyword arg:
-    q_value: str | None = kwargs.get('q')
-    if q_value is not None:
-        args += ['-q', q_value]
-        kwargs.pop('q')
-    else:
-        print('Invalid argument given. Flag "q" must be passed.')
-        return args
-    # Transforms the 'v' keyword arg:
-    v: dict[str, str] | None = kwargs.get('v')
-    if v is not None:
-        v_list = [k + '=' + v for k, v in v.items()]
-        for v_value in v_list:
+    # Transforms the 'query' keyword arg:
+    query: str | None = kwargs.get("query")
+    if query is None:
+        raise ValueError(
+            "Invalid arguments given. A query must be passed."
+        )
+    args += ['-q', query]
+    kwargs.pop("query")
+    # Transforms the 'values' keyword arg:
+    values: dict[str, str] | None = kwargs.get("values")
+    if values is not None:
+        values_list = [k + '=' + v for k, v in values.items()]
+        for v_value in values_list:
             args += ['-v', v_value]
-        kwargs.pop('v')
+        kwargs.pop("values")
     # Transforms the remaining keyword args:
     for flag in kwargs:  # flag: str | None.
-        args += ['-' + flag[0:1], kwargs.get(flag)]
+        args += ['--' + flag[0:1], kwargs.get(flag)]
     return args
 
 
@@ -51,7 +53,16 @@ def transform_cli_flags(args: dict[str, str | list[str]]) -> list[str]:
         args: A dict conataining the parsed CLI flags arguments.\n
     Returns:\n
         A list[str] of arguments for the Java main method.
+    Raises:\n
+        ValueError if no query argument has been passed.
     """
+    if "query" not in args:
+        raise ValueError(
+            """
+            Invalid arguments given. A query must be passed.\n
+            Type sparql-anything -h in your terminal for usage help.
+            """
+        )
     final_args: list[str] = []
     for k, v in args.items():
         if isinstance(v, list):

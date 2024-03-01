@@ -3,7 +3,7 @@ This module contains the SparqlAnything class. This class provides a Python
 based API access to the functionalities of the SPARQL Anything tool.
 
 Author: Marco Ratta
-Date: 29/02/2024
+Date: 01/03/2024
 """
 
 import rdflib

@@ -24,7 +24,7 @@ def execute_ask(kwargs: dict, receiver: SPARQLAnythingReflection) -> bool:
     Returns:\n
         A boolean True or False.
     """
-    kwargs['f'] = 'xml'
+    kwargs["format"] = "xml"
     args = transform_args(kwargs)
     string = receiver.call_main(args)
     return bool('<boolean>true</boolean>' in string)
@@ -62,7 +62,7 @@ def execute_select(kwargs: dict, receiver: SPARQLAnythingReflection) -> dict:
     Returns: \n
         A Python dict containing the results of the SELECT query.
     """
-    kwargs['f'] = 'json'
+    kwargs["format"] = "json"
     args = transform_args(kwargs)
     string = receiver.call_main(args)
     return json.loads(string)
