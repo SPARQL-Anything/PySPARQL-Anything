@@ -51,7 +51,7 @@ class SPARQLAnythingReflection:
             print(
                 "".join([
                     "A pyjnius.autoclass exception has been raised.\n",
-                    "Either the JVM parameters passed have not been ", 
+                    "Either the JVM parameters passed have not been ",
                     "recognised as valid or there may be an issue with the ",
                     "installation of the JVM."
                 ])
