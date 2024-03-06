@@ -4,8 +4,9 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 SELECT ?score ?step ?alteration ?octave ?pitch ?type ?duration ?noteCount ?measureCount ?partCount
 WHERE
 {
-        BIND (IRI(CONCAT("x-sparql-anything:media-type=application/xml,location=", ?_filePath)) AS ?fx)
-  	SERVICE ?fx { 	
+    SERVICE <x-sparql-anything:> {
+        fx:properties fx:location ?_filePath ;
+        fx:media-type "application/xml" . 	
         ?score a fx:root .
 	# Extracts the parts:
         ?score ?mProperty ?part .
