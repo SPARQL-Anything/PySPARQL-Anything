@@ -25,7 +25,12 @@ class SPARQLAnythingReflection:
         *jvm_options: The options to be passed to the JVM before launch.\n
         jar_main_path: the class path to the SPARQL Anything main class
             in the executable jar.\n
-            This is set as default and should not be altered here.
+            This is set as default and should not be altered here.\n
+    Raises:\n
+        ValueError: If more than one JVM is tried to be spawned within
+            the same process.\n
+        Exception: If the JVM optional arguments are invalid or there is a
+            problem with the JVM installation.
     """
     def __init__(
             self, jvm_options: tuple[str], jar_main_path: str = __jarMainPath__
@@ -39,11 +44,19 @@ class SPARQLAnythingReflection:
             # Starts the JVM and reflects the SPARQLAnything class:
             from jnius import autoclass
             self.reflection = autoclass(jar_main_path)
-        except ValueError as err:
-            print('ValueError:', err)
+        except ValueError:
             raise
-        except Exception as exc:
-            print('Exception:', exc)
+        except Exception:
+            print()
+            print(
+                "".join([
+                    "A pyjnius.autoclass exception has been raised.\n",
+                    "Either the JVM parameters passed have not been ", 
+                    "recognised as valid or there may be an issue with the ",
+                    "installation of the JVM."
+                ])
+            )
+            print()
             raise
 
     def main(self, args: list[str]) -> None:

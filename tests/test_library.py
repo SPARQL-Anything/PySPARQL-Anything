@@ -66,15 +66,12 @@ class PySparqlAPITestCase(unittest.TestCase):
         }
         self.assertEqual(
             engine.select(
-                query='queries/select/testSelect.sparql', output_type="dict"
-                ), d_1
+                query='queries/select/testSelect.sparql'), d_1
         )
         self.assertEqual(
             engine.select(
-                query='queries/select/ex055.rq',
-                l='ex054.ttl',
-                output_type="dict"
-                ), d_2
+                query='queries/select/ex055.rq', l='ex054.ttl'
+            ), d_2
         )
 
 
