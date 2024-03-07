@@ -58,10 +58,8 @@ def transform_cli_flags(args: dict[str, str | list[str]]) -> list[str]:
     """
     if "query" not in args:
         raise ValueError(
-            """
-            Invalid arguments given. A query must be passed.\n
-            Type sparql-anything -h in your terminal for usage help.
-            """
+            "Invalid arguments given. A query must be passed.\n"
+            + "Type sparql-anything -h in your terminal for usage help."
         )
     final_args: list[str] = []
     for k, v in args.items():

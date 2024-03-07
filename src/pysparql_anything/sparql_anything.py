@@ -44,7 +44,7 @@ class SparqlAnything:
         The select method enables one to run a SELECT query and return
         the result as either a Pandas DataFrame or a Python dictionary.\n
         Args:\n
-            output_type: "pd.DataFrame" or "dict" for the chosen output.\n
+            output_type: pandas.DataFrame or dict for the chosen output.\n
             **kwargs: The keyword arguments for the SELECT request. These are
                 the same as those of the regular flags for the Sparql Anything
                 CLI, minus the hyphen.\n
@@ -83,9 +83,9 @@ class SparqlAnything:
         return the result as either a rdflib or networkx MultiDiGraph
         graph object.\n
         Args:\n
-            graph_type: A string specifying which type of graph object is to be
-                returned. Default is "rdflib.Graph". Alternative is
-                "nx.MultiDiGraph".\n
+            graph_type: The type specifying which graph object is to be
+                returned. Default is rdflib.Graph. Alternative is
+                networkx.MultiDiGraph.\n
             **kwargs: The keyword arguments for the ASK request. These are the
                 same as those of the regular flags for the Sparql Anything CLI,
                 minus the hyphen.\n
