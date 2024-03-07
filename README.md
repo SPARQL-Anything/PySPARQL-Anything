@@ -104,7 +104,7 @@ WHERE {
 }
 ```
 and get this result without caring of transforming JSON to RDF.
-```
+```powershell
 seriesName
 "Cougar Town"
 "Friends"
@@ -115,7 +115,7 @@ seriesName
 ### 2.1. Installation <a name="installation"></a>
 
 PySPARQL Anything is released on PyPI. To install it on your machine type the following in your command prompt:
-```powershell
+```
 $ pip install pysparql-anything 
 ```
 
@@ -140,8 +140,11 @@ Below we show a few basic steps to illustrate usage.
 
 1) To use the CLI tool, pen the command prompt with the current working directory set to the main folder of a SPARQL Anything project.
 The CLI tool is accessed with the ```sparql-anything``` command. Executing
-```powershell
+```
 $ sparql-anything -h
+```
+will pull up the instructions on how to use the CLI:
+```
 Welcome to the PySPARQL Anything CLI. For the optional flags see below.
 
 options:
@@ -168,7 +171,6 @@ options:
                         var_name=var_value. The argument can be passed multiple times and the
                         query repeated for each set of values.
 ```
-will pull up the instructions on how to use the CLI.
 
 2) To import PySPARQL Anything in one's scripts simply import the library and initialise a ```pysparql_anything.sparql_anything.SparqlAnything``` object
 ```python
@@ -179,12 +181,12 @@ engine = sa.SparqlAnything()
 Note that in both cases, if the SPARQL Anything jar isn't installed in the API's folder it will be downloaded there automatically the first time the module is imported or the CLI command has been executed.
 
 3) As an example, to execute the following query from the SPARQL Anything MusicXML showcase with PySPARQL Anything,
-```powershell
+```
 java -jar sparql-anything-0.8.0-SNAPSHOT.jar -q queries/populateOntology.sparql -v filePath="./musicXMLFiles/AltDeu10/AltDeu10-017.musicxml" -v fileName="AltDeu10-017" -f TTL
 ```
 
 one does
-```powershell
+```
 $ sparql-anything -q queries/populateOntology.sparql -v filePath=./musicXMLFiles/AltDeu10/AltDeu10-017.musicxml fileName=AltDeu10-017 -f TTL
 ```
 
@@ -296,7 +298,7 @@ NOTE: it is not needed to amend anything in this file for versioning the softwar
 After the build metadata has been defined, one can proceed to build the distribution archives.
 
 To do this, open the command prompt on the directory containing the ```pyproject.toml``` file and run
-```powershell
+```
 hatch build ./dist
 ```
 This command should output some text and once completed should generate a ```dist``` directory containing two files:
@@ -308,7 +310,7 @@ dist/
 for example. Here the ```tar.gz``` file is a source distribution whereas the ```.whl``` file is a binary distribution.
 
 To upload the distributions one does 
-```powershell
+```
 twine upload dist/*
 ```
 and enter the relevant PyPI credentials for this project. 
