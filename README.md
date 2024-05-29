@@ -1,3 +1,5 @@
+[![How to](https://img.shields.io/badge/How%20to-use-green.svg)](#basic_usage)
+[![How to](https://img.shields.io/badge/How%20to-join-blue.svg)](https://forms.gle/t1paTLz7jVu3RYnu8)
 # PySPARQL Anything
 ###### The SPARQL Anything Python Library
 
