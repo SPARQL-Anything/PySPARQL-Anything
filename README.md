@@ -8,6 +8,7 @@
 2. [User Guide](#user_guide)
    1. [Installation](#installation)
    2. [Basic Usage](#basic_usage)
+   3. [Tutorial](#tutorial)
 3. [API](#api)
    1. [Methods](#methods)
 4. [Development & Maintanance](#dev_guide)
@@ -203,6 +204,12 @@ engine.run(
     	}
     )
 ```
+
+### 2.3. Tutorial <a name="tutorial"></a>
+A live Google Colab demo demonstrating how to download, install and access the functionalities of PySPARQL Anything through its CLI and 
+API can be found at the following link:
+
+https://bit.ly/pysa-demo
 
 ## 3. API <a name="api"></a>
 
