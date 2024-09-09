@@ -33,7 +33,7 @@ def transform_args(kwargs: dict) -> list[str]:
             args += [
                 '-' + flag if len(flag) == 1 else '--' + flag, kwargs.get(flag)
             ]
-    return args 
+    return args
 
 
 # Helper functions for the CLI

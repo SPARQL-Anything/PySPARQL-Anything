@@ -3,19 +3,32 @@ This module contains the SparqlAnything class. This class provides a Python
 based API access to the functionalities of the SPARQL Anything tool.
 
 Author: Marco Ratta
-Date: 06/03/2024
+Date: 09/09/2024
 """
 
 import rdflib
 import pandas as pd
 import networkx as nx
 import pysparql_anything.command as cmd
-from pysparql_anything.sparql_anything_reflection import (
-    SPARQLAnythingReflection
-)
+from pysparql_anything.sparql_anything_reflection import SPARQLAnythingReflection
 
 
-class SparqlAnything:
+class Singleton(type):
+    """
+    The Singleton metaclass specifies the routine for instantiating a 
+    SparqlAnything object according to a Singleton pattern. This has been
+    made necessary by the limitations of the JNI.
+    """
+    _instance = None
+
+    def __call__(cls, *args, **kwargs):
+        if cls._instance is None:
+            instance = super().__call__(*args, **kwargs)
+            cls._instance = instance
+        return cls._instance
+
+
+class SparqlAnything(metaclass=Singleton):
     """
     The class SparqlAnything provides a Python interface to the functionalities
     offered by the SPARQL Anything tool.\n
