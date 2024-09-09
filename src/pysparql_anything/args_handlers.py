@@ -4,7 +4,7 @@ given to the SparqlAnything methods into the form required by
 the reflected Java methods, i.e. main(String[]) and callMain(String[]).
 
 Author: Marco Ratta
-Date: 29/02/2024
+Date: 31/05/2024
 """
 import argparse
 
@@ -23,25 +23,17 @@ def transform_args(kwargs: dict) -> list[str]:
         ValueError if no query argument has been passed.
     """
     args = []
-    # Transforms the 'query' keyword arg:
-    query: str | None = kwargs.get("query")
-    if query is None:
-        raise ValueError(
-            "Invalid arguments given. A query must be passed."
-        )
-    args += ['-q', query]
-    kwargs.pop("query")
-    # Transforms the 'values' keyword arg:
-    values: dict[str, str] | None = kwargs.get("values")
-    if values is not None:
-        values_list = [k + '=' + v for k, v in values.items()]
-        for v_value in values_list:
-            args += ['-v', v_value]
-        kwargs.pop("values")
-    # Transforms the remaining keyword args:
-    for flag in kwargs:  # flag: str | None.
-        args += ['--' + flag, kwargs.get(flag)]
-    return args
+    for flag in kwargs:
+        if flag == 'v' or flag == 'values':
+            values = kwargs.get(flag)
+            values_list = [k + '=' + v for k, v in values.items()]
+            for v_value in values_list:
+                args += ['-v', v_value]
+        else:
+            args += [
+                '-' + flag if len(flag) == 1 else '--' + flag, kwargs.get(flag)
+            ]
+    return args 
 
 
 # Helper functions for the CLI

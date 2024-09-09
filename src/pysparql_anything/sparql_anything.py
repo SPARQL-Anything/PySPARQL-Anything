@@ -10,7 +10,9 @@ import rdflib
 import pandas as pd
 import networkx as nx
 import pysparql_anything.command as cmd
-from pysparql_anything.sparql_anything_reflection import SPARQLAnythingReflection
+from pysparql_anything.sparql_anything_reflection import (
+    SPARQLAnythingReflection
+)
 
 
 class SparqlAnything:

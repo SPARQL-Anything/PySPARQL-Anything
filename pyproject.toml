@@ -18,7 +18,7 @@ keywords = [
     "linked data"
 ]
 authors = [
-  {name = "Marco Ratta", email = "marco.ratta@open.ac.uk"},
+  {name = "Marco Ratta", email = "marco.ratta1@open.ac.uk"},
   {name = "Enrico Daga", email = "enrico.daga@open.ac.uk"}
 ]
 classifiers = [
@@ -32,11 +32,13 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-    "rdflib == 6.3.1",
-    "pyjnius == 1.6.0",
-    "requests == 2.28.2",
-    "PyGithub == 1.58.1",
-    "tqdm == 4.65.0"
+    "rdflib == 7.*",
+    "pyjnius == 1.*",
+    "requests == 2.*",
+    "PyGithub == 2.*",
+    "tqdm == 4.*",
+    "pandas == 2.*",
+    "networkx == 3.*"
 ]
 
 [project.urls]
