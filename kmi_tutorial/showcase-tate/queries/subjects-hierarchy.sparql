@@ -1,0 +1,29 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX fx:   <http://sparql.xyz/facade-x/ns/>
+PREFIX xyz:  <http://sparql.xyz/facade-x/data/>
+PREFIX tate: <http://sparql.xyz/example/tate/>
+PREFIX tsub: <http://sparql.xyz/example/tate/subject/>
+
+
+SELECT DISTINCT ?childId ?childName ?parentId ?parentName
+WHERE {
+  # List of artworks
+  SERVICE <x-sparql-anything:csv.headers=true,location=./collection/artwork_data.csv> {
+    [] xyz:id ?id ; xyz:accession_number ?accId .
+  }
+  
+  BIND ( IF ( STRSTARTS( ?accId, "AR" ) , 
+    LCASE(CONCAT( "ar/", SUBSTR( ?accId ,3 ,3), "/", ?accId, "-", ?id , ".json" )),
+    LCASE(CONCAT( SUBSTR( ?accId ,1 , 1), "/", SUBSTR( ?accId ,2 ,3), "/" , ?accId, "-", ?id , ".json" ))
+  ) AS ?filepath ) .
+  # JSON file with subjects
+  BIND (IRI(CONCAT("x-sparql-anything:location=./collection/artworks/", ?filepath )) AS ?artworkMetadata ) .
+  SERVICE ?artworkMetadata { 
+	  [] xyz:id ?parentId ; xyz:name ?parentName ;
+	  	 xyz:children [ ?li [ xyz:id ?childId; xyz:name ?childName ] ]
+  } .
+}
+
+
