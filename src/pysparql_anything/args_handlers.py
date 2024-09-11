@@ -4,7 +4,7 @@ given to the SparqlAnything methods into the form required by
 the reflected Java methods, i.e. main(String[]) and callMain(String[]).
 
 Author: Marco Ratta
-Date: 31/05/2024
+Date: 11/09/2024
 """
 import argparse
 
@@ -92,5 +92,8 @@ def transform_cli_args(
     if "java" in args_dict:
         args_jvm = transform_jvm_flags(args_dict["java"])
         args_dict.pop("java")
-    args_main = transform_cli_flags(args_dict)
+    args_main = [
+        '--output-pattern' if x == '--output_pattern' else x
+        for x in transform_cli_flags(args_dict)
+    ]
     return (args_jvm, args_main)

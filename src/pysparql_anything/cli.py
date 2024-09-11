@@ -2,7 +2,7 @@
 This module contains the CLI for the SPARQL Anything tool.
 
 Author: Marco ratta
-Date: 29/02/2024
+Date: 11/09/2024
 """
 
 from argparse import ArgumentParser, SUPPRESS
@@ -21,36 +21,46 @@ def setup_parser(a_parser: ArgumentParser) -> ArgumentParser:
         The same ArgumentParser object with its arguments setup.
     """
     a_parser.add_argument(
-        "-j", "--java", nargs="*",
-        help="The JVM initialisation options."
-    )
-    a_parser.add_argument(
         "-q", "--query",
         help="""
         The path to the file storing the query to execute or the query itself.
         """
     )
     a_parser.add_argument(
+        "-j", "--java", nargs="*",
+        help="OPTIONAL - The JVM initialisation options."
+    )
+    a_parser.add_argument(
         "-o", "--output",
-        help="The path to the output file. [Default: STDOUT]"
+        help="OPTIONAL - The path to the output file. [Default: STDOUT]"
+    )
+    a_parser.add_argument(
+        "-p", "--output-pattern",
+        help="""
+        OPTIONAL - Output filename pattern, e.g. 'my-file-?friendName.json'.
+        Variables should start with '?' and refer to bindings from the input
+        file. This option can only be used in combination with 'values' and is
+        ignored otherwise. This option overrides 'output'.
+        """
     )
     a_parser.add_argument(
         "-f", "--format",
         help="""
-        Format of the output file. Supported values: JSON, XML, CSV, TEXT, TTL,
-        NT, NQ. [Default:TEXT or TTL]
+        OPTIONAL - Format of the output file. Supported values: JSON, XML, CSV,
+        TEXT, TTL, NT, NQ. [Default:TEXT or TTL]
         """
     )
     a_parser.add_argument(
         "-l", "--load",
-        help="""The path to one RDF file or a folder including a set of
+        help="""
+        OPTIONAL - The path to one RDF file or a folder including a set of
         files to be loaded. When present, the data is loaded in memory
         and the query executed against it."""
     )
     a_parser.add_argument(
         "-v", "--values", nargs="*",
         help="""
-        Values passed as input parameter to a query template.
+        OPTIONAL - Values passed as input parameter to a query template.
         When present, the query is pre-processed by substituting variable
         names with the values provided.
         The argument can be used in two ways:
@@ -61,6 +71,23 @@ def setup_parser(a_parser: ArgumentParser) -> ArgumentParser:
         the argument value must follow the syntax: var_name=var_value.
         The argument can be passed multiple times and the query repeated
         for each set of values."""
+    )
+    a_parser.add_argument(
+        "-c", "--configuration", nargs="*",
+        help="""
+        OPTIONAL - Configuration to be
+        passed to the SPARQL Anything
+        engine (this is equivalent to
+        define them in the SERVICE IRI).
+        The argument can be passed multiple
+        times (one for each option to be
+        set). Options passed in this way
+        can be overwritten in the SERVICE
+        IRI or in the Basic Graph Pattern.
+        """
+    )
+    a_parser.add_argument(
+        "-e", "--explain", help="OPTIONAL - Explain query execution"
     )
     return a_parser
 
