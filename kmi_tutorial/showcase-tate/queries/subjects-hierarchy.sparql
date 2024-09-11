@@ -10,7 +10,7 @@ PREFIX tsub: <http://sparql.xyz/example/tate/subject/>
 SELECT DISTINCT ?childId ?childName ?parentId ?parentName
 WHERE {
   # List of artworks
-  SERVICE <x-sparql-anything:csv.headers=true,location=./collection/artwork_data.csv> {
+  SERVICE <x-sparql-anything:csv.headers=true,location=./artwork_data_sample.csv> {
     [] xyz:id ?id ; xyz:accession_number ?accId .
   }
   

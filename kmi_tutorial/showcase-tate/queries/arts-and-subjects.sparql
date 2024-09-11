@@ -15,7 +15,7 @@ CONSTRUCT {
   ?subject rdfs:label ?subjectName .
 } WHERE {
   # List of artworks
-  SERVICE <x-sparql-anything:csv.headers=true,location=./collection/artwork_data.csv> {
+  SERVICE <x-sparql-anything:csv.headers=true,location=./artwork_data_sample.csv> {
     []  xyz:id ?id ; xyz:accession_number ?accId ;
         xyz:title ?title; xyz:thumbnailUrl ?thumbnail .
   }
