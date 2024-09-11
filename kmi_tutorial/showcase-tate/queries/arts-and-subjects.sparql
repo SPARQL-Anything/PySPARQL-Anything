@@ -1,0 +1,34 @@
+PREFIX fx: <http://sparql.xyz/facade-x/ns/>
+PREFIX xyz: <http://sparql.xyz/facade-x/data/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX tate: <http://sparql.xyz/example/tate/>
+PREFIX tsub: <http://sparql.xyz/example/tate/subject/>
+PREFIX schema: <http://schema.org/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+CONSTRUCT {
+  ?artwork a schema:CreativeWork ;
+    dct:subject ?subject ;
+    schema:thumbnailUrl ?thumbnail ;
+    dct:title ?title .
+  ?subject rdfs:label ?subjectName .
+} WHERE {
+  # List of artworks
+  SERVICE <x-sparql-anything:csv.headers=true,location=./collection/artwork_data.csv> {
+    []  xyz:id ?id ; xyz:accession_number ?accId ;
+        xyz:title ?title; xyz:thumbnailUrl ?thumbnail .
+  }
+  BIND (IRI(CONCAT(STR(tate:), "artwork-", ?id )) AS ?artwork) .
+  BIND (IRI(CONCAT(STR(tate:), "artist-", ?artistId )) AS ?artist) .
+    BIND ( IF ( STRSTARTS( ?accId, "AR" ) , 
+    LCASE(CONCAT( "ar/", SUBSTR( ?accId ,3 ,3), "/", ?accId, "-", ?id , ".json" )),
+    LCASE(CONCAT( SUBSTR( ?accId ,1 , 1), "/", SUBSTR( ?accId ,2 , 3), "/" , ?accId, "-", ?id , ".json" ))
+  ) AS ?filepath ) .
+  # JSON file with subjects
+  BIND (IRI(CONCAT("x-sparql-anything:location=./collection/artworks/", ?filepath )) AS ?artworkMetadata ) .
+  SERVICE ?artworkMetadata { 
+		  [] xyz:children [ ?li2 [ xyz:id ?subjectId ] ].
+	  } .
+  BIND (IRI(CONCAT(STR(tsub:), STR(?subjectId) )) AS ?subject) .
+}

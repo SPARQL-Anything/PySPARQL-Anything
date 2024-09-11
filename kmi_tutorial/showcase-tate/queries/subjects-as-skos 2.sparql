@@ -1,0 +1,51 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX fx:   <http://sparql.xyz/facade-x/ns/>
+PREFIX xyz:  <http://sparql.xyz/facade-x/data/>
+PREFIX tate: <http://sparql.xyz/example/tate/>
+PREFIX tsub: <http://sparql.xyz/example/tate/subject/>
+
+
+CONSTRUCT {
+	?scheme a skos:ConceptScheme .
+	?subject a skos:Concept ;
+		rdfs:label ?subjectName ;
+		skos:inScheme ?scheme ;
+		skos:narrower ?child 
+		.
+	?child skos:broader ?subject .
+} WHERE {
+  # Browse the list of artworks, get info for locating JSON
+  SERVICE <x-sparql-anything:> {
+	fx:properties fx:location "./collection/artwork_data.csv" ; fx:csv.headers "true" .
+    [] xyz:id ?id ; xyz:accession_number ?accId .
+  }
+  # Build location of JSON file with subjects, from previous SERVICE
+  BIND ( IF ( STRSTARTS( ?accId, "AR" ) , 
+    LCASE(CONCAT( "ar/", SUBSTR( ?accId ,3 ,3), "/", ?accId, "-", ?id , ".json" )),
+    LCASE(CONCAT( SUBSTR( ?accId ,1 , 1), "/", SUBSTR( ?accId ,2 , 3), "/" , ?accId, "-", ?id , ".json" ))
+  ) AS ?filepath ) .
+  # Build location of JSON file with subjects
+  BIND (CONCAT("./collection/artworks/", ?filepath ) AS ?metadataLocation ) .
+  SERVICE <x-sparql-anything:> { 
+	  # Query the JSON file with subjects
+	  fx:properties fx:location ?metadataLocation .
+	  {
+		  [] xyz:subjects [ 
+		   	xyz:id ?subjectId ; xyz:name ?subjectName ; # 1
+		   		xyz:children [ ?li [ xyz:id ?childId ] ] ]
+	  } UNION {
+		  [] xyz:children [ ?li2 ?s ] .
+		  ?s xyz:id ?subjectId ; xyz:name ?subjectName .
+		  OPTIONAL {
+		  	?s xyz:children [ ?li [ xyz:id ?childId ] ]
+		  }
+	  }
+	  
+  } .
+  # Build entities
+  BIND (fx:entity( tsub:, ?subjectId ) AS ?subject) .
+  BIND (fx:entity( tsub:, ?childId   ) AS ?child) .
+  BIND (fx:entity( tsub:, "subjects" ) AS ?scheme) .
+}

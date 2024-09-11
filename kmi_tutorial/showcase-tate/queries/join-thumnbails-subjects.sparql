@@ -1,0 +1,22 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX fx:   <http://sparql.xyz/facade-x/ns/>
+PREFIX xyz:  <http://sparql.xyz/facade-x/data/>
+PREFIX tate: <http://sparql.xyz/example/tate/>
+PREFIX tsub: <http://sparql.xyz/example/tate/subject/>
+PREFIX tart: <http://sparql.xyz/example/tate/artwork/>
+PREFIX dct: <http://purl.org/dc/terms/>
+
+SELECT ?id ?accId ?title ?thumbnail (GROUP_CONCAT(?subject; separator=" "))
+WHERE {
+    SERVICE <x-sparql-anything:csv.headers=true,location=./thumbnails.csv> {
+      []  xyz:id ?id ; xyz:accId ?accId ;
+          xyz:title ?title; xyz:thumbnail ?thumbnail .
+    }
+	
+    SERVICE <x-sparql-anything:csv.headers=true,location=./subjects-artworks-id.csv> {
+      []  xyz:subjectId ?subject ; xyz:artworkId ?id .
+    }
+}
+group by ?id ?accId ?title ?thumbnail

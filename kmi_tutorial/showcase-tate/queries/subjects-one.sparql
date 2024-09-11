@@ -1,0 +1,27 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX fx:   <http://sparql.xyz/facade-x/ns/>
+PREFIX xyz:  <http://sparql.xyz/facade-x/data/>
+PREFIX tate: <http://sparql.xyz/example/tate/>
+PREFIX tsub: <http://sparql.xyz/example/tate/subject/>
+
+CONSTRUCT {
+	?subject a skos:Concept ;
+		rdfs:label ?subjectName ;
+		skos:narrower ?child 
+		.
+	?child skos:broader ?subject .
+} 
+#SELECT ?subjectId ?childId ?child
+WHERE {
+  SERVICE <x-sparql-anything:location=./collection/artworks/ar/000/ar00002-98172.json> { 
+	  ?s xyz:id ?subjectId ; xyz:name ?subjectName . 
+	  OPTIONAL {
+	  	?s xyz:children [ ?li [ xyz:id ?childId ] ]
+	  }
+  } .
+  BIND (IRI(CONCAT(STR(tsub:), STR(?childId) )) AS ?child) .
+  BIND (IRI(CONCAT(STR(tsub:), STR(?subjectId) )) AS ?subject) .
+  BIND (IRI(CONCAT(STR(tsub:), "subjects" )) AS ?scheme) .
+}
