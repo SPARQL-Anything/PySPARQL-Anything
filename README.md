@@ -1,6 +1,6 @@
 [![How to](https://img.shields.io/badge/How%20to-use-green.svg)](#basic_usage)
 [![How to](https://img.shields.io/badge/How%20to-join-blue.svg)](https://forms.gle/t1paTLz7jVu3RYnu8)
-[![Live demo](https://img.shields.io/badge/Live-demo-yellow.svg)](https://bit.ly/pysa-demo)
+[![Live demo](https://img.shields.io/badge/Live-demo-yellow.svg)](https://tinyurl.com/ybj4vxzt)
 
 # PySPARQL Anything
 ###### The SPARQL Anything Python Library
