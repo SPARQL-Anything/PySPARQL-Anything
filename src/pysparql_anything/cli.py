@@ -2,7 +2,7 @@
 This module contains the CLI for the SPARQL Anything tool.
 
 Author: Marco ratta
-Date: 11/09/2024
+Date: 18/06/2025
 """
 
 from argparse import ArgumentParser, SUPPRESS
@@ -23,7 +23,8 @@ def setup_parser(a_parser: ArgumentParser) -> ArgumentParser:
     a_parser.add_argument(
         "-q", "--query",
         help="""
-        The path to the file storing the query to execute or the query itself.
+        The path or the URL to the file storing the query to execute or the
+        query itself.
         """
     )
     a_parser.add_argument(
@@ -105,5 +106,5 @@ def main() -> None:
     args = parser.parse_args()
     java_args = transform_cli_args(args)
     # Run the query
-    sa = SPARQLAnythingReflection(java_args[0], __jarMainPath__)
+    sa = SPARQLAnythingReflection(java_args[0])
     sa.main(java_args[1])

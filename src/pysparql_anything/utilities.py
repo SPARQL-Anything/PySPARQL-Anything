@@ -42,11 +42,11 @@ def get_release_uri(ghub: Github, uri: str, version: str) -> str:
         RateLimitExceededException: github.GithubException
     """
     try:
-        release = ghub.get_repo(uri).get_release(version)
-        assets = release.get_assets()
-        jar = ''
-        for asset in assets:
-            if 'server' not in asset.name:
+        repo = ghub.get_repo(uri)
+        release  = repo.get_release(version)
+        jar = None
+        for asset in release.assets:
+            if asset.name == f'sparql-anything-{version}.jar':
                 jar = asset
         return jar.browser_download_url
     except RateLimitExceededException as exc:

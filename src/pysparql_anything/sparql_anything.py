@@ -6,6 +6,7 @@ Author: Marco Ratta
 Date: 09/09/2024
 """
 
+from typing import Any
 import rdflib
 import pandas as pd
 import networkx as nx
@@ -21,8 +22,9 @@ class Singleton(type):
     """
     _instance = None
 
-    def __call__(cls, *args, **kwargs):
+    def __call__(cls, *args: Any, **kwargs: Any) -> Any:
         if cls._instance is None:
+            # Here the new and init methods of SparqlAnything are called:
             instance = super().__call__(*args, **kwargs)
             cls._instance = instance
         return cls._instance
@@ -39,7 +41,7 @@ class SparqlAnything(metaclass=Singleton):
     def __init__(self, *jvm_options: str) -> None:
         self.receiver = SPARQLAnythingReflection(jvm_options)
 
-    def run(self, **kwargs) -> None:
+    def run(self, **kwargs: str | dict[str, str]) -> None:
         """
         The run method allows the user to run a SPARQL query within a Python
         shell or within a Python script and either have the results printed to
@@ -53,7 +55,7 @@ class SparqlAnything(metaclass=Singleton):
         cmd.execute_run(kwargs, self.receiver)
 
     def select(
-            self, output_type: type = dict, **kwargs
+            self, output_type: type = dict, **kwargs: str | dict[str, str]
             ) -> dict | pd.DataFrame:
         """
         The select method enables one to run a SELECT query and return
@@ -76,7 +78,7 @@ class SparqlAnything(metaclass=Singleton):
             )
         return cmd.execute_select(kwargs, self.receiver, output_type)
 
-    def ask(self, **kwargs) -> bool:
+    def ask(self, **kwargs: str | dict[str, str]) -> bool:
         """
         The ask method enables one to run an ASK query and return the result as
         a Python boolean True or False.\n
@@ -91,8 +93,10 @@ class SparqlAnything(metaclass=Singleton):
         return cmd.execute_ask(kwargs, self.receiver)
 
     def construct(
-            self, graph_type: type = rdflib.Graph, **kwargs
-            ) -> rdflib.Graph | nx.MultiDiGraph:
+        self,
+        graph_type: type = rdflib.Graph,
+        **kwargs: str | dict[str, str]
+    ) -> rdflib.Graph | nx.MultiDiGraph:
         """
         The construct method enables one to run a CONSTRUCT query and
         return the result as either a rdflib or networkx MultiDiGraph

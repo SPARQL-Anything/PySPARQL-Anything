@@ -4,14 +4,14 @@ SPARQL Anything, the last number to the independent PySPARQL Anything
 releases.
 
 Author: Marco Ratta
-Date: 09/09/2024
+Date: 18/06/2025
 """
 
 # PySPARQL version for the build process:
-__version__ = "0.9.0.3"
+__version__ = "1.0.0.0"
 
 # Version of SPARQL Anything to download:
-__SparqlAnything__ = "0.9.0"
+__SparqlAnything__ = "v1.0.0"
 
 # Path to the SPARQL Anything main class within the executable jar:
 __jarMainPath__ = "io.github.sparqlanything.cli.SPARQLAnything"

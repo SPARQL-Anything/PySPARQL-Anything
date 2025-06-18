@@ -15,6 +15,9 @@ data1 = {
     'values': {
         '?_v1': 'a_value1',
         '?_v2': 'a_value2'
+    },
+    'configuration': {
+        'location': 'file_path'
     }
 }
 
@@ -25,23 +28,27 @@ data2 = {
     'v': {
         '?_v1': 'a_value1',
         '?_v2': 'a_value2'
+    },
+    'c': {
+        'location': 'file_path'
     }
 }
 
 output1 = [
     '--query', 'my_query', '--output', 'my_output', '--format', 'my_format',
-    '-v', '?_v1=a_value1', '-v', '?_v2=a_value2'
+    '--values', '?_v1=a_value1', '--values', '?_v2=a_value2',
+    '--configuration', 'location=file_path'
 ]
 
 output2 = [
     '-q', 'my_query', '-o', 'my_output', '-f', 'my_format',
-    '-v', '?_v1=a_value1', '-v', '?_v2=a_value2',
+    '-v', '?_v1=a_value1', '-v', '?_v2=a_value2', '-c', 'location=file_path'
 ]
 
 
-class PySparqlHandlerTestCase(unittest.TestCase):
+class PySparqArgslHandlerTestCase(unittest.TestCase):
 
-    def test_handler(self):
+    def test_args_handler(self):
         test1 = transform_args(data1)
         test2 = transform_args(data2)
         print(test1)

@@ -8,6 +8,7 @@ Author: Marco Ratta
 Date: 18/12/2023
 """
 
+from collections.abc import Sequence
 import jnius_config
 from pysparql_anything.utilities import get_path2jar
 from pysparql_anything.__about__ import __jarMainPath__
@@ -33,17 +34,17 @@ class SPARQLAnythingReflection:
             problem with the JVM installation.
     """
     def __init__(
-            self, jvm_options: tuple[str], jar_main_path: str = __jarMainPath__
-            ) -> None:
+        self, jvm_options: Sequence[str]
+    ) -> None:
         try:
             # Sets the JVM classpath to the Sparql Anything installation:
-            if jvm_options != tuple():
+            if len(jvm_options) > 0:
                 for option in jvm_options:
                     jnius_config.add_options(option)
             jnius_config.set_classpath(get_path2jar())
             # Starts the JVM and reflects the SPARQLAnything class:
             from jnius import autoclass
-            self.reflection = autoclass(jar_main_path)
+            self.reflection = autoclass(__jarMainPath__)
         except ValueError:
             raise
         except Exception:

@@ -3,7 +3,7 @@ This module contains the functions that encapsulate the execution of
 each of the commands of the PySPARQL Anything interface.
 
 Author: Marco Ratta
-Date: 06/03/2024
+Date: 17/06/2025
 """
 
 import json
@@ -41,7 +41,10 @@ def to_pandas_df(select_dict: dict) -> pd.DataFrame:
 
 
 # Command execution functions.
-def execute_ask(kwargs: dict, receiver: SPARQLAnythingReflection) -> bool:
+def execute_ask(
+    kwargs: dict[str, str | dict[str, str]],
+    receiver: SPARQLAnythingReflection
+) -> bool:
     """
     Contains the instructions for the ASK command and executes them.\n
     Args: \n
@@ -58,8 +61,10 @@ def execute_ask(kwargs: dict, receiver: SPARQLAnythingReflection) -> bool:
 
 
 def execute_construct(
-        kwargs: dict, receiver: SPARQLAnythingReflection, graph_type: type
-        ) -> Graph | nx.MultiDiGraph:
+    kwargs: dict[str, str | dict[str, str]],
+    receiver: SPARQLAnythingReflection,
+    graph_type: type
+) -> Graph | nx.MultiDiGraph:
     """
     Contains the instructions for the CONSTRUCT command and executes them.\n
     Args: \n
@@ -80,8 +85,10 @@ def execute_construct(
 
 
 def execute_select(
-        kwargs: dict, receiver: SPARQLAnythingReflection, output_type: type
-        ) -> dict | pd.DataFrame:
+    kwargs: dict[str, str | dict[str, str]],
+    receiver: SPARQLAnythingReflection,
+    output_type: type
+) -> dict | pd.DataFrame:
     """
     Contains the instructions for the SELECT command and executes them.\n
     Args: \n
@@ -103,7 +110,10 @@ def execute_select(
     return to_pandas_df(results_dict)
 
 
-def execute_run(kwargs: dict, receiver: SPARQLAnythingReflection) -> None:
+def execute_run(
+    kwargs: dict[str, str | dict[str, str]],
+    receiver: SPARQLAnythingReflection
+) -> None:
     """
     Contains the instructions for the RUN command and executes it.\n
     Args: \n

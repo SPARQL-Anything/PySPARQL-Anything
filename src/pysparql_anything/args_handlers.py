@@ -4,13 +4,14 @@ given to the SparqlAnything methods into the form required by
 the reflected Java methods, i.e. main(String[]) and callMain(String[]).
 
 Author: Marco Ratta
-Date: 11/09/2024
+Date: 10/10/2024
 """
 import argparse
+from collections.abc import Sequence
 
 
 # Helper functions for the API methods
-def transform_args(kwargs: dict) -> list[str]:
+def transform_args(kwargs: dict[str, str | dict[str, str]]) -> list[str]:
     """
     This method transforms the request's arguments, passed as a dictionary,
     into the list[str] required by the Java methods.\n
@@ -24,14 +25,17 @@ def transform_args(kwargs: dict) -> list[str]:
     """
     args = []
     for flag in kwargs:
-        if flag == 'v' or flag == 'values':
-            values = kwargs.get(flag)
-            values_list = [k + '=' + v for k, v in values.items()]
-            for v_value in values_list:
-                args += ['-v', v_value]
+        #if flag in ['v', 'c', 'values', 'configuration']:
+        flag_image = kwargs[flag]
+        if isinstance(flag_image, dict):
+            values_list = [k + '=' + v for k, v in flag_image.items()]
+            for value in values_list:
+                args += [
+                    '-' + flag if len(flag) == 1 else '--' + flag, value
+                ]
         else:
             args += [
-                '-' + flag if len(flag) == 1 else '--' + flag, kwargs.get(flag)
+                '-' + flag if len(flag) == 1 else '--' + flag, flag_image
             ]
     return args
 
@@ -42,7 +46,7 @@ def transform_cli_flags(args: dict[str, str | list[str]]) -> list[str]:
     Transforms the passed optional arguments for the CLI into the form
     required by the SPARQLAnythingReflection main method.\n
     Args:\n
-        args: A dict conataining the parsed CLI flags arguments.\n
+        args: A dict containing the parsed CLI flags arguments.\n
     Returns:\n
         A list[str] of arguments for the Java main method.
     Raises:\n
@@ -63,7 +67,7 @@ def transform_cli_flags(args: dict[str, str | list[str]]) -> list[str]:
     return final_args
 
 
-def transform_jvm_flags(args: str | list[str]) -> str | tuple[str]:
+def transform_jvm_flags(args: list[str]) -> list[str]:
     """
     Transforms the passed optional arguments for the JVM into the form
     required by the SPARQLAnythingReflection constructor.\n
@@ -72,12 +76,12 @@ def transform_jvm_flags(args: str | list[str]) -> str | tuple[str]:
     Returns:\n
         A string or tuple[str] containing the JVM arguments.
     """
-    return tuple(["-" + j_arg for j_arg in args])
+    return ["-" + j_arg for j_arg in args]
 
 
 def transform_cli_args(
         args: argparse.Namespace
-        ) -> tuple[str | tuple[str], list[str]]:
+        ) -> tuple[list[str], list[str]]:
     """
     Method to transform the CLI optional arguments from an argparse.Namespace
     to the forms required by the SPARQLAnythingReflection method.\n
@@ -88,9 +92,9 @@ def transform_cli_args(
         main method of SPARQLAnythingReflection.
     """
     args_dict = vars(args)
-    args_jvm = ""
-    if "java" in args_dict:
-        args_jvm = transform_jvm_flags(args_dict["java"])
+    args_jvm = list()
+    if hasattr(args, "java"):
+        args_jvm = transform_jvm_flags(args.java)
         args_dict.pop("java")
     args_main = [
         '--output-pattern' if x == '--output_pattern' else x
