@@ -3,20 +3,22 @@ This module contains the SparqlAnything class. This class provides a Python
 based API access to the functionalities of the SPARQL Anything tool.
 
 Author: Marco Ratta
-Date: 09/09/2024
+Date: 20/06/2025
 """
 
 from typing import Any
 import rdflib
 import pandas as pd
 import networkx as nx
-import pysparql_anything.command as cmd
-from pysparql_anything.sparql_anything_reflection import SPARQLAnythingReflection
+from pysparql_anything.executor import Executor
+from pysparql_anything.sparql_anything_reflection import (
+    SPARQLAnythingReflection
+)
 
 
 class Singleton(type):
     """
-    The Singleton metaclass specifies the routine for instantiating a 
+    The Singleton metaclass specifies the routine for instantiating a
     SparqlAnything object according to a Singleton pattern. This has been
     made necessary by the limitations of the JNI.
     """
@@ -39,7 +41,9 @@ class SparqlAnything(metaclass=Singleton):
             before launch.
     """
     def __init__(self, *jvm_options: str) -> None:
-        self.receiver = SPARQLAnythingReflection(jvm_options)
+        self.executor = Executor(
+            SPARQLAnythingReflection(jvm_options)
+        )
 
     def run(self, **kwargs: str | dict[str, str]) -> None:
         """
@@ -52,7 +56,7 @@ class SparqlAnything(metaclass=Singleton):
                 minus the hyphen.\n
                 See the User Guide for an example.\n
         """
-        cmd.execute_run(kwargs, self.receiver)
+        self.executor.execute_run(kwargs)
 
     def select(
             self, output_type: type = dict, **kwargs: str | dict[str, str]
@@ -76,7 +80,7 @@ class SparqlAnything(metaclass=Singleton):
             raise ValueError(
                 "Invalid output type. Expected one of: %s" % output_types
             )
-        return cmd.execute_select(kwargs, self.receiver, output_type)
+        return self.executor.execute_select(kwargs, output_type)
 
     def ask(self, **kwargs: str | dict[str, str]) -> bool:
         """
@@ -90,7 +94,7 @@ class SparqlAnything(metaclass=Singleton):
         Returns:\n
             A Python True/False.
         """
-        return cmd.execute_ask(kwargs, self.receiver)
+        return self.executor.execute_ask(kwargs)
 
     def construct(
         self,
@@ -119,4 +123,4 @@ class SparqlAnything(metaclass=Singleton):
             raise ValueError(
                 "Invalid graph type. Expected one of: %s" % graph_types
             )
-        return cmd.execute_construct(kwargs, self.receiver, graph_type)
+        return self.executor.execute_construct(kwargs, graph_type)

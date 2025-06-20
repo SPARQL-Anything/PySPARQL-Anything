@@ -7,7 +7,6 @@ Author: Marco Ratta
 Date: 10/10/2024
 """
 import argparse
-from collections.abc import Sequence
 
 
 # Helper functions for the API methods
@@ -25,7 +24,6 @@ def transform_args(kwargs: dict[str, str | dict[str, str]]) -> list[str]:
     """
     args = []
     for flag in kwargs:
-        #if flag in ['v', 'c', 'values', 'configuration']:
         flag_image = kwargs[flag]
         if isinstance(flag_image, dict):
             values_list = [k + '=' + v for k, v in flag_image.items()]

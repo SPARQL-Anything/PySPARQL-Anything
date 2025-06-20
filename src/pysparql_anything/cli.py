@@ -7,8 +7,9 @@ Date: 18/06/2025
 
 from argparse import ArgumentParser, SUPPRESS
 from pysparql_anything.args_handlers import transform_cli_args
-from pysparql_anything.sparql_anything_reflection import SPARQLAnythingReflection
-from pysparql_anything.__about__ import __jarMainPath__
+from pysparql_anything.sparql_anything_reflection import (
+    SPARQLAnythingReflection
+)
 
 
 def setup_parser(a_parser: ArgumentParser) -> ArgumentParser:

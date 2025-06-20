@@ -9,9 +9,16 @@ Date: 18/12/2023
 """
 
 from collections.abc import Sequence
+from dataclasses import dataclass
 import jnius_config
 from pysparql_anything.utilities import get_path2jar
 from pysparql_anything.__about__ import __jarMainPath__
+
+
+@dataclass
+class SPARQLAnythingQueryOutput:
+    err: str
+    out: str
 
 
 class SPARQLAnythingReflection:
@@ -42,8 +49,17 @@ class SPARQLAnythingReflection:
                 for option in jvm_options:
                     jnius_config.add_options(option)
             jnius_config.set_classpath(get_path2jar())
-            # Starts the JVM and reflects the SPARQLAnything class:
+            # Starts the JVM and reflects the required Java classes:
             from jnius import autoclass
+            # Create necessary JAVA Class objects
+            self.BAOS = autoclass("java.io.ByteArrayOutputStream")
+            self.PrintStream = autoclass("java.io.PrintStream")
+            self.System = autoclass("java.lang.System")
+            # Redirect Java STDERR
+            self.err_bs = self.BAOS()
+            self.err_ps = self.PrintStream(self.err_bs, False)
+            self.System.setErr(self.err_ps)
+            # Create the SPARQLAnything class object
             self.reflection = autoclass(__jarMainPath__)
         except ValueError:
             raise
@@ -70,7 +86,7 @@ class SPARQLAnythingReflection:
         """
         self.reflection.main(args)
 
-    def call_main(self, args: list[str]) -> str:
+    def call_main(self, args: list[str]) -> SPARQLAnythingQueryOutput:
         """
         Wrapper for the public static String callMain(String args) method of
         SPARQLAnything.\n
@@ -80,4 +96,21 @@ class SPARQLAnythingReflection:
         Returns:\n
             A string containing the query output.
         """
-        return self.reflection.callMain(args)
+        # Capture STDOUT locally
+        baos = self.BAOS()
+        ps = self.PrintStream(baos, False)
+        old_ps = self.System.out
+        self.System.setOut(ps)
+        # Call Sparql Anything main method
+        self.reflection.main(args)
+        # Put things back
+        self.System.out.flush()
+        self.System.setOut(old_ps)
+        # Convert streams to strings
+        sa_output = baos.toString()
+        err_output = self.err_bs.toString().lstrip()
+        # Reset the error ByteArrayOutputStream
+        self.err_bs.reset()
+        return SPARQLAnythingQueryOutput(
+            err=err_output, out=sa_output
+        )
