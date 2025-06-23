@@ -2,14 +2,16 @@
 Manages the package's namespace, helps the installation process of the API.
 
 Author: Marco Ratta
-Date: 16/12/2023
+Last Modified: 23/06/2025
 """
 
 import requests
 from github import Github
 from github.GithubException import RateLimitExceededException
 from pysparql_anything import utilities
-from pysparql_anything.__about__ import __SparqlAnything__, __uri__, __version__
+from pysparql_anything.__about__ import (
+     __SparqlAnything__, __uri__, __version__
+)
 
 # Checks if SPARQL Anything is not installed. Installs it if so.
 try:
@@ -33,5 +35,9 @@ except RateLimitExceededException as exc:
     print(f' A {type(exc)} exception has been raised. \n'
           + 'Installation unsuccessful!!!')
     raise
+
 # Launches the JVM
-from pysparql_anything.sparql_anything import SparqlAnything
+import pysparql_anything.sparql_anything
+
+# Type Aliases
+SparqlAnything = pysparql_anything.sparql_anything.SparqlAnything

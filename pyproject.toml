@@ -15,7 +15,8 @@ keywords = [
     "rdflib",
     "sematic web",
     "knowledge graphs",
-    "linked data"
+    "linked data",
+    "networkx"
 ]
 authors = [
   {name = "Marco Ratta", email = "marco.ratta1@open.ac.uk"},

@@ -1,8 +1,8 @@
 """
 This module contains the CLI for the SPARQL Anything tool.
 
-Author: Marco ratta
-Date: 18/06/2025
+Author: Marco Ratta
+Last Modified: 23/06/2025
 """
 
 from argparse import ArgumentParser, SUPPRESS
@@ -10,6 +10,8 @@ from pysparql_anything.args_handlers import transform_cli_args
 from pysparql_anything.sparql_anything_reflection import (
     SPARQLAnythingReflection
 )
+from pysparql_anything.__about__ import __SparqlAnything__
+from pysparql_anything.utilities import remove_jar
 
 
 def setup_parser(a_parser: ArgumentParser) -> ArgumentParser:
@@ -91,6 +93,9 @@ def setup_parser(a_parser: ArgumentParser) -> ArgumentParser:
     a_parser.add_argument(
         "-e", "--explain", help="OPTIONAL - Explain query execution"
     )
+    a_parser.add_argument(
+        "--uninstall", help="Uninstalls PySPARQL-Anything from the system."
+    )
     return a_parser
 
 
@@ -105,7 +110,12 @@ def main() -> None:
     parser = setup_parser(parser)
     # Process the arguments for the Java main class.
     args = parser.parse_args()
-    java_args = transform_cli_args(args)
-    # Run the query
-    sa = SPARQLAnythingReflection(java_args[0])
-    sa.main(java_args[1])
+    if 'uninstall' in args:
+        print(f'Uninstalling SPARQL-Anything {__SparqlAnything__} JAR.')
+        remove_jar()
+        print(f"SPARQL Anything {__SparqlAnything__} JAR sucessfully removed.")
+    else:
+        java_args = transform_cli_args(args)
+        # Run the query
+        sa = SPARQLAnythingReflection(java_args[0])
+        sa.main(java_args[1])

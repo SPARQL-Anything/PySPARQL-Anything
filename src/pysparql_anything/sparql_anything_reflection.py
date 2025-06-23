@@ -5,7 +5,7 @@ void main(String[] args) and public static String callMain(String args) methods
 to Python users.
 
 Author: Marco Ratta
-Date: 18/12/2023
+Last Modified: 22/06/2025
 """
 
 from collections.abc import Sequence
@@ -57,7 +57,7 @@ class SPARQLAnythingReflection:
             self.System = autoclass("java.lang.System")
             # Redirect Java STDERR
             self.err_bs = self.BAOS()
-            self.err_ps = self.PrintStream(self.err_bs, False)
+            self.err_ps = self.PrintStream(self.err_bs, True)
             self.System.setErr(self.err_ps)
             # Create the SPARQLAnything class object
             self.reflection = autoclass(__jarMainPath__)
@@ -98,13 +98,17 @@ class SPARQLAnythingReflection:
         """
         # Capture STDOUT locally
         baos = self.BAOS()
-        ps = self.PrintStream(baos, False)
+        ps = self.PrintStream(baos, True)
         old_ps = self.System.out
         self.System.setOut(ps)
         # Call Sparql Anything main method
-        self.reflection.main(args)
+        try:
+            self.reflection.main(args)
+        except Exception as e:
+            self.System.setOut(old_ps)
+            self.err_bs.reset()
+            raise e
         # Put things back
-        self.System.out.flush()
         self.System.setOut(old_ps)
         # Convert streams to strings
         sa_output = baos.toString()

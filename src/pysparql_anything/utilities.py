@@ -4,7 +4,7 @@ Aids the installation and maintainment process of the API.
 Interacts with the SPARQL Anything GitHub repository.
 
 Author: Marco Ratta
-Date: 29/02/2024
+Last Modified: 23/06/2025
 """
 
 import os
@@ -28,7 +28,7 @@ def has_jar():
     return False
 
 
-def get_release_uri(ghub: Github, uri: str, version: str) -> str:
+def get_release_url(ghub: Github, uri: str, version: str) -> str:
     """
     Retrieves the download url for latest SPARQL Anything release.\n
     Args:\n
@@ -43,12 +43,12 @@ def get_release_uri(ghub: Github, uri: str, version: str) -> str:
     """
     try:
         repo = ghub.get_repo(uri)
-        release  = repo.get_release(version)
-        jar = None
+        release = repo.get_release(version)
+        url = ""
         for asset in release.assets:
             if asset.name == f'sparql-anything-{version}.jar':
-                jar = asset
-        return jar.browser_download_url
+                url = asset.browser_download_url
+        return url
     except RateLimitExceededException as exc:
         print('WARNING !!! get_release_url() raised a '
               + f'{type(exc)} exception and passed it on.')
@@ -73,7 +73,7 @@ def download_sparql_anything(ghub: Github, uri: str, version: str) -> None:
         path2jar = os.path.join(
             get_module_path(), f'sparql-anything-{version}.jar'
         )
-        dl_link = get_release_uri(ghub, uri, version)
+        dl_link = get_release_url(ghub, uri, version)
         request = requests.get(dl_link, stream=True, timeout=10.0)
         length = int(request.headers.get('content-length', 0))
         with open(path2jar, 'wb') as jar:
@@ -123,7 +123,7 @@ def get_path2jar():
     return path
 
 
-def remove_sparql_anything():
+def remove_jar():
     """
     Removes the SPARQL Anything jar from the installation folder.\n
     Raises:\n
@@ -131,8 +131,5 @@ def remove_sparql_anything():
     """
     try:
         os.remove(get_path2jar())
-        print("SPARQL Anything sucessfully removed")
     except FileNotFoundError as err:
-        print('WARNING !!! remove_sparql_anything() raised a '
-              + f'{type(err)} exception and re-raised it.')
-        raise
+        raise err
