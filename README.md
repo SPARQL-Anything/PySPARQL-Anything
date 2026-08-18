@@ -44,7 +44,7 @@ This is a generic example of a Facade-X data object (more examples below):
     ]
 ] .
 ```
-More details on the Facade-X metamodel can be found [here](https://github.com/SPARQL-Anything/sparql.anything/blob/v1.0-DEV/Facade-X.md).
+More details on the Facade-X metamodel can be found [here](https://github.com/SPARQL-Anything/sparql.anything/blob/v1.2-DEV/Facade-X.md).
 
 ### 1.2. Querying anything <a name="query_anything"></a>
 SPARQL Anything extends the Apache Jena ARQ processors by overloading the SERVICE operator, as in the following example:
@@ -312,7 +312,7 @@ To do this, open the command prompt on the directory containing the ```pyproject
 ```
 hatch build ./dist
 ```
-This command should output some text and once completed should generate a ```dist``` directory containing two files:
+This command should output some text and once completed should generate a ```dist``` directory containing two files (versions numbers will be different):
 ```
 dist/
 ├── pysparql_anything-0.8.1.2-py3-none-any.whl

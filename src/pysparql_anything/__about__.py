@@ -8,13 +8,14 @@ Date: 18/06/2025
 """
 
 # PySPARQL version for the build process:
-__version__ = "1.0.0.0"
+__version__ = "1.2.0.0"
 
 # Version of SPARQL Anything to download:
-__SparqlAnything__ = "v1.0.0"
+__SparqlAnything__ = "v1.2.0"
 
 # Path to the SPARQL Anything main class within the executable jar:
 __jarMainPath__ = "io.github.sparqlanything.cli.SPARQLAnything"
 
 # SPARQL Anything GitHub URI:
 __uri__ = "SPARQL-Anything/sparql.anything"
+
